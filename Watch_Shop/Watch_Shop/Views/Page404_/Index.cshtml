@@ -1,0 +1,65 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        @@font-face {
+            font-family: 'CircularStd-Medium';
+            src: url('../../Assets/Font-Family/CircularStd-Medium.otf') format('opentype');
+        }
+        h1 {
+            color: #3d405c;
+            font-size: 4.5rem;
+            font-weight: 300;
+            line-height: 0.7;
+            font-family: 'CircularStd-Medium';
+            text-align: center;
+        }
+        p {
+            color: #3d405c;
+            font-family: 'CircularStd-Medium';
+            font-size: 14px;
+            line-height: 21px;
+            margin: 10px 0px;
+            text-align: center;
+        }
+        a {
+            background-color: rgb(255 64 123 / 85%);
+            border: 2px solid rgb(255 64 123 / 85%);
+            color: white;
+            display: inline-block;
+            font-size: 16px;
+            line-height: 22px;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-family: 'CircularStd-Medium';
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+            a:hover {
+                background-color: #ff407b;
+            }
+    </style>
+</head>
+<body>
+    <div style="display:flex; justify-content:center; align-items:center;height:100%">
+
+        <div>
+            <img src="~/image/error-img.png" alt="Alternate Text" />
+            <h1 >Page Not Found</h1>
+            <p>The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+            <div style="text-align:center; margin:20px 0px">
+                <a href="@Url.Action("ShowProduct","product")" title="Go HomePage">Back to homepage</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

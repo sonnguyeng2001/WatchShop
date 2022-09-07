@@ -1,0 +1,246 @@
+﻿
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<main>
+    <div class="container-fluid px-4" style="font-family:'Roboto',sans-serif;">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h1 class="h3 mb-0 text-gray-800">Account</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
+            </a>
+        </div>
+        <div style="padding:20px;background:white;border-radius:10px;">
+            <button type="button" id="openModal_Add" class="btn btn-primary pull-left font-weight-bold mt-3 mb-3" style="padding: 10px 20px; color: rgb(255,255,255, 90%)" data-toggle="modal" data-target="#staticBackdrop">
+                Add new Account
+            </button>
+            <table class="table table-bordered table-hover my_datatables " style="cursor:pointer;color:black">
+                <thead>
+                    <tr style="font-weight:bold">
+                        <td>Username</td>
+                        <td>Password</td>
+                        <td>Permission</td>
+                        <td></td>
+                    </tr>
+                </thead>
+
+                <tbody id="ShowAccountList">
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="staticBackdrop" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Thông tin chi tiết khách hàng</h5>
+                    <button type="button" class="close" style="outline:none;border:none" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="FormDiscount">
+                        <label>ID</label>
+                        <input type="text" disabled id="ID" value="" class="form-control" style="color:black" /><br />
+
+                        <label>Username</label>
+                        <input type="text" id="Username" value="" class="form-control" style="color:black" /><br />
+
+                        <label>Password</label>
+                        <input type="text" id="Password" value="" class="form-control" style="color:black" /><br />
+
+                        <label>Permission</label>
+                        <input type="number" id="Permission" value="" class="form-control" style="color:black" /><br />
+
+                        <label>Name</label>
+                        <input type="text" id="Name" value="" class="form-control" style="color:black" /><br />
+
+                        <label>Email</label>
+                        <input type="text" id="Email" value="" class="form-control" style="color:black" /><br />
+
+                        <label>Phone</label>
+                        <input type="text" id="Phone" value="" class="form-control" style="color:black" /><br />
+
+                        <label>Address</label>
+                        <input type="text" id="Address" value="" class="form-control" style="color:black" /><br />
+
+                        <label>City</label>
+                        <input type="text" id="City" value="" class="form-control" style="color:black" /><br />
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" id="updateProduct" onclick="UpdateUser()" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".nav-item.active").removeClass("active");
+        $(".nav-Account").addClass("active");
+        $('.my_datatables').dataTable({
+            "ajax": {
+                "url": "/Admin/ShowAccountList",
+                "type": "GET",
+                "datatype": "json",
+            },
+            "columns": [
+                { "data": "Username" },
+                { "data": "Password" },
+                { "data": "Permission"},
+                {
+                    "data": "UserID",
+                    "render": function (data) {
+                        return "<button class='btn btn-primary' onclick=DetailsAccount('" + data + "') ><i class='fas fa-layer-group'></i></button>&nbsp&nbsp<button class='btn btn-danger' onclick=DeleteAccount('" + data + "') ><i class='fas fa-trash-alt'></i></button>";
+                    }
+
+                }
+            ]
+        });
+    })
+
+    //function GetAccountList() {
+    //    $.ajax({
+    //        url: "/Admin/ShowAccountList",
+    //        type: "GET",
+    //        contentType: "application/json;charset=utf-8",
+    //        dataType: "json",
+
+    //        success: function (result) {
+    //            var details = "<i class='fas fa-layer-group'></i>";
+    //            var trash = "<i class='fas fa-trash - alt'></i>";
+    //            var html = "";
+    //            if (result.status) {
+    //                $.each(result.data, function (key, item) {
+    //                    html += '<tr style="color:black">';
+    //                    html += '<td>' + item.Username + '</td>';
+    //                    html += '<td>' + item.Password + '</td>';
+    //                    html += '<td>' + item.Permission + '</td>';
+    //                    html += '<td>';
+    //                    html += '<button class="btn btn-primary" onclick="DetailsAccount(' + item.UserID + ')"> ' + details + '</button> &nbsp;';
+    //                    html += '<button class="btn btn-danger" onclick="DeleteAccount(' + item.UserID + ')"> ' + trash + '</button> &nbsp;</td>';
+    //                    html += '</tr>';
+    //                })
+    //                $("#ShowAccountList").html(html);
+    //            }
+    //            else {
+    //                alert(result.responseText);
+    //            }
+    //        },
+    //        error: function (result) {
+    //            alert(result.responseText)
+    //        }
+
+    //    })
+    //}
+    function DeleteAccount(id) {
+        swal({
+            title: "Are you sure about that?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: '/Admin/DeleteAccount/' + id,
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: "application/json;charset=utf-8",
+                        success: function (result) {
+                            if (result.status) {
+                                swal("Good job!", "You clicked the button!", "success").then((value) => {
+                                    $(".my_datatables").dataTable().api().ajax.reload();
+                                     
+                                });
+                            } else {
+                                swal("Error", "Some thing went wrong !!!", "error").then((value) => {
+                                    $("#staticBackdrop").modal("hide");
+                                });
+                            }
+                        },
+                        error: function (result) {
+                            alert(result.responseText);
+                        }
+                    });
+
+                };
+            });
+    }
+    function DetailsAccount(id) {
+        $.ajax({
+            url: '/Admin/DetailsAccount/' + id,
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+
+            success: function (result) {
+                if (result.status) {
+                    $("#staticBackdrop").modal("show");
+                    $("#AcceptAdd").hide();
+                    $('#ID').val(result.data.UserID);
+                    $('#Username').val(result.data.Username);
+                    $('#Password').val(result.data.Password);
+                    $('#Permission').val(result.data.Permission);
+                    $('#Name').val(result.data.CustomerName);
+                    $('#Email').val(result.data.CustomerEmail);
+                    $('#Phone').val(result.data.CustomerPhone);
+                    $('#Address').val(result.data.CustomerAddress);
+                    $('#City').val(result.data.CustomerCity);
+                }
+                else {
+                    alert("Error");
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        })
+    }
+    function UpdateUser() {
+         
+        var obj = {
+            UserID: $('#ID').val(),
+            Username: $('#Username').val(),
+            Password: $('#Password').val(),
+            Permission: $('#Permission').val(),
+            CustomerName: $('#Name').val(),
+            CustomerEmail: $('#Email').val(),
+            CustomerPhone: $('#Phone').val(),
+            CustomerAddress: $('#Address').val(),
+            CustomerCity: $('#City').val(),
+        }
+
+        $.ajax({
+            url: "/Admin/UpdateUsers",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(obj),
+            success: function (result) {
+                if (result.status) {
+                    swal("Good job!", "You clicked the button!", "success").then((value) => {
+                        $(".my_datatables").dataTable().api().ajax.reload();
+                        $("#staticBackdrop").modal("hide");
+                    });
+                }
+                else {
+                    alert(mes.responseText);
+
+                }
+            },
+            error: function (mes) {
+                alert(mes.responseText);
+            }
+        })
+    }
+</script>

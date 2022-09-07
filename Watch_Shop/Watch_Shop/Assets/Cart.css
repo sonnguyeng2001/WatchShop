@@ -1,0 +1,148 @@
+﻿.cart_layout {
+    margin-top: 50px;
+}
+
+.cart_title_row {
+}
+
+.cart_title {
+    color: #353535;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    line-height: 15px;
+    text-transform: uppercase;
+    padding: 10px 0px;
+}
+
+.cart_product_remove_link {
+    display: block;
+    color: rgb(204 204 204);
+    transition: ease-in 0.1s;
+}
+
+    .cart_product_remove_link:hover {
+        color: black;
+    }
+
+
+.cart_product_image {
+}
+
+.cart_product_name {
+    width: 42%;
+    padding-right: 36px;
+}
+
+.cart_product_name_link {
+    text-decoration: none;
+    color: #353535;
+    transition: ease-in 0.1s;
+    font-size: 15px;
+    font-weight:bold;
+}
+
+    .cart_product_name_link:hover {
+        color: #eacc77
+    }
+
+.cart_product_price, .cart_product_quantity, .cart_product_total {
+    width: 15%;
+    color: #111;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+    .cart_product_quantity input {
+        width: 46%;
+        text-align: center;
+        padding: 7px 0px;
+        border: 1px solid rgb(221 221 221);
+        outline:none;
+        background-color:white;
+        transform:translateX(-21px);
+    }
+        .cart_product_quantity input::-webkit-outer-spin-button,
+        .cart_product_quantity input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+.downQuantity {
+    padding: 7px 6px;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid rgb(221 221 221);
+    color: black;
+    background-color: rgb(249 249 249);
+    position:relative;
+    z-index:9;
+}
+
+.upQuantity {
+    padding: 7px 6px;
+    cursor: pointer;
+    border: 1px solid rgb(221 221 221);
+    color: black;
+    background-color: rgb(249 249 249);
+    position: relative;
+    z-index: 9;
+    transform: translateX(-45px);
+}
+
+    .downQuantity:hover,
+    .upQuantity:hover {
+        color: rgb(0 0 0);
+        background-color: rgb(241 241 241)
+    }
+
+.GoHomepage_link, .UpdateCart_link, .Payment_link {
+    border: 2px solid #000;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 30px;
+    text-align: center;
+    text-transform: uppercase;
+    color: black;
+    transition: linear 0.2s;
+    cursor: pointer;
+    background-color:transparent;
+    border-radius:4px;
+}
+
+    .GoHomepage_link:before {
+        content: "<--";
+        font-size: 15px;
+        position: relative;
+        transition: linear 0.2s;
+        opacity: 0;
+        right: 0px;
+    }
+
+    .Payment_link:after {
+        content: "-->";
+        font-size: 15px;
+        position: relative;
+        transition: linear 0.2s;
+        opacity: 0;
+        right: 0px;
+    }
+
+    .GoHomepage_link:hover, .UpdateCart_link:hover, .Payment_link:hover {
+        background-color: black;
+        color: white;
+    }
+
+        .GoHomepage_link:hover:before {
+            opacity: 1;
+            right: 10px;
+        }
+
+        .Payment_link:hover:after {
+            opacity: 1;
+            right: -10px;
+        }
+
+.cart_payment {
+}

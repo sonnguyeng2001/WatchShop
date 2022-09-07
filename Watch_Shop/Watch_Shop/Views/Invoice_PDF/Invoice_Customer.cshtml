@@ -1,0 +1,136 @@
+﻿@model Watch_Shop.Models.Order
+@{
+    Layout = null;
+}
+@{
+
+    var orderItem = (List<Watch_Shop.Models.OrderDetail>)ViewBag.orderList;
+    decimal Subtotal = Convert.ToDecimal(Model.Total) - Convert.ToDecimal(Model.Discount);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice Template Design</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="~/Assets/Invoice_PDF.css" />
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class=" text-left logo p-2 px-5"> <img src="https://i.imgur.com/2zDU056.png" width="50"> </div>
+
+                    <div class="invoice p-5">
+                        <h5>Your order Confirmed!</h5> <span class="font-weight-bold d-block mt-4">Hello, &nbsp;@Model.Name</span> <span>You order has been confirmed and will be shipped in next two days!</span>
+                        <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="py-2"> <span class="d-block text-muted">Order Date</span> <span>@Model.Create_Date</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="py-2"> <span class="d-block text-muted">Order No</span> <span>#@Model.Order_ID</span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="py-2"> <span class="d-block text-muted">Payment</span> <span><img src="https://ci3.googleusercontent.com/proxy/9oJDx0jqfAW2xbmpcBvf92W47LcuF1jm2N0ltwFkBrlMvePtLy0vscMXdA-nkROn91Gqrl557n5Kke6BwoAm9cUTTPFX62LmVIoWQI-SG-hXxanj4LGoIDdZEQJ8IVNzx4pqiIs0N_WgKk9825qJ_8PkqVZL1g=s0-d-e1-ft#https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjP0FGHcXq7uoqFiBT_1rCey7kD-zfev0k3Q&usqp=CAU" width="20" /></span> </div>
+                                        </td>
+                                        <td>
+                                            <div class="py-2"> <span class="d-block text-muted">Shiping Address</span> <span>@Model.Address,@Model.City</span> </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="product border-bottom table-responsive">
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr style="background: rgb(226 186 72); color: white; ">
+                                        <td>#</td>
+                                        <td>Image</td>
+                                        <td>Description</td>
+                                        <td>Amount</td>
+                                    </tr>
+
+                                    @foreach (var item in Model.OrderDetails.Where(x => x.Order_ID == Model.Order_ID).ToList())
+                                    {
+                                        <tr style="margin-top:4px;">
+                                            <td>@item.Product_ID</td>
+                                            <td> <img src="~/image/@item.Product.Image" width="90"> </td>
+                                            <td width="65%" style="padding-right:10px">
+                                                <span class="font-weight-bold">
+                                                    @item.Product_Name
+                                                    <span style="font-size:12px;font-weight:bold">
+                                                        (@item.Product_Quantity * @string.Format("{0:#,##0.}", item.Product.Price))
+                                                    </span>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="text-left"> <span class="font-weight-bold">@string.Format("{0:#,##0.}", item.Into_Money)</span> </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row d-flex justify-content-end">
+                            <div class="col-md-5">
+                                <table class="table table-borderless">
+                                    <tbody class="totals">
+                                        <tr>
+                                            <td>
+                                                <div class="text-left"> <span class="text-muted font-weight-bold" style="font-size:14px">Subtotal</span> </div>
+                                            </td>
+                                            <td>
+                                                <div class="text-right"> <span class="font-weight-bold" style="font-size:14px">@string.Format("{0:#,##0.}", Model.Total + Model.Point)</span> </div>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>
+                                                <div class="text-left"> <span class="text-muted font-weight-bold" style="font-size:14px"> Discount</span> </div>
+                                            </td>
+                                            <td>
+                                                <div class="text-right"> <span class="text-success font-weight-bold" style="font-size:14px"> -  @string.Format("{0:#,##0.}", @Model.Discount)</span> </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="text-left"> <span class="text-muted font-weight-bold" style="font-size:14px"> RewardPoint</span> </div>
+                                            </td>
+                                            <td>
+                                                <div class="text-right"> <span class="text-success font-weight-bold" style="font-size:14px"> -  @string.Format("{0:#,##0.}", @Model.Point == null ? 0 : Model.Point)</span> </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-top border-bottom">
+                                            <td>
+                                                <div class="text-left"> <span class="font-weight-bold" style="font-size:14px">Total</span> </div>
+                                            </td>
+                                            <td>
+                                                <div class="text-right">
+                                                    <span class="font-weight-bold" style="font-size:14px">@string.Format("{0:#,##0.}", Subtotal) VNĐ</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <p>We will be sending shipping confirmation email when the item shipped successfully!</p>
+                        <p class="font-weight-bold mb-0">Thanks for shopping with us!</p> <span>Nike Team</span>
+                    </div>
+                    <div class="d-flex justify-content-between footer p-3">
+                        <span>Need Help? visit our <a href="#"> help center</a></span>
+                        <span>@DateTime.Now </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<a href="~/Views/Invoice_PDF/Invoice_Customer.cshtml">~/Views/Invoice_PDF/Invoice_Customer.cshtml</a>

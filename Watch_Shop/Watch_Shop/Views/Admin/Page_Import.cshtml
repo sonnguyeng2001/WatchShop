@@ -1,0 +1,230 @@
+﻿@model IEnumerable<Watch_Shop.Models.Import>
+@{
+    ViewBag.Title = "Page_Import";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<main>
+    <div class="container-fluid px-4" style="font-family:'Roboto',sans-serif;">
+        <!-- Page Heading -->
+
+        <a href="@Url.Action("CreateInvoice","Admin")" class="btn btn-primary pull-right mt-3 mb-3 font-weight-bold" style="padding:10px 20px">
+            Create New Invoice
+        </a>
+        <br />
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered my_datatables" width="100%" style="color:black" cellspacing="0">
+                        <thead>
+                            <tr style="font-weight:bold">
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Importer
+                                </th>
+                                <th>
+                                    Create Date
+                                </th>
+                                <th>
+                                    Total
+                                </th>
+                                <th>
+                                    Note
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                             
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="staticBackdrop" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Thông tin chi tiết đơn hàng</h5>
+                    <button type="button" class="close" style="outline:none;border:none" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="bg-danger text-light">
+                                <th>STT</th>
+                                <th>Product_Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ShowImportDetailList">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".nav-item.active").removeClass("active");
+        $(".nav-Import").addClass("active");
+        $('.my_datatables').dataTable({
+            "ajax": {
+                "url": "/Admin/Get_Import_List",
+                "type": "GET",
+                "datatype":"json",
+            },
+            "columns": [
+                { "data": "Import_ID" },
+                { "data": "Importer" },
+                {
+                    "data": "Import_Date",
+                    "render": function (jsonDate) {
+                        var date = new Date(parseInt(jsonDate.substr(6)));
+                        var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                        return ("0" + date.getDate()).slice(-2) + '-' + month + '-' + date.getFullYear();
+                    }
+                },
+                {
+                    "data": "Import_Total",
+                    "render": function (jsonTotal) {
+                        return jsonTotal.toLocaleString();
+                    }
+                },
+                {
+                    "data": "Import_Note",
+                },
+                {
+                    "data": "Import_ID",
+                    "render": function (data) {
+                        return "<button class='btn btn-primary' onclick=Details_Import('" + data + "') ><i class='fas fa-layer-group'></i></button>&nbsp&nbsp<button class='btn btn-danger' onclick=Delete_Import('" + data + "') ><i class='fas fa-trash-alt'></i></button>&nbsp&nbsp";
+                    }
+
+                }
+            ],
+            "order": [[0, "desc"]]
+
+        });
+
+    })
+    var import_id = 0;
+    function Details_Import(id) {
+        import_id = id;
+        $.ajax({
+            url: "/Admin/Import_Details/" + id,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+
+            success: function (result) {
+                if (result.status) {
+                    var html = '';
+                    $.each(result.data, function (key, item) {
+                        html += '<tr>';
+                        html += '<td>' + item.Import_Details_ID + '</td>';
+                        html += '<td>' + item.Product_Name + ' </td>';
+                        html += '<td>' + item.Price.toLocaleString() + '</td > ';
+                        html += '<td>' + item.Quantity + '</td > ';
+                        html += '<td>' + item.Into_Money.toLocaleString() + '</td > ';
+                        html += '<td>';
+                        html += '<button class="btn btn-danger" onclick="Delete_Details_Import(' + item.Import_Details_ID + ')">Delete</button>';
+                        html += '</td>';
+                        html += '</tr>';
+                    })
+                    $('#ShowImportDetailList').html(html);
+                    $('#staticBackdrop').modal('show');
+                } else {
+                    alert("Error");
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        })
+    }
+    function Delete_Import(id) {
+        swal({
+            title: "Are you sure about that?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: '/Admin/Import_Delete/' + id,
+                    type: 'POST',
+                    dataType: "json",
+                    contentType: "application/json; charset=urf-8",
+                    async: true,
+                    success: function (result) {
+                        if (result.status) {
+                            swal("Good job!", "Xóa thành công!!!", "success").then(function () {
+                                $(".my_datatables").dataTable().api().ajax.reload();
+                            });
+                        }
+                        else {
+                            swal("Good job!", result.msg, "warning");
+                        }
+                    },
+                    error: function (result) {
+                        swal("Thông báo", "Không chạy vào được controller", "warning");
+                    }
+                });
+            };
+        });
+    }
+
+    function Delete_Details_Import(id) {
+        swal({
+            title: "Are you sure about that?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "/Admin/Delete_Details_Row/" + id,
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+
+                        success: function (result) {
+                            if (result.status)
+                            {
+                                swal("Good job!", "You clicked the button!", "success").then((value) => {
+                                    Details_Import(import_id);
+                                    $(".my_datatables").dataTable().api().ajax.reload();
+                                });
+                            }
+                            else {
+                                swal("Error !!!", result.msg, "error");
+                                return;
+                            }
+                        },
+                        error: function (result) {
+                            alert(result.responseText);
+                        }
+                    })
+                }
+            });
+    }
+
+
+</script>

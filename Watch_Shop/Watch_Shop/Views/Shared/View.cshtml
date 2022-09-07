@@ -1,0 +1,15 @@
+﻿
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <header class="modal-header"> Đăng nhập </header>
+
+    <label for="quantity" class="modal-label"> Tên tài khoản hoặc địa chỉ Email *</label>
+    <input id="quantity" type="email" class="modal-input" required>
+
+    <label for="Email" class="modal-label"> Mật khẩu * </label>
+    <input id="Email" type="password" class="modal-input" required>
+
+    <button class="btn_login">Đăng nhập</button>
+
+}

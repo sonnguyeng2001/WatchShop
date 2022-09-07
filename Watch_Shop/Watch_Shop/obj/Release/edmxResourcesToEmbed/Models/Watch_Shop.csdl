@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Shop_DongHoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Category_ID" />
+    </Key>
+    <Property Name="Category_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Category_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="Shop_DongHoModel.fk_pro_cate" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Product_ID" />
+    </Key>
+    <Property Name="Product_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Product_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Aparatus_and_Energy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Material_Day" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Material_Matkinh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Dial_HinhDang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Dial_KichThuoc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Dial_MauSac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Waterproof" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TradeMark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Origin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Category_ID" Type="Int32" />
+    <NavigationProperty Name="Category" Relationship="Shop_DongHoModel.fk_pro_cate" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="OrderDetails" Relationship="Shop_DongHoModel.fk_od_pro" FromRole="Product" ToRole="OrderDetail" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityContainer Name="Shop_DongHoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="fk_pro_cate" Association="Shop_DongHoModel.fk_pro_cate">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <EntitySet Name="OrderDetails" EntityType="Shop_DongHoModel.OrderDetail" />
+    <EntitySet Name="Orders" EntityType="Shop_DongHoModel.Order" />
+    <AssociationSet Name="fk_od_pro" Association="Shop_DongHoModel.fk_od_pro">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Orders" Association="Shop_DongHoModel.FK_OrderDetail_Orders">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <EntitySet Name="Users" EntityType="Shop_DongHoModel.User" />
+    <AssociationSet Name="FK_Orders_Users" Association="Shop_DongHoModel.FK_Orders_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <EntitySet Name="Contacts" EntityType="Shop_DongHoModel.Contact" />
+    <EntitySet Name="Discounts" EntityType="Shop_DongHoModel.Discount" />
+  </EntityContainer>
+  <Association Name="fk_pro_cate">
+    <End Type="Shop_DongHoModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="Shop_DongHoModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Category_ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Category_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="Order_ID" />
+      <PropertyRef Name="Product_ID" />
+    </Key>
+    <Property Name="Order_ID" Type="Int32" Nullable="false" />
+    <Property Name="Product_ID" Type="Int32" Nullable="false" />
+    <Property Name="Product_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Product_Quantity" Type="Int32" />
+    <Property Name="Into_Money" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="Product" Relationship="Shop_DongHoModel.fk_od_pro" FromRole="OrderDetail" ToRole="Product" />
+    <NavigationProperty Name="Order" Relationship="Shop_DongHoModel.FK_OrderDetail_Orders" FromRole="OrderDetail" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Order_ID" />
+    </Key>
+    <Property Name="Order_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Create_Date" Type="DateTime" Precision="0" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Total" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="OrderDetails" Relationship="Shop_DongHoModel.FK_OrderDetail_Orders" FromRole="Order" ToRole="OrderDetail" />
+    <NavigationProperty Name="User" Relationship="Shop_DongHoModel.FK_Orders_Users" FromRole="Order" ToRole="User" />
+    <Property Name="Discount" Type="Decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <Association Name="fk_od_pro">
+    <End Type="Shop_DongHoModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="Shop_DongHoModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Product_ID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="Product_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Orders">
+    <End Type="Shop_DongHoModel.Order" Role="Order" Multiplicity="1" />
+    <End Type="Shop_DongHoModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Order_ID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="Order_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Permission" Type="Int32" />
+    <NavigationProperty Name="Orders" Relationship="Shop_DongHoModel.FK_Orders_Users" FromRole="User" ToRole="Order" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerPhone" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+    <Property Name="CustomerAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerCity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Orders_Users">
+    <End Type="Shop_DongHoModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="Shop_DongHoModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="Contact_ID" />
+    </Key>
+    <Property Name="Contact_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Message" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Discount">
+    <Key>
+      <PropertyRef Name="Discount_ID" />
+    </Key>
+    <Property Name="Discount_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Discount_Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="Discount_Price" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Discount_Quantity" Type="Int32" />
+    <Property Name="Expiration_Date" Type="DateTime" Precision="0" />
+  </EntityType>
+</Schema>

@@ -1,0 +1,913 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Shop_DongHoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Category_ID" />
+          </Key>
+          <Property Name="Category_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Category_Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Contact_ID" />
+          </Key>
+          <Property Name="Contact_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="Create_Date" Type="datetime" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="Customer_Product">
+          <Key>
+            <PropertyRef Name="Customer_ID" />
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="Customer_ID" Type="int" Nullable="false" />
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="CusPro_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="CusPro_Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CusPro_Image" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Discount">
+          <Key>
+            <PropertyRef Name="Discount_ID" />
+          </Key>
+          <Property Name="Discount_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Discount_Name" Type="nchar" MaxLength="50" />
+          <Property Name="Discount_Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Discount_Quantity" Type="int" />
+          <Property Name="Expiration_Date" Type="date" />
+        </EntityType>
+        <EntityType Name="FeedBack">
+          <Key>
+            <PropertyRef Name="FeedBack_ID" />
+          </Key>
+          <Property Name="FeedBack_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FeedBack_User" Type="nvarchar" MaxLength="50" />
+          <Property Name="FeedBack_Content" Type="nvarchar(max)" />
+          <Property Name="FeedBack_Time" Type="datetime" />
+          <Property Name="Product_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Import">
+          <Key>
+            <PropertyRef Name="Import_ID" />
+          </Key>
+          <Property Name="Import_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Importer" Type="nvarchar" MaxLength="50" />
+          <Property Name="Import_Date" Type="date" />
+          <Property Name="Import_Total" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Import_Note" Type="nvarchar(max)" />
+          <Property Name="Provider_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Import_Details">
+          <Key>
+            <PropertyRef Name="Import_Details_ID" />
+          </Key>
+          <Property Name="Import_Details_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Import_ID" Type="int" Nullable="false" />
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Into_Money" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="OrderID_STT" />
+            <PropertyRef Name="Order_ID" />
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="OrderID_STT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Order_ID" Type="int" Nullable="false" />
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="Product_Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Product_Quantity" Type="int" />
+          <Property Name="Into_Money" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Order_ID" />
+          </Key>
+          <Property Name="Order_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nchar" MaxLength="12" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" />
+          <Property Name="Create_Date" Type="date" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="Note" Type="nvarchar" MaxLength="100" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Discount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Status" Type="nvarchar(max)" />
+          <Property Name="Point" Type="int" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="Product_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Product_Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Image" Type="nvarchar" MaxLength="50" />
+          <Property Name="Aparatus and Energy" Type="nvarchar" MaxLength="50" />
+          <Property Name="Material_Day" Type="nvarchar" MaxLength="50" />
+          <Property Name="Material_Matkinh" Type="nvarchar" MaxLength="50" />
+          <Property Name="Dial_HinhDang" Type="nvarchar" MaxLength="50" />
+          <Property Name="Dial_KichThuoc" Type="nvarchar" MaxLength="50" />
+          <Property Name="Dial_MauSac" Type="nvarchar" MaxLength="50" />
+          <Property Name="Waterproof" Type="nvarchar" MaxLength="50" />
+          <Property Name="TradeMark" Type="nvarchar" MaxLength="50" />
+          <Property Name="Origin" Type="nvarchar" MaxLength="50" />
+          <Property Name="Category_ID" Type="int" />
+          <Property Name="Sales" Type="int" />
+          <Property Name="ImageLink" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Providerr">
+          <Key>
+            <PropertyRef Name="Provider_ID" />
+          </Key>
+          <Property Name="Provider_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Provider_Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="Permission" Type="int" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerEmail" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerPhone" Type="nchar" MaxLength="12" />
+          <Property Name="CustomerAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="CustomerCity" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerToken" Type="nvarchar" MaxLength="50" />
+          <Property Name="RewardPoints" Type="int" />
+        </EntityType>
+        <Association Name="FK_Customer_Product_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Customer_Product" Type="Self.Customer_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Customer_Product">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Product_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Customer_Product" Type="Self.Customer_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Customer_Product">
+              <PropertyRef Name="Customer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FeedBack_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="FeedBack" Type="Self.FeedBack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="FeedBack">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Details_Import">
+          <End Role="Import" Type="Self.Import" Multiplicity="1" />
+          <End Role="Import_Details" Type="Self.Import_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Import">
+              <PropertyRef Name="Import_ID" />
+            </Principal>
+            <Dependent Role="Import_Details">
+              <PropertyRef Name="Import_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Details_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Import_Details" Type="Self.Import_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Import_Details">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Providerr">
+          <End Role="Providerr" Type="Self.Providerr" Multiplicity="0..1" />
+          <End Role="Import" Type="Self.Import" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Providerr">
+              <PropertyRef Name="Provider_ID" />
+            </Principal>
+            <Dependent Role="Import">
+              <PropertyRef Name="Provider_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_od_pro">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Order_ID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="Order_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_pro_cate">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Category_ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Category_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Shop_DongHoModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer_Product" EntityType="Self.Customer_Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Discount" EntityType="Self.Discount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FeedBack" EntityType="Self.FeedBack" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Import" EntityType="Self.Import" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Import_Details" EntityType="Self.Import_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Providerr" EntityType="Self.Providerr" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Customer_Product_Product" Association="Self.FK_Customer_Product_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Customer_Product" EntitySet="Customer_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Product_Users" Association="Self.FK_Customer_Product_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Customer_Product" EntitySet="Customer_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FeedBack_Product" Association="Self.FK_FeedBack_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="FeedBack" EntitySet="FeedBack" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Details_Import" Association="Self.FK_Import_Details_Import">
+            <End Role="Import" EntitySet="Import" />
+            <End Role="Import_Details" EntitySet="Import_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Details_Product" Association="Self.FK_Import_Details_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Import_Details" EntitySet="Import_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Providerr" Association="Self.FK_Import_Providerr">
+            <End Role="Providerr" EntitySet="Providerr" />
+            <End Role="Import" EntitySet="Import" />
+          </AssociationSet>
+          <AssociationSet Name="fk_od_pro" Association="Self.fk_od_pro">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="OrderDetail" EntitySet="OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Orders" Association="Self.FK_OrderDetail_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderDetail" EntitySet="OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Users" Association="Self.FK_Orders_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_pro_cate" Association="Self.fk_pro_cate">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Shop_DongHoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer_Product">
+          <Key>
+            <PropertyRef Name="Customer_ID" />
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="Customer_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="CusPro_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CusPro_Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CusPro_Image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Customer_Product_Product" FromRole="Customer_Product" ToRole="Product" />
+          <NavigationProperty Name="User" Relationship="Shop_DongHoModel.FK_Customer_Product_Users" FromRole="Customer_Product" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="Product_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Product_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Aparatus_and_Energy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Material_Day" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Material_Matkinh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dial_HinhDang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dial_KichThuoc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dial_MauSac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Waterproof" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TradeMark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Origin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Category_ID" Type="Int32" />
+          <NavigationProperty Name="Customer_Product" Relationship="Self.FK_Customer_Product_Product" FromRole="Product" ToRole="Customer_Product" />
+          <NavigationProperty Name="Category" Relationship="Shop_DongHoModel.fk_pro_cate" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="FeedBacks" Relationship="Shop_DongHoModel.FK_FeedBack_Product" FromRole="Product" ToRole="FeedBack" />
+          <NavigationProperty Name="Import_Details" Relationship="Shop_DongHoModel.FK_Import_Details_Product" FromRole="Product" ToRole="Import_Details" />
+          <NavigationProperty Name="OrderDetails" Relationship="Shop_DongHoModel.fk_od_pro" FromRole="Product" ToRole="OrderDetail" />
+          <Property Name="Sales" Type="Int32" />
+          <Property Name="ImageLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Customer_Product_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Customer_Product" Type="Self.Customer_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Customer_Product">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Shop_DongHoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customer_Product" EntityType="Self.Customer_Product" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <AssociationSet Name="FK_Customer_Product_Product" Association="Self.FK_Customer_Product_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Customer_Product" EntitySet="Customer_Product" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="Shop_DongHoModel.User" />
+          <AssociationSet Name="FK_Customer_Product_Users" Association="Shop_DongHoModel.FK_Customer_Product_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Customer_Product" EntitySet="Customer_Product" />
+          </AssociationSet>
+          <EntitySet Name="Categories" EntityType="Shop_DongHoModel.Category" />
+          <EntitySet Name="Contacts" EntityType="Shop_DongHoModel.Contact" />
+          <EntitySet Name="Discounts" EntityType="Shop_DongHoModel.Discount" />
+          <EntitySet Name="FeedBacks" EntityType="Shop_DongHoModel.FeedBack" />
+          <EntitySet Name="Imports" EntityType="Shop_DongHoModel.Import" />
+          <EntitySet Name="Import_Details" EntityType="Shop_DongHoModel.Import_Details" />
+          <EntitySet Name="OrderDetails" EntityType="Shop_DongHoModel.OrderDetail" />
+          <EntitySet Name="Orders" EntityType="Shop_DongHoModel.Order" />
+          <EntitySet Name="Providerrs" EntityType="Shop_DongHoModel.Providerr" />
+          <EntitySet Name="sysdiagrams" EntityType="Shop_DongHoModel.sysdiagram" />
+          <AssociationSet Name="fk_pro_cate" Association="Shop_DongHoModel.fk_pro_cate">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FeedBack_Product" Association="Shop_DongHoModel.FK_FeedBack_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="FeedBack" EntitySet="FeedBacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Details_Import" Association="Shop_DongHoModel.FK_Import_Details_Import">
+            <End Role="Import" EntitySet="Imports" />
+            <End Role="Import_Details" EntitySet="Import_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Providerr" Association="Shop_DongHoModel.FK_Import_Providerr">
+            <End Role="Providerr" EntitySet="Providerrs" />
+            <End Role="Import" EntitySet="Imports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Details_Product" Association="Shop_DongHoModel.FK_Import_Details_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Import_Details" EntitySet="Import_Details" />
+          </AssociationSet>
+          <AssociationSet Name="fk_od_pro" Association="Shop_DongHoModel.fk_od_pro">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Orders" Association="Shop_DongHoModel.FK_OrderDetail_Orders">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Users" Association="Shop_DongHoModel.FK_Orders_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Permission" Type="Int32" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerPhone" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+          <Property Name="CustomerAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerCity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerToken" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer_Product" Relationship="Shop_DongHoModel.FK_Customer_Product_Users" FromRole="User" ToRole="Customer_Product" />
+          <NavigationProperty Name="Orders" Relationship="Shop_DongHoModel.FK_Orders_Users" FromRole="User" ToRole="Order" />
+          <Property Name="RewardPoints" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_Customer_Product_Users">
+          <End Type="Shop_DongHoModel.User" Role="User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Shop_DongHoModel.Customer_Product" Role="Customer_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Customer_Product">
+              <PropertyRef Name="Customer_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Category_ID" />
+          </Key>
+          <Property Name="Category_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Products" Relationship="Shop_DongHoModel.fk_pro_cate" FromRole="Category" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Contact_ID" />
+          </Key>
+          <Property Name="Contact_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" FixedLength="false" Unicode="true" MaxLength="50" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Create_Date" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Discount">
+          <Key>
+            <PropertyRef Name="Discount_ID" />
+          </Key>
+          <Property Name="Discount_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Discount_Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Discount_Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Discount_Quantity" Type="Int32" />
+          <Property Name="Expiration_Date" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="FeedBack">
+          <Key>
+            <PropertyRef Name="FeedBack_ID" />
+          </Key>
+          <Property Name="FeedBack_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FeedBack_User" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FeedBack_Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FeedBack_Time" Type="DateTime" Precision="3" />
+          <Property Name="Product_ID" Type="Int32" />
+          <NavigationProperty Name="Product" Relationship="Shop_DongHoModel.FK_FeedBack_Product" FromRole="FeedBack" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Import">
+          <Key>
+            <PropertyRef Name="Import_ID" />
+          </Key>
+          <Property Name="Import_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Importer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Import_Date" Type="DateTime" Precision="0" />
+          <Property Name="Import_Total" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Import_Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Provider_ID" Type="Int32" />
+          <NavigationProperty Name="Import_Details" Relationship="Shop_DongHoModel.FK_Import_Details_Import" FromRole="Import" ToRole="Import_Details" />
+          <NavigationProperty Name="Providerr" Relationship="Shop_DongHoModel.FK_Import_Providerr" FromRole="Import" ToRole="Providerr" />
+        </EntityType>
+        <EntityType Name="Import_Details">
+          <Key>
+            <PropertyRef Name="Import_Details_ID" />
+          </Key>
+          <Property Name="Import_Details_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Import_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Into_Money" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Import" Relationship="Shop_DongHoModel.FK_Import_Details_Import" FromRole="Import_Details" ToRole="Import" />
+          <NavigationProperty Name="Product" Relationship="Shop_DongHoModel.FK_Import_Details_Product" FromRole="Import_Details" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="OrderID_STT" />
+            <PropertyRef Name="Order_ID" />
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="OrderID_STT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Order_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Product_Quantity" Type="Int32" />
+          <Property Name="Into_Money" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Product" Relationship="Shop_DongHoModel.fk_od_pro" FromRole="OrderDetail" ToRole="Product" />
+          <NavigationProperty Name="Order" Relationship="Shop_DongHoModel.FK_OrderDetail_Orders" FromRole="OrderDetail" ToRole="Order" />
+          <Property Name="Status" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Order_ID" />
+          </Key>
+          <Property Name="Order_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Create_Date" Type="DateTime" Precision="0" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Discount" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="OrderDetails" Relationship="Shop_DongHoModel.FK_OrderDetail_Orders" FromRole="Order" ToRole="OrderDetail" />
+          <NavigationProperty Name="User" Relationship="Shop_DongHoModel.FK_Orders_Users" FromRole="Order" ToRole="User" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Point" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Providerr">
+          <Key>
+            <PropertyRef Name="Provider_ID" />
+          </Key>
+          <Property Name="Provider_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Provider_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Imports" Relationship="Shop_DongHoModel.FK_Import_Providerr" FromRole="Providerr" ToRole="Import" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="fk_pro_cate">
+          <End Type="Shop_DongHoModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="Shop_DongHoModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Category_ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Category_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FeedBack_Product">
+          <End Type="Shop_DongHoModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="Shop_DongHoModel.FeedBack" Role="FeedBack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="FeedBack">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Details_Import">
+          <End Type="Shop_DongHoModel.Import" Role="Import" Multiplicity="1" />
+          <End Type="Shop_DongHoModel.Import_Details" Role="Import_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Import">
+              <PropertyRef Name="Import_ID" />
+            </Principal>
+            <Dependent Role="Import_Details">
+              <PropertyRef Name="Import_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Providerr">
+          <End Type="Shop_DongHoModel.Providerr" Role="Providerr" Multiplicity="0..1" />
+          <End Type="Shop_DongHoModel.Import" Role="Import" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Providerr">
+              <PropertyRef Name="Provider_ID" />
+            </Principal>
+            <Dependent Role="Import">
+              <PropertyRef Name="Provider_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Details_Product">
+          <End Type="Shop_DongHoModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="Shop_DongHoModel.Import_Details" Role="Import_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Import_Details">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_od_pro">
+          <End Type="Shop_DongHoModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="Shop_DongHoModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_Orders">
+          <End Type="Shop_DongHoModel.Order" Role="Order" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Shop_DongHoModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Order_ID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="Order_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Users">
+          <End Type="Shop_DongHoModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="Shop_DongHoModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Shop_DongHoModelStoreContainer" CdmEntityContainer="Shop_DongHoEntities">
+          <EntitySetMapping Name="Customer_Product">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.Customer_Product">
+              <MappingFragment StoreEntitySet="Customer_Product">
+                <ScalarProperty Name="Customer_ID" ColumnName="Customer_ID" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="CusPro_Name" ColumnName="CusPro_Name" />
+                <ScalarProperty Name="CusPro_Price" ColumnName="CusPro_Price" />
+                <ScalarProperty Name="CusPro_Image" ColumnName="CusPro_Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ImageLink" ColumnName="ImageLink" />
+                <ScalarProperty Name="Sales" ColumnName="Sales" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Aparatus_and_Energy" ColumnName="Aparatus and Energy" />
+                <ScalarProperty Name="Material_Day" ColumnName="Material_Day" />
+                <ScalarProperty Name="Material_Matkinh" ColumnName="Material_Matkinh" />
+                <ScalarProperty Name="Dial_HinhDang" ColumnName="Dial_HinhDang" />
+                <ScalarProperty Name="Dial_KichThuoc" ColumnName="Dial_KichThuoc" />
+                <ScalarProperty Name="Dial_MauSac" ColumnName="Dial_MauSac" />
+                <ScalarProperty Name="Waterproof" ColumnName="Waterproof" />
+                <ScalarProperty Name="TradeMark" ColumnName="TradeMark" />
+                <ScalarProperty Name="Origin" ColumnName="Origin" />
+                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="RewardPoints" ColumnName="RewardPoints" />
+                <ScalarProperty Name="CustomerToken" ColumnName="CustomerToken" />
+                <ScalarProperty Name="CustomerCity" ColumnName="CustomerCity" />
+                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
+                <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+                <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Permission" ColumnName="Permission" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Category_Name" ColumnName="Category_Name" />
+                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.Contact">
+              <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Create_Date" ColumnName="Create_Date" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Contact_ID" ColumnName="Contact_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Discounts">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.Discount">
+              <MappingFragment StoreEntitySet="Discount">
+                <ScalarProperty Name="Expiration_Date" ColumnName="Expiration_Date" />
+                <ScalarProperty Name="Discount_Quantity" ColumnName="Discount_Quantity" />
+                <ScalarProperty Name="Discount_Price" ColumnName="Discount_Price" />
+                <ScalarProperty Name="Discount_Name" ColumnName="Discount_Name" />
+                <ScalarProperty Name="Discount_ID" ColumnName="Discount_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FeedBacks">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.FeedBack">
+              <MappingFragment StoreEntitySet="FeedBack">
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="FeedBack_Time" ColumnName="FeedBack_Time" />
+                <ScalarProperty Name="FeedBack_Content" ColumnName="FeedBack_Content" />
+                <ScalarProperty Name="FeedBack_User" ColumnName="FeedBack_User" />
+                <ScalarProperty Name="FeedBack_ID" ColumnName="FeedBack_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Imports">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.Import">
+              <MappingFragment StoreEntitySet="Import">
+                <ScalarProperty Name="Provider_ID" ColumnName="Provider_ID" />
+                <ScalarProperty Name="Import_Note" ColumnName="Import_Note" />
+                <ScalarProperty Name="Import_Total" ColumnName="Import_Total" />
+                <ScalarProperty Name="Import_Date" ColumnName="Import_Date" />
+                <ScalarProperty Name="Importer" ColumnName="Importer" />
+                <ScalarProperty Name="Import_ID" ColumnName="Import_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Import_Details">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.Import_Details">
+              <MappingFragment StoreEntitySet="Import_Details">
+                <ScalarProperty Name="Into_Money" ColumnName="Into_Money" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Import_ID" ColumnName="Import_ID" />
+                <ScalarProperty Name="Import_Details_ID" ColumnName="Import_Details_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetail">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Into_Money" ColumnName="Into_Money" />
+                <ScalarProperty Name="Product_Quantity" ColumnName="Product_Quantity" />
+                <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
+                <ScalarProperty Name="OrderID_STT" ColumnName="OrderID_STT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Create_Date" ColumnName="Create_Date" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Providerrs">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.Providerr">
+              <MappingFragment StoreEntitySet="Providerr">
+                <ScalarProperty Name="Provider_Name" ColumnName="Provider_Name" />
+                <ScalarProperty Name="Provider_ID" ColumnName="Provider_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Shop_DongHoModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

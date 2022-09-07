@@ -1,0 +1,14 @@
+﻿
+@using Watch_Shop.Models
+@model List<Category>
+
+<ul class="header_nav_sublist">
+    @{
+        foreach (var item in Model)
+        {
+            <li class="header_nav_subitem">
+                <a href="" class="header_nav_sublink">@item.Category_Name</a>
+            </li>
+        }
+    }
+</ul>

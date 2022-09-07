@@ -1,0 +1,596 @@
+﻿@model Watch_Shop.Models.Category
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+<style>
+    label {
+        font-weight: bold;
+    }
+
+    #Category_ID {
+        width: 100%;
+    }
+
+    .InputWrapper {
+        position: relative;
+        user-select: none;
+    }
+
+    .Input_SearchKey {
+        padding: 8px 10px;
+        width: 300px;
+        border: 2px solid #6a5af9;
+        border-radius: 2px;
+        user-select: none;
+    }
+
+        .Input_SearchKey:focus {
+            border: 2px solid #6a5af9;
+        }
+
+    .Label_SearchKey {
+        position: absolute;
+        top: 50%;
+        left: 13px;
+        transform: translateY(-50%);
+        user-select: none;
+        margin: 0;
+        color: #999;
+        pointer-events: none;
+        font-size: 12px;
+        transition: linear 0.2s;
+    }
+
+    .Input_SearchKey:not(:placeholder-shown) + .Label_SearchKey,
+    .Input_SearchKey:focus + .Label_SearchKey {
+        top: -6px;
+        left: 10px;
+        display: inline;
+        background: #f8f9fc;
+        padding: 6px;
+    }
+    #tbody tr td{
+        vertical-align:middle;
+    }
+</style>
+
+<main>
+    <div class="container-fluid px-4" style="font-family:'Roboto',sans-serif;">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between my-3">
+            <h1 class="h3 mb-0 text-gray-800">Product</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
+            </a>
+        </div>
+        
+
+        <div style="padding:10px;background:white;border-radius:10px;">
+            <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                <button type="button" id="openModal_Add" class="btn btn-primary pull-left font-weight-bold" style="padding:10px 20px" data-toggle="modal" data-target="#staticBackdrop">
+                    Add new Product
+                </button>
+                <div class="d-inline InputWrapper">
+                    <input type="text" id="SearchKey" class="Input_SearchKey" tabindex="1" placeholder=" " />
+                    <label class="Label_SearchKey">Tìm kiếm sản phẩm...</label>
+                </div>
+                <div>
+                    @Html.DropDownListFor(model => model.Category_ID, ViewBag.listCate as SelectList, "Tất cả", new { @class = "form-control" })
+                </div>
+            </div>
+            <table style="color:black" class="table table-bordered table-hover" id="my_datatable">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            Image
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+        <div style="color:red;text-align:center; font-style:italic; font-size:30px;" id="NoResult">
+
+        </div>
+    </div>
+</main>
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Thông tin sản phẩm</h5>
+                <button type="button" class="close" style="outline:none;border:none" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-lg-4 d-none">
+                            <label> Mã sản phẩm</label>
+                            <input type="text" class="form-control" id="ProID" />
+                        </div>
+                        <div class="col-lg-4">
+                            <label> Tên sản phẩm</label>
+                            <input type="text" class="form-control" id="ProName" />
+                        </div>
+                        <div class="col-lg-4">
+                            <label> Giá</label>
+                            <input type="number" class="form-control" id="ProPrice" />
+                        </div>
+                        <div class="col-lg-4">
+                            <label> Danh mục</label>
+                            @Html.DropDownList("Category", @ViewBag.CateID as IEnumerable<SelectListItem>, new { @class = "form-control", @id = "Category_ID_Details" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label> Xuất xứ</label>
+                            <input type="text" class="form-control" id="ProOrigin" />
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label> Pin và Năng lượng</label>
+                            <input type="text" class="form-control" id="ProEnegy" />
+                        </div>
+                        <div class="col-lg-4">
+                            <label> Chất liệu dây</label>
+                            <input type="text" class="form-control" id="ProDay" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label> Chất liệu mặt kính</label>
+                            <input type="text" class="form-control" id="ProMatKinh" />
+                        </div>
+                        <div class="col-lg-4">
+                            <label> Hình dạng</label>
+                            <input type="text" class="form-control" id="ProHinhDang" />
+                        </div>
+                        <div class="col-lg-4">
+                            <label> Kích thước</label>
+                            <input type="text" class="form-control" id="ProKichThuoc" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label> Màu sắc</label>
+                            <input type="text" class="form-control" id="ProMauSac" />
+                        </div>
+                        <div class="col-lg-4">
+                            <label>  Khả năng chống nước</label>
+                            <input type="text" class="form-control" id="ProWaterproof" />
+                        </div>
+                        <div class="col-lg-4">
+                            <label> Thương hiệu</label>
+                            <input type="text" class="form-control" id="ProTradeMark" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label> Mô tả</label>
+                            <textarea style="line-height:2" rows="6" type="text" class="form-control" id="ProDes"></textarea>
+                        </div>
+
+                        <div class="col-lg-6" id="AddImage">
+                            <input type="file" class="btn btn-link" id="BrowseImage" onchange="LoadImage(this)" /> <br />
+                            <input type="text" id="Filename" class="d-none" /> <br />
+                            <img src="#" alt="Alternate Text" id="targetImage" width="300" />
+                        </div>
+                        <div class="text-center col-lg-12" id="ShowImg">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="addProduct" onclick="CreatePro()" class="btn btn-primary">Accept</button>
+                <button type="button" id="updateProduct" onclick="UpdatePro()" class="btn btn-primary">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".nav-item.active").removeClass("active");
+        $(".nav-Product").addClass("active");
+        GetProList();
+    });
+
+    function GetProList_ByCateId(Cate_ID) {
+        $.get("/Admin/GetProList_ByCateID", { id: Cate_ID }, function (data) {
+            if (data.length == 0) {
+                swal({
+                    title: "Danh mục chưa có sản phẩm !!!",
+                    className: "bg-warning",
+                    timer: 3000,
+                });
+                return;
+            }
+            $('#tbody').empty();
+            var html = '';
+            $.each(data, function (key, item) {
+                html += '<tr>';
+                html += '<td>' + item.Product_ID + '</td>';
+                html += '<td width="50%">' + item.Product_Name + ' </td>';
+                html += '<td>' + item.Price.toLocaleString(); + '</td > ';
+                html += '<td>' + item.Quantity + '</td > ';
+                html += '<td><img src="/image/' + item.Image + '" width="75"/></td>';
+                html += '<td>';
+                html += '<button class="btn btn-success" onclick="DetailsPro(' + item.Product_ID + ')">Edit</button> &nbsp;';
+                html += '<button class="btn btn-danger" onclick="DeletePro(' + item.Product_ID + ')">Delete</button>';
+                 
+                html += '</td>';
+                html += '</tr>';
+            });
+            $('#tbody').html(html);
+        });
+    }
+    $('#Category_ID').change(function () {
+        var Cate_ID = $('#Category_ID').val();
+        if ($('#Category_ID').val() == "") {
+            GetProList();
+        }
+        else {
+            GetProList_ByCateId(Cate_ID);
+        }
+
+    });
+    $('#openModal_Add').click(function () {
+        Clear_Textbox();
+        $('#staticBackdrop').modal('show');
+        $('#addProduct').show();
+        $('#updateProduct').hide();
+        $('#AddImage').show();
+        $('#ShowImg').hide();
+    });
+    function GetProList() {
+        $.ajax({
+            url: '/Admin/GetProList',
+            type: 'GET',
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+
+            success: function (result) {
+                var html = '';
+                var trash = "<i class='fas fa-trash - alt'></i>";
+                var edit = "<i class='far fa-edit'></i>"
+                $.each(result, function (key, item) {
+                    html += '<tr style="color:black">';
+                    html += '<td>' + item.Product_ID + '</td>';
+                    html += '<td width="50%" class="product_name_' + key + '">' + item.Product_Name + ' </td>';
+                    html += '<td>' + item.Price.toLocaleString() + '</td > ';
+                    html += '<td>' + item.Quantity + '</td > ';
+                    html += '<td><img src="/image/' + item.Image + '" width="75"/></td>';
+                    html += '<td>';
+                    html += '<button class="btn btn-success" onclick="DetailsPro(' + item.Product_ID + ')">' + edit + '</button> &nbsp;';
+                    html += '<button class="btn btn-danger" onclick="DeletePro(' + item.Product_ID + ')">' + trash + '</button>';
+                    html += '</td>';
+                    html += '</tr>';
+                })
+                $('#tbody').html(html);
+            },
+            error: function (error) {
+                alert(error.responseText);
+            }
+        })
+    };
+    function LoadImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#targetImage').attr("src", e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+    // Get file name image
+    $('input[type="file"]').change(function (e) {
+        var fileName = e.target.files[0].name;
+        $('#Filename').val(fileName);
+    });
+    // end get file name
+    function DetailsPro(id) {
+        $('#staticBackdrop').modal('show');
+        $('#addProduct').hide();
+        $('#updateProduct').show();
+        $('#ShowImg').show();
+        $('#targetImage').attr("src", "#");
+        $('#Filename').val("");
+        $.ajax({
+            url: "/Admin/DetailsPro/" + id,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $('#ProID').val(result.Product_ID);
+                $('#ProName').val(result.Product_Name);
+                $('#ProPrice').val(result.Price);
+
+                $('#ProDes').val(result.Description);
+                $('#ProEnegy').val(result.Aparatus_and_Energy);
+                $('#ProDay').val(result.Material_Day);
+
+                $('#ProMatKinh').val(result.Material_Matkinh);
+                $('#ProHinhDang').val(result.Dial_HinhDang);
+                $('#ProKichThuoc').val(result.Dial_KichThuoc);
+
+                $('#ProMauSac').val(result.Dial_MauSac);
+                $('#ProWaterproof').val(result.Waterproof);
+                $('#ProTradeMark').val(result.TradeMark);
+
+                $('#ProOrigin').val(result.Origin);
+                $('#Category_ID_Details').val(result.Category_ID);
+                $('#ProImage').val(result.Image);
+                $('#ShowImg').html('<img src="/image/' + result.Image + '" width="250" />');
+
+
+                $('#staticBackdrop').modal('show');
+            },
+            error: function (error) {
+                alert(error.responseText)
+            }
+
+        })
+    };
+    function CreatePro() {
+        var obj = {
+            Product_ID: $('#ProID').val(),
+            Product_Name: $('#ProName').val(),
+            Price: $('#ProPrice').val(),
+
+            Description: $('#ProDes').val(),
+            Aparatus_and_Energy: $('#ProEnegy').val(),
+            Material_Day: $('#ProDay').val(),
+
+            Material_Matkinh: $('#ProMatKinh').val(),
+            Dial_HinhDang: $('#ProHinhDang').val(),
+            Dial_KichThuoc: $('#ProKichThuoc').val(),
+
+            Dial_MauSac: $('#ProMauSac').val(),
+            Waterproof: $('#ProWaterproof').val(),
+            TradeMark: $('#ProTradeMark').val(),
+
+            Origin: $('#ProOrigin').val(),
+            Category_ID: $('#Category_ID').val(),
+            Image: $('#Filename').val(),
+
+            Category_ID: $('#Category_ID_Details').val(),
+        }
+        $.ajax({
+            url: "/Admin/CreatePro",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(obj),
+
+            success: function () {
+                SaveImage_Folder();
+                swal("Good job!", "You clicked the button!", "success").then((value) => {
+                    $("#staticBackdrop").modal("hide");
+                    GetProList();
+                });
+            },
+            error: function (mes) {
+                alert(mes.responseText);
+            }
+        });
+    };
+    function Clear_Textbox() {
+        $('#ProID').val('');
+        $('#ProName').val('');
+        $('#ProPrice').val('');
+
+        $('#ProDes').val('');
+        $('#ProEnegy').val('');
+        $('#ProDay').val('');
+
+        $('#ProMatKinh').val('');
+        $('#ProHinhDang').val('');
+        $('#ProKichThuoc').val('');
+
+        $('#ProMauSac').val('');
+        $('#ProWaterproof').val('');
+        $('#ProTradeMark').val('');
+
+        $('#ProOrigin').val('');
+        $('#Category_ID').val('');
+        $('#ProImage').val('');
+        $('#ShowImg').html('');
+        $('#Filename').val('');
+        $('#Category_ID_Details').val('');
+        $('#targetImage').attr("src", "#");
+    };
+    function SaveImage_Folder() {
+        var file = $('#BrowseImage').get(0).files;
+        var data = new FormData;
+        data.append("ImageFile", file[0]);
+        $.ajax({
+            async: true,
+            type: 'POST',
+            dataType: 'json',
+            url: '/Admin/SaveImage_Folder',
+            data: data,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    };
+    function DeletePro(id) {
+        swal({
+            title: "Are you sure about that?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: '/Admin/DeletePro/' + id,
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: "application/json;charset=utf-8",
+
+                        success: function (result) {
+                            swal("Good job!", "You clicked the button!", "success").then((value) => {
+                                $("#staticBackdrop").modal("hide");
+                                GetProList();
+                            });
+                        },
+                        error: function (result) {
+                            alert(result.responseText);
+                        }
+                    });
+
+                };
+            });
+
+    };
+    function UpdatePro() {
+        var obj = {
+            Product_ID: $('#ProID').val(),
+            Product_Name: $('#ProName').val(),
+            Price: $('#ProPrice').val(),
+
+            Description: $('#ProDes').val(),
+            Aparatus_and_Energy: $('#ProEnegy').val(),
+            Material_Day: $('#ProDay').val(),
+
+            Material_Matkinh: $('#ProMatKinh').val(),
+            Dial_HinhDang: $('#ProHinhDang').val(),
+            Dial_KichThuoc: $('#ProKichThuoc').val(),
+
+            Dial_MauSac: $('#ProMauSac').val(),
+            Waterproof: $('#ProWaterproof').val(),
+            TradeMark: $('#ProTradeMark').val(),
+
+            Origin: $('#ProOrigin').val(),
+            Category_ID: $('#Category_ID').val(),
+            Image: $('#Filename').val(),
+            Category_ID: $('#Category_ID_Details').val(),
+        };
+        $.ajax({
+            url: "/Admin/UpdatePro",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(obj),
+            success: function (result) {
+                if (result.newImage) {
+                    SaveImage_Folder();
+                    swal("Good job!", "You clicked the button!", "success").then((value) => {
+                        $("#staticBackdrop").modal("hide");
+                        GetProList_ByCateId(1);
+                        $("Category_ID").val(1);
+
+                    });
+                }
+                else {
+                    swal("Good job!", "You clicked the button!", "success").then((value) => {
+                        $("#staticBackdrop").modal("hide");
+                        GetProList_ByCateId(1);
+                        $("Category_ID").val(1);
+                    });
+                }
+            },
+            error: function (mes) {
+                alert(mes.responseText);
+            }
+        })
+    };
+    function HighlightText(searchText) {
+        if (searchText) {
+            for (let i = 0; i < ($('#tbody tr')).length; i++) {
+                var content = $(".product_name_" + i).text();
+                var searchExp = new RegExp(searchText, "ig");
+                var matches = content.match(searchExp);
+                if (matches) {
+                    $(".product_name_" + i).html(content.replace(searchExp, function (match) {
+                        return `<span style="color:red;">${match}</span>`;
+                    }));
+                }
+            }
+        }
+    }
+    $("#SearchKey").on('input', function () {
+
+        var searchKey = $("#SearchKey").val();
+        if ($("#SearchKey").val() == "") {
+            GetProList();
+            return;
+        }
+        $.ajax({
+            url: '/Admin/SearchKey',
+            type: 'GET',
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            data: { key: searchKey },
+
+            success: function (result) {
+                var html = '';
+                var trash = "<i class='fas fa-trash - alt'></i>";
+                var edit = "<i class='far fa-edit'></i>"
+                if (result.quantity > 0) {
+                    $.each(result.data, function (key, item) {
+                        html += '<tr style="color:black">';
+                        html += '<td>' + item.Product_ID + '</td>';
+                        html += '<td width="50%" class="product_name_' + key + '">' + item.Product_Name + ' </td>';
+                        html += '<td>' + item.Price.toLocaleString() + '</td > ';
+                        html += '<td>' + item.Quantity + '</td > ';
+                        html += '<td><img src="/image/' + item.Image + '" width="75"/></td>';
+                        html += '<td>';
+                        html += '<button class="btn btn-success" onclick="DetailsPro(' + item.Product_ID + ')">' + edit + '</button> &nbsp;';
+                        html += '<button class="btn btn-danger" onclick="DeletePro(' + item.Product_ID + ')">' + trash + '</button>';
+                        html += '</td>';
+                        html += '</tr>';
+                    })
+                    $('#tbody').html(html);
+                     
+
+                    $("#NoResult").html("");
+                    HighlightText(searchKey);
+                }
+                else {
+                    $("#tbody").html("");
+                    $("#NoResult").html("<p>Sản phẩm không tồn tại !!!</p>")
+                }
+            },
+            error: function (mes) {
+                alert(mes.responseText);
+            }
+        });
+    });
+
+</script>

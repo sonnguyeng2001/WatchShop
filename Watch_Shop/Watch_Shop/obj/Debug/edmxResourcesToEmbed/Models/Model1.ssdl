@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Shop_DongHoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Category_ID" />
+    </Key>
+    <Property Name="Category_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Category_Name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="Contact_ID" />
+    </Key>
+    <Property Name="Contact_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Message" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Discount">
+    <Key>
+      <PropertyRef Name="Discount_ID" />
+    </Key>
+    <Property Name="Discount_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Discount_Name" Type="nchar" MaxLength="50" />
+    <Property Name="Discount_Price" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Discount_Quantity" Type="int" />
+    <Property Name="Expiration_Date" Type="date" />
+  </EntityType>
+  <EntityType Name="Favorite_Product_Customer">
+    <Key>
+      <PropertyRef Name="User_ID" />
+      <PropertyRef Name="Product_ID" />
+    </Key>
+    <Property Name="User_ID" Type="int" Nullable="false" />
+    <Property Name="Product_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FeedBack">
+    <Key>
+      <PropertyRef Name="FeedBack_ID" />
+    </Key>
+    <Property Name="FeedBack_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FeedBack_User" Type="nvarchar" MaxLength="50" />
+    <Property Name="FeedBack_Content" Type="nvarchar(max)" />
+    <Property Name="FeedBack_Time" Type="datetime" />
+    <Property Name="Product_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Import">
+    <Key>
+      <PropertyRef Name="Import_ID" />
+    </Key>
+    <Property Name="Import_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Importer" Type="nvarchar" MaxLength="50" />
+    <Property Name="Import_Date" Type="date" />
+    <Property Name="Import_Total" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Import_Note" Type="nvarchar(max)" />
+    <Property Name="Provider_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Import_Details">
+    <Key>
+      <PropertyRef Name="Import_Details_ID" />
+    </Key>
+    <Property Name="Import_Details_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Import_ID" Type="int" Nullable="false" />
+    <Property Name="Product_ID" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Into_Money" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="OrderID_STT" />
+      <PropertyRef Name="Order_ID" />
+      <PropertyRef Name="Product_ID" />
+    </Key>
+    <Property Name="OrderID_STT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Order_ID" Type="int" Nullable="false" />
+    <Property Name="Product_ID" Type="int" Nullable="false" />
+    <Property Name="Product_Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Product_Quantity" Type="int" />
+    <Property Name="Into_Money" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="Order_ID" />
+    </Key>
+    <Property Name="Order_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Phone" Type="nchar" MaxLength="12" />
+    <Property Name="Address" Type="nvarchar" MaxLength="100" />
+    <Property Name="Create_Date" Type="date" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" />
+    <Property Name="Note" Type="nvarchar" MaxLength="100" />
+    <Property Name="Total" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Discount" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Product_ID" />
+    </Key>
+    <Property Name="Product_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Product_Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+    <Property Name="Image" Type="nvarchar" MaxLength="50" />
+    <Property Name="Aparatus and Energy" Type="nvarchar" MaxLength="50" />
+    <Property Name="Material_Day" Type="nvarchar" MaxLength="50" />
+    <Property Name="Material_Matkinh" Type="nvarchar" MaxLength="50" />
+    <Property Name="Dial_HinhDang" Type="nvarchar" MaxLength="50" />
+    <Property Name="Dial_KichThuoc" Type="nvarchar" MaxLength="50" />
+    <Property Name="Dial_MauSac" Type="nvarchar" MaxLength="50" />
+    <Property Name="Waterproof" Type="nvarchar" MaxLength="50" />
+    <Property Name="TradeMark" Type="nvarchar" MaxLength="50" />
+    <Property Name="Origin" Type="nvarchar" MaxLength="50" />
+    <Property Name="Category_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Providerr">
+    <Key>
+      <PropertyRef Name="Provider_ID" />
+    </Key>
+    <Property Name="Provider_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Provider_Name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="Permission" Type="int" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerEmail" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerPhone" Type="nchar" MaxLength="12" />
+    <Property Name="CustomerAddress" Type="nvarchar" MaxLength="100" />
+    <Property Name="CustomerCity" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerToken" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Favorite_Product_Customer_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Favorite_Product_Customer" Type="Self.Favorite_Product_Customer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Product_ID" />
+      </Principal>
+      <Dependent Role="Favorite_Product_Customer">
+        <PropertyRef Name="Product_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Favorite_Product_Customer_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Favorite_Product_Customer" Type="Self.Favorite_Product_Customer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Favorite_Product_Customer">
+        <PropertyRef Name="User_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FeedBack_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="FeedBack" Type="Self.FeedBack" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Product_ID" />
+      </Principal>
+      <Dependent Role="FeedBack">
+        <PropertyRef Name="Product_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Import_Details_Import">
+    <End Role="Import" Type="Self.Import" Multiplicity="1" />
+    <End Role="Import_Details" Type="Self.Import_Details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Import">
+        <PropertyRef Name="Import_ID" />
+      </Principal>
+      <Dependent Role="Import_Details">
+        <PropertyRef Name="Import_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Import_Details_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Import_Details" Type="Self.Import_Details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Product_ID" />
+      </Principal>
+      <Dependent Role="Import_Details">
+        <PropertyRef Name="Product_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Import_Providerr">
+    <End Role="Providerr" Type="Self.Providerr" Multiplicity="0..1" />
+    <End Role="Import" Type="Self.Import" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Providerr">
+        <PropertyRef Name="Provider_ID" />
+      </Principal>
+      <Dependent Role="Import">
+        <PropertyRef Name="Provider_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_od_pro">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Product_ID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="Product_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Orders">
+    <End Role="Orders" Type="Self.Orders" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="Order_ID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="Order_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_pro_cate">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Category_ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="Category_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Shop_DongHoModelStoreContainer">
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Discount" EntityType="Self.Discount" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Favorite_Product_Customer" EntityType="Self.Favorite_Product_Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FeedBack" EntityType="Self.FeedBack" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Import" EntityType="Self.Import" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Import_Details" EntityType="Self.Import_Details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Providerr" EntityType="Self.Providerr" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Favorite_Product_Customer_Product" Association="Self.FK_Favorite_Product_Customer_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Favorite_Product_Customer" EntitySet="Favorite_Product_Customer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Favorite_Product_Customer_Users" Association="Self.FK_Favorite_Product_Customer_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Favorite_Product_Customer" EntitySet="Favorite_Product_Customer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FeedBack_Product" Association="Self.FK_FeedBack_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="FeedBack" EntitySet="FeedBack" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Import_Details_Import" Association="Self.FK_Import_Details_Import">
+      <End Role="Import" EntitySet="Import" />
+      <End Role="Import_Details" EntitySet="Import_Details" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Import_Details_Product" Association="Self.FK_Import_Details_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Import_Details" EntitySet="Import_Details" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Import_Providerr" Association="Self.FK_Import_Providerr">
+      <End Role="Providerr" EntitySet="Providerr" />
+      <End Role="Import" EntitySet="Import" />
+    </AssociationSet>
+    <AssociationSet Name="fk_od_pro" Association="Self.fk_od_pro">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Orders" Association="Self.FK_OrderDetail_Orders">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_Users" Association="Self.FK_Orders_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="fk_pro_cate" Association="Self.fk_pro_cate">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

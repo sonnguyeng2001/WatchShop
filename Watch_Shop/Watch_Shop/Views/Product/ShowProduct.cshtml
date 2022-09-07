@@ -1,0 +1,462 @@
+﻿@using Watch_Shop.Models;
+@model List<Product>
+@{
+    ViewBag.Title = "Watch Shop";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var male = (List<Watch_Shop.Models.Product>)ViewBag.Watch_Male;
+}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+<div class="content grid wide">
+    <div class="Clock_Content">
+        <h2 class="Clock_Topic">Đồng hồ nam</h2>
+        <div class="Clock_Line"></div>
+        <div class="row" id="rowMale">
+            @{
+                foreach (var item in male)
+                {
+                    <div class="col l-3 m-6 c-6">
+                        <div class="product_item" id="Product_Item_@item.Product_ID">
+                            @if (item.Quantity <= 0)
+                            {
+                                <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" class="OutOfStock">Out of stock</a>
+                            }
+                            <div class="product_img">
+                                <img src="@Url.Content("~/image/"+item.Image)" alt="">
+                            </div>
+                            <p class="product_description">
+                                <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" class="product_description_link">@item.Product_Name</a>
+                            </p>
+                            <p class="product_price">@string.Format("{0:#,##0.}", item.Price) VNĐ</p>
+                            <div class="Add_To_Cart">
+                                @if (item.Quantity > 0)
+                                {
+                                    if (Session["Username"] != null && Session["Username"].ToString() != "admin")
+                                    {
+                                        <div>
+                                            <a onclick="AddProductFavorite(@item.Product_ID,@int.Parse(Session["User_ID"].ToString()))" title="Yêu thích" class="icon_heart_@item.Product_ID">
+                                                <i class="fas fa-heart icon_cart icon_cart_favorite"></i>
+                                            </a>
+                                            <a onclick="return AddProduct(@item.Product_ID)" title="Thêm vào giỏ hàng">
+                                                <i class="fas fa-cart-plus icon_cart icon_cart_add"></i>
+                                            </a>
+                                            <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" title="Nhấn vào để xem chi tiết">
+                                                <i style="font-size:21px;" class="fa-solid fa-circle-info icon_cart icon_cart_info"></i>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div style="justify-content:space-evenly">
+                                            <a onclick="return AddProduct(@item.Product_ID)" title="Thêm vào giỏ hàng">
+                                                <i class="fas fa-cart-plus icon_cart icon_cart_add"></i>
+                                            </a>
+                                            <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" title="Nhấn vào để xem chi tiết">
+                                                <i style="font-size:21px;" class="fa-solid fa-circle-info icon_cart icon_cart_info"></i>
+                                            </a>
+                                        </div>
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
+        </div>
+        <h2 style="text-align:center;font-size:16px;" id="loadMoreMale">Xem thêm sản phẩm...</h2>
+    </div>
+</div>
+
+
+<div class="benefit">
+    <div class="benefit_content grid wide">
+        <div class="row">
+            <div class="col l-4 m-4 c-12 ship">
+                <i class="fas fa-shipping-fast"></i>
+                <div class="benefit_content_wrap">
+                    <h2>Miễn phí giao hàng</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetuer</p>
+                </div>
+            </div>
+            <div class="col l-4 m-4 c-12">
+                <div class="ship">
+                    <i class="fas fa-gifts"></i>
+                    <div class="benefit_content_wrap">
+                        <h2>
+                            Quà tặng đặc biệt
+                        </h2>
+                        <p>Lorem ipsum dolor sit amet, consectetuer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col l-4 m-4 c-12">
+                <div class="ship">
+                    <i class="fas fa-piggy-bank"></i>
+                    <div class="benefit_content_wrap">
+                        <h2>Tiết kiệm hơn khi mua ở Mona</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetuer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content grid wide">
+    <div class="Clock_Content">
+        <h2 class="Clock_Topic">Đồng hồ nữ</h2>
+        <div class="Clock_Line"></div>
+        <div class="row">
+            @{
+                foreach (var item in ViewBag.Watch_Femal)
+                {
+                    <div class="col l-3 m-6 c-6">
+                        <div class="product_item">
+                            @if (item.Quantity <= 0)
+                            {
+                                <a href="@Url.Action(" ShowProduct_Id","Product", new { @id=item.Product_ID})" class="OutOfStock">Out of stock</a>
+                            }
+                            <a href="@Url.Action("ShowProduct_Id","Product", new { @id=item.Product_ID})" class="product_img">
+                                <img src="@Url.Content("~/image/"+item.Image)" alt="">
+                            </a>
+                            <p class="product_description">
+                                <a href="@Url.Action(" ShowProduct_Id","Product", new { @id=item.Product_ID})" class="product_description_link">@item.Product_Name</a>
+                            </p>
+                            <p class="product_price">@string.Format("{0:#,##0.}", item.Price) VNĐ</p>
+                            <div class="Add_To_Cart">
+                                @if (item.Quantity > 0)
+                                {
+                                    if (Session["Username"] != null && Session["Username"].ToString() != "admin")
+                                    {
+                                        <div>
+                                            <a onclick="AddProductFavorite(@item.Product_ID,@int.Parse(Session["User_ID"].ToString()))" title="Yêu thích" class="icon_heart_@item.Product_ID">
+                                                <i class="fas fa-heart icon_cart icon_cart_favorite"></i>
+                                            </a>
+                                            <a onclick="return AddProduct(@item.Product_ID)" title="Thêm vào giỏ hàng">
+                                                <i class="fas fa-cart-plus icon_cart icon_cart_add"></i>
+                                            </a>
+                                            <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" title="Nhấn vào để xem chi tiết">
+                                                <i style="font-size:21px;" class="fa-solid fa-circle-info icon_cart icon_cart_info"></i>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div style="justify-content:space-evenly">
+                                            <a onclick="return AddProduct(@item.Product_ID)" title="Thêm vào giỏ hàng">
+                                                <i class="fas fa-cart-plus icon_cart icon_cart_add"></i>
+                                            </a>
+                                            <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" title="Nhấn vào để xem chi tiết">
+                                                <i style="font-size:21px;" class="fa-solid fa-circle-info icon_cart icon_cart_info"></i>
+                                            </a>
+                                        </div>
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class=" grid">
+    <div class="row" style="margin:0">
+        <div class="col l-6 m-12 c-12" style="padding:0;">
+            <div class="Image_Parent">
+                <div class="Image_Left">
+                    <div class="Image_Content">
+                        <p class="Content_1">Romance</p>
+                        <p class="Content_1">in the air</p>
+                        <p class="Content_2">WEAR YOUR STYLE</p>
+                        <p class="Content_2">WITH VERVE & ATTITUDE</p>
+                        <p class="Content_3">Details</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col l-6 m-12 c-12" style="padding:0">
+            <div class="Image_Parent">
+                <div class="Image_Right">
+                    <div class="Image_Content">
+                        <p class="Content_1">Analog &</p>
+                        <p class="Content_1">Digital</p>
+                        <p class="Content_2">SMART WATCHES</p>
+                        <p class="Content_2">LATEST FASHION STATEMENT</p>
+                        <p class="Content_3">Details</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content grid wide">
+    <div class="Clock_Content">
+        <h2 class="Clock_Topic">Đồng hồ đôi</h2>
+        <div class="Clock_Line"></div>
+        <div class="row" id="couples">
+            @{
+                foreach (var item in ViewBag.Watch_Couple)
+                {
+                    <div class="col l-3 m-6 c-12">
+                        <div class="product_item">
+                            @if (item.Quantity <= 0)
+                            {
+                                <a href="@Url.Action(" ShowProduct_Id","Product", new { @id=item.Product_ID})" class="OutOfStock">Out of stock</a>
+                            }
+                            <a href="@Url.Action("ShowProduct_Id","Product", new { @id=item.Product_ID})" class="product_img">
+                                <img src="@Url.Content("~/image/"+item.Image)" alt="">
+                            </a>
+                            <p class="product_description">
+                                <a href="@Url.Action(" ShowProduct_Id","Product", new { @id=item.Product_ID})" class="product_description_link">@item.Product_Name</a>
+                            </p>
+                            <p class="product_price">@string.Format("{0:#,##0.}", item.Price) VNĐ</p>
+                            <div class="Add_To_Cart">
+                                @if (item.Quantity > 0)
+                                {
+                                    if (Session["Username"] != null && Session["Username"].ToString() != "admin")
+                                    {
+                                        <div>
+                                            <a onclick="AddProductFavorite(@item.Product_ID,@int.Parse(Session["User_ID"].ToString()))" title="Yêu thích" class="icon_heart_@item.Product_ID">
+                                                <i class="fas fa-heart icon_cart icon_cart_favorite"></i>
+                                            </a>
+                                            <a onclick="return AddProduct(@item.Product_ID)" title="Thêm vào giỏ hàng">
+                                                <i class="fas fa-cart-plus icon_cart icon_cart_add"></i>
+                                            </a>
+                                            <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" title="Nhấn vào để xem chi tiết">
+                                                <i style="font-size:21px;" class="fa-solid fa-circle-info icon_cart icon_cart_info"></i>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div style="justify-content:space-evenly">
+                                            <a onclick="return AddProduct(@item.Product_ID)" title="Thêm vào giỏ hàng">
+                                                <i class="fas fa-cart-plus icon_cart icon_cart_add"></i>
+                                            </a>
+                                            <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" title="Nhấn vào để xem chi tiết">
+                                                <i style="font-size:21px;" class="fa-solid fa-circle-info icon_cart icon_cart_info"></i>
+                                            </a>
+                                        </div>
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="Info grid wide">
+    <h2 class="Clock_Topic">Thông tin hữu ích </h2>
+    <div class="Clock_Line"></div>
+    <div class="row slide_info" style="margin-top:30px;">
+        <div class="col l-4 m-6 c-12">
+            <div class="Info-Wrap">
+                <div class="Info_Image" style="text-align: center;">
+                    <img src="~/image/slide1.jpg" alt="">
+                </div>
+                <div class="Info_Content">
+                    <p class="Info_Content_Topic">
+                        In rutrum tempus
+                        purus, ut euismod dui facilisis ac. Fusce
+                        semper dignissim diam a egestas.
+                    </p>
+                    <p class="Info_Content_Text">
+                        Lorem ipsum dolor
+                        sit amet, consectetur adipiscing elit. Sed
+                        dapibus, massa non viverra [...]
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col l-4 m-6 c-12">
+            <div class="Info-Wrap">
+                <div class="Info_Image" style="text-align: center;">
+                    <img src="~/image/slide2.jpg" alt="">
+                </div>
+                <div class="Info_Content">
+                    <p class="Info_Content_Topic">
+                        In rutrum tempus
+                        purus, ut euismod dui facilisis ac. Fusce
+                        semper dignissim diam a egestas.
+                    </p>
+                    <p class="Info_Content_Text">
+                        Lorem ipsum dolor
+                        sit amet, consectetur adipiscing elit. Sed
+                        dapibus, massa non viverra [...]
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col l-4 m-6 c-12">
+            <div class="Info-Wrap">
+                <div class="Info_Image" style="text-align: center;">
+                    <img src="~/image/slide3.jpg" alt="">
+                </div>
+                <div class="Info_Content">
+                    <p class="Info_Content_Topic">
+                        In rutrum tempus
+                        purus, ut euismod dui facilisis ac. Fusce
+                        semper dignissim diam a egestas.
+                    </p>
+                    <p class="Info_Content_Text">
+                        Lorem ipsum dolor
+                        sit amet, consectetur adipiscing elit. Sed
+                        dapibus, massa non viverra [...]
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col l-4 m-6 c-12">
+            <div class="Info-Wrap">
+                <div class="Info_Image" style="text-align: center;">
+                    <img src="~/image/slide1.jpg" alt="">
+                </div>
+                <div class="Info_Content">
+                    <p class="Info_Content_Topic">
+                        In rutrum tempus
+                        purus, ut euismod dui facilisis ac. Fusce
+                        semper dignissim diam a egestas.
+                    </p>
+                    <p class="Info_Content_Text">
+                        Lorem ipsum dolor
+                        sit amet, consectetur adipiscing elit. Sed
+                        dapibus, massa non viverra [...]
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col l-4 m-6 c-12">
+            <div class="Info-Wrap">
+                <div class="Info_Image" style="text-align: center;">
+                    <img src="~/image/slide2.jpg" alt="">
+                </div>
+                <div class="Info_Content">
+                    <p class="Info_Content_Topic">
+                        In rutrum tempus
+                        purus, ut euismod dui facilisis ac. Fusce
+                        semper dignissim diam a egestas.
+                    </p>
+                    <p class="Info_Content_Text">
+                        Lorem ipsum dolor
+                        sit amet, consectetur adipiscing elit. Sed
+                        dapibus, massa non viverra [...]
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col l-4 m-6 c-12">
+            <div class="Info-Wrap">
+                <div class="Info_Image" style="text-align: center;">
+                    <img src="~/image/slide3.jpg" alt="">
+                </div>
+                <div class="Info_Content">
+                    <p class="Info_Content_Topic">
+                        In rutrum tempus
+                        purus, ut euismod dui facilisis ac. Fusce
+                        semper dignissim diam a egestas.
+                    </p>
+                    <p class="Info_Content_Text">
+                        Lorem ipsum dolor
+                        sit amet, consectetur adipiscing elit. Sed
+                        dapibus, massa non viverra [...]
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts{
+    
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+    });
+
+    var Click = 3;
+    $(document.body).on("click", "#loadMoreMale", function () {
+        var user_ID = window.localStorage.getItem("USER_ID");
+        jQuery.ajax({
+            url: '/Product/LoadMoreProduct',
+            type: 'GET',
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: { CateID: 1, numberClick: Click },
+
+            success: function (result) {
+                if (result.status) {
+                    if (result.quantity > 0) {
+                        Click++;
+                        var html = '';
+                        $.each(result.data, function (key, item) {
+                            html += '<div class="col l-3 m-6 c-6">';
+                            html += '<div class="product_item">';
+                            if (item.Quantity <= 0) {
+                                html += '<a href="/Product/ShowProduct_Id/' + item.Product_ID + '" class="OutOfStock">Out of stock</a>'
+                            }
+                            html += '<a href="/Product/ShowProduct_Id/' + item.Product_ID + '" class="product_img" title="Nhấn vào để xem chi tiết">';
+                            html += '<img src="/image/' + item.Image + '" alt="">';
+                            html += '</a>';
+                            html += '<p class="product_description">';
+                            html += '<a href="/Product/ShowProduct_Id/' + item.Product_ID + '" class="product_description_link"> ' + item.Product_Name + '</a>';
+                            html += '</p>';
+                            html += '<p class="product_price">' + item.Price.toLocaleString() + ' VNĐ</p>';
+                            html += '<div class="Add_To_Cart">';
+                            if (item.Quantity > 0) {
+                                if (result.Check == "Customer") {
+                                    html += '<div>';
+                                    html += '<a onclick="AddProductFavorite(' + item.Product_ID + ',' + user_ID + ')" title="Yêu thích" class="icon_heart_' + item.Product_ID + '">';
+                                    html += '<i class="fas fa-heart icon_cart icon_cart_favorite"></i>';
+                                    html += '</a>';
+                                    html += '<a onclick="return AddProduct(' + item.Product_ID + ')" title="Thêm vào giỏ hàng">';
+                                    html += '<i class="fas fa-cart-plus icon_cart icon_cart_add"></i>';
+                                    html += '</a>';
+                                    html += '<a href="/Product/ShowProduct_Id/' + item.Product_ID + '" title="Nhấn vào để xem chi tiết">';
+                                    html += '<i style="font-size:21px;" class="fa-solid fa-circle-info icon_cart icon_cart_info"></i>';
+                                    html += '</a>';
+                                    html += '</div>';
+                                }
+                                else {
+                                    html += '<div style="justify-content:space-evenly">';
+                                    html += '<a onclick="return AddProduct(' + item.Product_ID + ')" title="Thêm vào giỏ hàng">';
+                                    html += ' <i class="fas fa-cart-plus icon_cart icon_cart_add"></i>';
+                                    html += '</a>';
+                                    html += '<a href="/Product/ShowProduct_Id/' + item.Product_ID + '" title="Nhấn vào để xem chi tiết">';
+                                    html += '<i style="font-size:21px;" class="fa-solid fa-circle-info icon_cart icon_cart_info"></i>';
+                                    html += '</a>';
+                                    html += '</div>';
+                                }
+                            }
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                        });
+
+                        $('#rowMale').append(html);
+                    }
+                    if (result.quantity < 4) {
+                        $('#loadMoreMale').css("display", "none");
+                    }
+                }
+                else {
+                    alert("Failed");
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        });
+    });
+</script>

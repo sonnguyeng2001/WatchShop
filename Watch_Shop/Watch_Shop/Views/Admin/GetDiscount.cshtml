@@ -1,0 +1,227 @@
+﻿
+@{
+    ViewBag.Title = "Discount";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+<main>
+    <div class="container-fluid px-4" style="font-family:'Roboto',sans-serif;">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h1 class="h3 mb-0 text-gray-800">Discount</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
+            </a>
+        </div>
+        <button type="button" id="openModal_Add" class="btn btn-primary pull-left font-weight-bold mt-3 mb-3" style="padding: 10px 20px; color: rgb(255,255,255, 90%)" data-toggle="modal" data-target="#staticBackdrop">
+            Add new Discount
+        </button>
+        <div style="padding:20px;background:white;border-radius:10px;">
+            <table class="table table-bordered  table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Quantity</th>
+                        <th>Expiration_Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="ShowDiscountList">
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</main>
+
+
+<div class="modal fade" id="staticBackdrop" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Thông tin chi tiết đơn hàng</h5>
+                <button type="button" class="close" style="outline:none;border:none" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="FormDiscount">
+                    <label>ID</label>
+                    <input type="text" disabled id="ID" value="" class="form-control" /><br />
+
+                    <label>Name</label>
+                    <input type="text" id="Name" value="" class="form-control" /><br />
+
+                    <label>Price</label>
+                    <input type="text" id="Price" value="" class="form-control" /><br />
+
+                    <label>Quantity</label>
+                    <input type="text" id="Quantity" value="" class="form-control" /><br />
+
+                    <label>Expiration_Date</label>
+                    <input type="datetime-local" id="Date" value="" class="form-control" /><br />
+
+                    <input class="btn btn-primary" id="AcceptAdd" value="Accept" onclick="AddDiscount();" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".nav-item.active").removeClass("active");
+        $(".nav-Discount").addClass("active");
+        ShowDiscountList();
+    });
+
+    function JavascriptDate(value) {
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var dt = new Date(parseFloat(results[1]));
+        return (dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear());
+    };
+    function ShowDiscountList() {
+        $.ajax({
+            url: "/Admin/ShowDiscountList",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+
+            success: function (result) {
+                var details = "<i class='fas fa-layer-group'></i>";
+                var trash = "<i class='fas fa-trash - alt'></i>";
+                if (result.status) {
+                    var html = '';
+                    $.each(result.data, function (key, item) {
+                        var resultDate = JavascriptDate(item.Expiration_Date);
+                        html += '<tr style="color:black">';
+                        html += '<td>' + item.Discount_ID + '</td>';
+                        html += '<td>' + item.Discount_Name + '</td>';
+                        html += '<td>' + item.Discount_Price.toLocaleString() +'</td>';
+                        html += '<td>' + item.Discount_Quantity + '</td>';
+                        html += '<td>' + resultDate + '</td>';
+                        html += '<td>';
+                        html += '<button class="btn btn-primary" onclick="DetailsDiscount(' + item.Discount_ID + ')"> ' + details + '</button> &nbsp;';
+                        html += '<button class="btn btn-danger" onclick="DeleteDiscount(' + item.Discount_ID + ')"> ' + trash + '</button> &nbsp;</td>';
+                        html += '</tr>';
+                    })
+                    $('#ShowDiscountList').html(html);
+                } else {
+                    alert("Error");
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        });
+
+    };
+    function DeleteDiscount(id) {
+        swal({
+            title: "Are you sure about that?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: '/Admin/DeleteDiscount/' + id,
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: "application/json;charset=utf-8",
+                        success: function (result) {
+                            swal("Good job!", "You clicked the button!", "success").then((value) => {
+                                $("#staticBackdrop").modal("hide");
+                                ShowDiscountList();
+                            });
+                        },
+                        error: function (result) {
+                            alert(result.responseText);
+                        }
+                    });
+
+                };
+            });
+
+    };
+    function AddDiscount() {
+
+        var obj = {
+            Discount_ID: $('#ID').val(),
+            Discount_Name: $('#Name').val(),
+            Discount_Quantity: $('#Quantity').val(),
+            Discount_Price: $('#Price').val(),
+            Expiration_Date: $('#Date').val(),
+        }
+        if (obj.Discount_Name == "" || obj.Discount_Quantity == "" || obj.Discount_Price == "" || obj.Expiration_Date == "") {
+            swal("Error", "Vui lòng điền đầy đủ thông tin", "error");
+            return;
+
+        }
+        $.ajax({
+            url: '/Admin/AddDiscount',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(obj),
+            success: function (result) {
+                if (result.status) {
+                    swal("Good job!", "You clicked the button!", "success").then((value) => {
+                        $("#staticBackdrop").modal("hide");
+                        ShowDiscountList();
+                    });
+                } else {
+                    swal("Cannot Insert !!!", "error").then((value) => {
+                        $("#staticBackdrop").modal("hide");
+                        ShowDiscountList();
+                    });
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        });
+    };
+    function DetailsDiscount(id) {
+        $.ajax({
+            url: '/Admin/DetailsDiscount/' + id,
+            type: 'GET',
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+
+            success: function (result) {
+                if (result.status) {
+                    $("#staticBackdrop").modal("show");
+                    $("#AcceptAdd").hide();
+                    $('#ID').val(result.data.Discount_ID);
+                    $('#Name').val(result.data.Discount_Name);
+                    $('#Quantity').val(result.data.Discount_Quantity);
+                    $('#Price').val(result.data.Discount_Price);
+                    $('#Date').text(result.data.Expiration_Date);
+                }
+                else {
+                    alert("Error");
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        })
+    }
+    $('#openModal_Add').click(function () {
+        ClearTextBox();
+    })
+    function ClearTextBox() {
+        $('#AcceptAdd').show();
+        $('#ID').val("");
+        $('#Name').val("");
+        $('#Quantity').val("");
+        $('#Price').val("");
+        $('#Date').text("");
+    };
+</script>

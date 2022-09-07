@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "ad77a6b4-c763-49e7-83dd-2e3bf128646a": {
+      "ProjectGuid": "ad77a6b4-c763-49e7-83dd-2e3bf128646a",
+      "DisplayName": "Watch_Shop",
+      "ColorIndex": 0
+    },
+    "02455450-15f4-4a7e-be65-fe0580166c5f": {
+      "ProjectGuid": "02455450-15f4-4a7e-be65-fe0580166c5f",
+      "DisplayName": "Common",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}

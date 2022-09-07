@@ -1,0 +1,206 @@
+﻿
+@{
+    ViewBag.Title = "GioHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    th, td {
+        padding: 6px;
+    }
+</style>
+@using Watch_Shop.Models;
+@model List<GioHang>
+
+@if (ViewBag.Product == "Your Cart is null")
+{
+    <h2 class="Clock_Topic">
+        Your Cart Is Empty<br /><br /><br />
+        <img src="~/image/empty-cart.png" width="300" />
+    </h2>
+
+}
+else
+{
+    int i = 0;
+    <div class="grid wide" id="cart_wrap">
+        <div class="cart_layout">
+            <div class="row">
+                <div class="col l-11 m-12 c-12">
+                    <table width:100% class="ProductCart">
+                        <thead>
+                            <tr style="text-align: left;" class="cart_title_row">
+                                <th class="cart_title" colspan="3">Sản phẩm</th>
+                                <th class="cart_title">Đơn giá</th>
+                                <th class="cart_title">Số lượng</th>
+                                <th class="cart_title">Tổng cộng</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="8" style="border-top: 3px solid rgb(236 236 236); padding:0px;"></td>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="cartpage" id="rowProduct_@item.iProduct_ID">
+                                    <td class="cart_product_remove">
+                                        <button title="Xóa khỏi giỏ hàng" class="cart_product_remove_link" onclick="return DeleleProduct(@item.iProduct_ID)" style="outline:none;border:none;background:white;cursor:pointer">
+                                            <i class="far fa-times-circle" style="font-size: 24px;"></i>
+                                        </button>
+                                    </td>
+                                    <td class="cart_product_image">
+                                        <a href="@Url.Action("ShowProduct_Id","Product", new {@id = @item.iProduct_ID })" title="@item.sProduct_Name">
+                                            <img src="@Url.Content("~/image/" + item.sProduct_Image)"
+                                                 width="75" height="75" alt="">
+                                        </a>
+                                    </td>
+                                    <td class="cart_product_name">
+                                        <a href="@Url.Action("ShowProduct_Id","Product", new {@id = @item.iProduct_ID })" class="cart_product_name_link">@item.sProduct_Name</a>
+                                    </td>
+                                    <td class="cart_product_price" id="price-@i">@string.Format("{0:#,##0.}", item.dProduct_DonGia)</td>
+                                    <td class="cart_product_quantity">
+                                        <button class="downQuantity" id="downQuantity-@i" onclick="checkQuantity(@item.iProduct_ID,'down',@i)">-</button>
+
+                                        <input type="number" disabled min="1" id="quantity-@i" name="txtSoLuong" data-id="@item.iProduct_ID" class="js-txt-quantity" value="@item.iProduct_SoLuong" />
+
+                                        <button class="upQuantity btn_@item.iProduct_ID" id="upQuantity-@i" onclick="checkQuantity(@item.iProduct_ID,'up',@i)">+</button>
+                                    </td>
+                                    <td class="cart_product_total" id="total-@i">
+                                        @string.Format("{0:#,##0.}", item.dProduct_ThanhTien)
+                                    </td>
+
+                                </tr>
+
+
+                                i++;
+
+
+                                <tr>
+                                    <td colspan="8" style="border-top: 2px solid rgb(236 236 236)"></td>
+                                </tr>
+                            }
+
+                            <tr>
+                                <td colspan="4"></td>
+                                <td class="cart_title">Tổng cộng: &nbsp;</td>
+                                <td class="cart_title" id="TotalFinally"> @string.Format("{0:#,##0.}", @ViewBag.TongThanhTien) vnđ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="width:100%; display:flex; justify-content:space-around">
+                        <a href="@Url.Action("ShowProduct","Product")" class="GoHomepage_link">Trang chủ</a>
+                        <button onclick="return ClearCart();" class="UpdateCart_link">Xóa tất cả</button>
+                        <button onclick="return UpdateCart();" class="Payment_link">Thanh toán</button>
+                    </div>
+                </div>
+
+                @* ---------------------------------- Pay ment ---------------------------------- *@
+                <div class="col l-2">
+                    <div class="cart_payment">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".slides.slick-initialized.slick-slider").css("display", "none");
+        $(".header_nav").css("background", "black");
+        $(".mainContent").css("margin-top", "140px");
+        $(".header_nav_img").css("padding", "20px 0px");
+        $(".header_nav_link").addClass("white");
+        $(".header_nav_icon_js").addClass("white");
+    })
+    var number = document.querySelectorAll('.cart_product_price').length;
+    function ChangeTotal(i) {
+        var TongCong = 0;
+        var DonGia = Number($('#price-' + i).text().trim().replaceAll(',', ''));
+        var SoLuong = Number($('#quantity-' + i).val());
+        var ThanhTien = Number(DonGia * SoLuong);
+        $('#total-' + i).text(ThanhTien.toLocaleString().replaceAll('.', ','));
+
+        for (let g = 0; g < number; g++) {
+            TongCong += Number($('#total-' + g).text().trim().replaceAll(',', ''));
+        }
+        $('#TotalFinally').text(TongCong.toLocaleString().replaceAll('.', ',') + " VNĐ");
+    }
+        
+
+
+
+    for (let i = 0; i < number; i++) {
+        $(document).on("click", '#downQuantity-' + i, function () {
+            var value = Number($('#quantity-' + i).val()) - 1;
+            if (value < 1) {
+                value = 1;
+            }
+            $('#quantity-' + i).val(value);
+            ChangeTotal(i);
+        });
+        $(document).on("click", '#upQuantity-' + i, function () {
+            var value = Number($('#quantity-' + i).val()) + 1;
+            $('#quantity-' + i).val(value);
+            ChangeTotal(i);
+        });
+    }
+
+    function checkQuantity(product_ID, status, i) {
+        var quantity = Number($('input[data-id = ' + product_ID + ']').val());
+
+        if (status == 'down') {
+            quantity <= 1 ? quantity = 1 : quantity -= 1;
+        }
+        else if (status == 'up') {
+            quantity += 1;
+        }
+
+        $.ajax({
+            url: '/Cart/CheckQuantity',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                Product_id: product_ID,
+                Quantity: quantity
+            },
+
+            success: function (result) {
+                if (result.status) {
+                    if (result.Invalid) {
+                        $(".btn_" + product_ID).prop("disabled", false);
+                        $(".btn_" + product_ID).css("background-color", "#f9f9f9");
+                        $(".quantity_cart_number").load(window.location.href + " .quantity_cart_number");
+
+
+                    }
+                    else {
+                        $(".btn_" + product_ID).prop("disabled", true);
+                        $(".btn_" + product_ID).css("background-color", "#ccc");
+                        $('input[data-id = ' + product_ID + ']').val(result.limitedQuantity);
+                        ChangeTotal(i);
+                        swal("Notification", "The maximum number of products has been reached", "warning");
+                        $(".quantity_cart_number").load(window.location.href + " .quantity_cart_number");
+
+                    }
+                }
+                else {
+                    alert("failed");
+                     
+                }
+            },
+
+            error: function (result) {
+                alert(result.responseText);
+            }
+
+
+        })
+
+         
+
+
+         
+
+    }
+</script>

@@ -1,0 +1,237 @@
+﻿@model IEnumerable<Watch_Shop.Models.Order>
+
+@{
+    ViewBag.Title = "OrderHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    .order_date {
+        width: 100%;
+        padding: 12px 12px;
+        color: black;
+        background-color: #DCDCDC;
+        margin: 20px 0px 10px 0px;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 6px;
+        outline: none;
+        cursor: pointer;
+        letter-spacing: 1px;
+        transition: all 0.1s ease;
+        display:flex;
+        justify-content:space-between
+    }
+
+        .order_date:hover {
+            background-color: #e2ba48;
+        }
+
+        .order_date span {
+            float: right;
+        }
+
+    tr.detail {
+        display: none;
+        width: 100%;
+    }
+
+        tr.detail div {
+            display: none;
+        }
+
+    .showmore:hover {
+        cursor: pointer;
+    }
+
+    .mytable {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .table_details {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        .table_details td {
+            border: 1px solid #ddd;
+            padding: 20px 8px;
+        }
+
+        .table_details tr th {
+            text-align: left;
+            background-color: #e2ba48;
+            color: white;
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .table_details tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table_details tr:hover {
+            background-color: #ddd;
+            cursor: pointer;
+        }
+
+    .columnStatus {
+        text-align: center;
+    }
+
+    #ShowOrderDetailList tr td {
+        vertical-align: middle !important;
+    }
+
+    .iconStatus_green {
+        font-size: 23px;
+        color: green;
+    }
+
+    .iconStatus_red {
+        font-size: 23px;
+        color: rgb(231 74 59) !important;
+    }
+</style>
+<div class="content grid wide">
+    <div class="Clock_Content">
+        <h2 class="Clock_Topic">Order History</h2>
+        <div class="Clock_Line"></div>
+
+        <table class="mytable">
+            @foreach (var item in Model)
+            {
+                <tr class="showmore">
+                    <td>
+                        <button class="order_date" onclick="return GetOrder(@item.Order_ID)">
+                            <span>
+                                @item.Create_Date.Value.ToString(string.Format("dd/MM/yyyy"))
+                                - Total: @string.Format("{0:#,##0.}", item.Total) VNĐ
+                                - Status: &nbsp;
+                                @if (item.Status == "Received")
+                                {
+                                    <span style="color:green">@item.Status</span>
+                                }
+                                else if (item.Status == "Shipping...")
+                                {
+                                    <span style="color:yellow">@item.Status</span>
+                                }
+                                else
+                                {
+                                    <span style="color:red">@item.Status</span>
+                                }
+                            </span>
+
+                            <span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </span>
+                        </button>
+                    </td>
+                </tr>
+                 
+                <tr class="detail">
+                    <td>
+                        <div>
+                            <table class="table_details" id="orderDetails_@item.Order_ID">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Product_Name</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                </tbody>
+
+                                <tfoot>
+
+                                    <tr style="font-weight:bold">
+                                        <td style="text-align:center" colspan="4">Discount</td>
+                                        <td style="text-align:center" colspan="2"> - @string.Format("{0:#,##0.}", item.Discount) VNĐ</td>
+                                    </tr>
+                                    <tr style="font-weight:bold">
+                                        <td style="text-align:center" colspan="4">RewardPoint</td>
+                                        <td style="text-align:center" colspan="2"> - @string.Format("{0:#,##0.}", item.Point == null ? 0 : item.Point) VNĐ</td>
+                                    </tr>
+                                    <tr style="font-weight:bold">
+                                        <td style="text-align:center" colspan="4">Total</td>
+                                        <td style="text-align:center" colspan="2">@string.Format("{0:#,##0.}", item.Total) VNĐ</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div style="margin: 10px 0px">
+                                <i class="fas fa-check-circle  iconStatus_green"></i> &nbsp;
+                                <span style="font-size:17px; color:green; font-style:italic">: Success</span>
+                            </div>
+                            <div>
+                                <i class="fa-solid fa-circle-xmark  iconStatus_red"></i> &nbsp;
+                                <span style="font-size: 17px; color: rgb(231 74 59); font-style:italic">: Failed</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+    function GetOrder(order_ID) {
+        $.ajax({
+            url: '/Order_History/GetOrderList?order_ID=' + order_ID,
+            type: 'GET',
+            dataType: "json",
+            contentType: "application/json; charset=urf-8",
+            async: true,
+            success: function (result) {
+                if (result.status) {
+                    var html = '';
+                    $.each(result.data, function (key, item) {
+                        html += '<tr>';
+                        html += '<td>' + item.OrderID_STT + '</td>';
+                        html += '<td>' + item.Product_Name + '</td>';
+                        html += '<td>' + item.Product_Quantity + '</td>';
+                        html += '<td>' + item.Price.toLocaleString() + '</td>';
+                        if (item.Status == true) {
+                            html += '<td class="columnStatus" width="10%"> <i class="fas fa-check-circle  iconStatus_green"></i> </td > ';
+                        }
+                        else {
+                            html += '<td class="columnStatus" width="10%"><i class="fa-solid fa-circle-xmark  iconStatus_red "></i></td > ';
+                        }
+                        html += '<td>' + item.Into_Money.toLocaleString() + '</td>';
+                        html += '</tr>';
+                    })
+                    $("#orderDetails_" + order_ID + " tbody").html(html);
+                }
+                else {
+                    swal("Thông báo", "Status = False", "warning");
+                }
+            },
+            error: function (result) {
+                swal("Thông báo", result.responseText, "error");
+            }
+        })
+
+
+    }
+    $('tr.showmore').click(function (e) {
+        e.preventDefault();
+         
+        $(this).find('i').toggleClass("fa-chevron-up");
+        var targetrow = $(this).closest('tr').next('.detail');
+        targetrow.show().find('div').slideToggle('slow', function () {
+            if (!$(this).is(':visible')) {
+                targetrow.hide();
+            }
+        });
+    });
+</script>

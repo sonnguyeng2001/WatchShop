@@ -1,0 +1,118 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>How To create Bootstrap 4 Registration Form Template HTML</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <link href="~/Assets/Contact.css" rel="stylesheet" />
+    <style>
+        .my-h1 {
+            font-size: 42px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .form-control {
+            border: none;
+            background: none;
+            border-bottom: 1px solid #ffc107;
+            border-radius: 0px !important;
+            color: #fff;
+        }
+
+            .form-control:focus,
+            .form-control:hover {
+                border: none;
+                margin: 0 auto;
+                background: none;
+                box-shadow: none;
+                border-bottom: 1px solid #fff;
+                color: #fff;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row ">
+            <div class="col-md-6 d-none d-md-block bg-warning">
+                <h1 class="text-center  my-h1 text-capitalize">Contact With Us</h1>
+            </div>
+            <div class="col-md-6 bg-dark">
+                <form action="#" class="p-4 text-white">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Name</label>
+                        <input type="text" class="form-control" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" class="form-control" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd"><i class="fas fa-lock"></i> Title</label>
+                        <input type="text" class="form-control" id="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd"><i class="fas fa-lock"></i> Message</label>
+                        <textarea style="border: 1px solid #ffc107" rows="4" class="form-control" id="message"></textarea>
+                    </div>
+                    <button onclick="SendFeedback()" type="submit" class="btn btn-warning mb-3 mt-3 float-right" style="padding: 0.375rem 1.75rem;font-weight:500">Send</button>
+                    <a href="@Url.Action("ShowProduct","Product")" class="btn btn-warning mb-3 mt-3 mr-2 float-right" style="padding: 0.375rem 1.75rem;font-weight:500">Homepage</a>
+                    <div id="sentSuccess">
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+    function SendFeedback() {
+        var obj = {
+            Name: $('#name').val(),
+            Email: $('#email').val(),
+            Title: $('#title').val(),
+            Message: $('#message').val(),
+        }
+        if (obj.Name == "" || obj.Email == "" || obj.Message == "") {
+            swal("Thông báo", "Vui lòng điền đầy đủ thông tin !!!", "warning");
+            return;
+        }
+        $.ajax({
+            url: '/Contact/SendFeedback',
+            type: 'POST',
+            data: JSON.stringify(obj),
+            dataType: 'json',
+            contentType: "application/json; charset=urf-8",
+            success: function (result) {
+                if (result.status) {
+                    swal("Thông báo", "Tin nhắn của bạn đã được gửi đi", "success");
+                }
+                else {
+                    swal("Thông báo", "Có lỗi trong quá trình gửi tin nhắn. Vui lòng thử lại", "warning");
+                }
+            },
+            error: function (errormsg) {
+                alert(errormsg.responseText);
+            }
+        });
+    }
+</script>

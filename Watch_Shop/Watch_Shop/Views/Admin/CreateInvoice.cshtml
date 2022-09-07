@@ -1,0 +1,473 @@
+﻿@model Watch_Shop.Models.Product
+@{
+    ViewBag.Title = "CreateInvoice";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@{
+
+    var Categories = (List<Watch_Shop.Models.Category>)ViewBag.listCategory;
+    var Providers = (List<Watch_Shop.Models.Providerr>)ViewBag.listProvider;
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<style>
+    .Import_Wrap {
+        width: 100%;
+        height: max-content;
+        background: white;
+        padding: 0px 50px;
+    }
+
+     
+
+    .Import_Item {
+        margin-top: 20px;
+    }
+
+        .Import_Item p {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        
+
+    #FormProduct {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+        #FormProduct div {
+            width: 45%;
+        }
+</style>
+<main>
+    <div class="container-fluid px-4" style="font-family:'Roboto',sans-serif;">
+        <h3 class="text-capitalize">Invoices</h3>
+        <div class="Import_Wrap">
+            <div class="">
+                <div class="Import_Item">
+                    <p>Importer</p>
+                    <input type="text" class="form-control Importer"/>
+                    <span style="font-size:14px;color:red; font-style:italic" id="Importer_Empty"></span>
+                </div>
+
+                <div class="Import_Item" style="width:100%">
+                    <p>Provider</p>
+                    <select class="form-control Provider_List">
+                        <option value="0">Select Provider</option>
+                        @foreach (var item in Providers)
+                        {
+                            <option value="@item.Provider_ID">@item.Provider_Name</option>
+                        }
+                    </select>
+                    <span style="font-size:14px;color:red; font-style:italic" id="Provider_Empty"></span>
+                </div>
+
+                <div class="Import_Item" style="width:100%">
+                    <p>Note</p>
+                    <textarea class="form-control Note" rows="5"></textarea>
+                </div>
+            </div>
+
+            <button type="button" id="openModal_Add" class="btn font-weight-bold mt-4 mb-4" style="padding: 10px 20px; color: rgb(255,255,255, 90%); background: #32CD32 " data-toggle="modal" data-target="#staticBackdrop">
+                <i class="fa-solid fa-plus" style="font-weight:bold;font-size:25px;"></i>
+            </button>
+
+            <div class="" style="background:white;border-radius:10px;">
+                <table class="table table-bordered table-hover">
+                    <thead class="bg-primary" style="color:white">
+                        <tr>
+                            <th>Product_ID</th>
+                            <th>Product_Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Amout</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_Product" style="color:black; vertical-align:middle">
+                    </tbody>
+                    <tfoot style="font-weight:bold">
+                        <tr style="color: black">
+
+                            <td colspan="4" style="text-align:center;">Total</td>
+                            <td colspan="2" id="total"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                 
+            </div>
+            <div style="background:white;width:100%;min-height:95px">
+                <button type="button" class="btn float-right font-weight-bold mt-4 mb-4 " style="padding: 10px 20px; color: rgb(255,255,255, 90%); background: #A020F0;cursor:pointer">
+                    <i class="fa-solid fa-download" style="margin-right:5px;"></i>
+                    Download PDF
+                </button>
+                <button type="button" id="AddInvoice_Database" class="btn float-right font-weight-bold mt-4 mb-4  mr-4" style="padding: 10px 20px; color: rgb(255,255,255, 90%); background: #FF00CC;cursor:pointer">
+                    <i class="fa-solid fa-circle-check" style="margin-right:5px;"></i>
+                    Create Invoice
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="staticBackdrop" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Thông tin chi tiết khách hàng</h5>
+                    <button type="button" class="close" style="outline:none;border:none" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <label>Category</label>
+                        <br />
+                        <select id="Category_List" class="form-control">
+                            <option value="0">Tất cả</option>
+                            @foreach (var item in Categories)
+                            {
+                                <option value="@item.Category_ID">@item.Category_Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label>Product</label>
+                        <div>
+                            @Html.DropDownListFor(model => Model.Product_ID, ViewBag.listPro as SelectList, "Select Product", new { @class = "form-control Product_List" })
+                        </div>
+                    </div>
+                    <div id="FormProduct" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
+                        <div>
+                            <label>Quantity</label>
+                            <input type="number" min="1" id="Quantity" value="" disabled class="form-control" style="color:black" /><br />
+                        </div>
+
+                        <div>
+                            <label>Price</label>
+                            <input type="text" id="Price" value="" disabled class="form-control" style="color:black" /><br />
+                        </div>
+                    </div>
+                    <img class="img_Product" src="" width="300" />
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" id="AddProduct" class="btn btn-primary">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+    })
+
+    //------------------------------------------- Change List Product when choose Category_ID
+    $(document.body).on('change', "#Category_List", function (e) {
+        var value = $("#Category_List option:selected").val();
+        $.ajax({
+            url: "/Admin/GetProList_ByCate",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: {
+                Cate_ID: Number(value)
+            },
+
+            success: function (result) {
+                if (result.status) {
+                    $(".Product_List").html("");
+                    var html = "";
+                    $(".Product_List").append("<option value = " + 0 + ">Tất cả</option>");
+                    $.each(result.data, function (key, item) {
+                        html += "<option value = " + item.Product_ID + ">" + item.Product_Name + "</option>";
+                    });
+                    $(".Product_List").append(html);
+                    $("#Quantity").prop("disabled", true);
+                    Value_Default();
+                }
+                else {
+                    swal("Thông báo", "Something went wrong!!!", "warning");
+                }
+            },
+            error: function (result) {
+                swal("Thông báo", result.responseText, "error");
+
+            }
+        })
+    });
+
+    //------------------------------------------- Show Details Product when choose Product
+
+    $(document.body).on('change', ".Product_List", function (e) {
+        var value = $(".Product_List option:selected").val();
+
+        $.ajax({
+            url: "/Admin/GetSingleProduct",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: {
+                Product_ID: Number(value)
+            },
+
+            success: function (result) {
+                if (result.status) {
+                    if (result.quantity == 1) {
+                        $("#Price").val(result.data.Price.toLocaleString());
+                        $(".img_Product").attr("src", "/image/" + result.data.Image + "");
+                        $("#Quantity").prop("disabled", false);
+                        $("#Quantity").val("1");
+
+                    }
+                    else {
+                        $(".Product_List").html("");
+                        var html = "";
+                        $(".Product_List").append("<option value = " + 0 + ">Tất cả</option>");
+                        $.each(result.data, function (key, item) {
+                            html += "<option value = " + item.Product_ID + ">" + item.Product_Name + "</option>";
+                        });
+                        $(".Product_List").append(html);
+                        $("#Quantity").prop("disabled", true);
+                        Value_Default();
+                    }
+                }
+                else {
+                    swal("Thông báo", "Error", "warning");
+                }
+            },
+            error: function (result) {
+                swal("Thông báo", result.responseText, "error");
+            }
+        })
+    });
+
+    //------------------------------------------- No comment
+
+    $(document.body).on('change', "#Quantity", function (e) {
+        var price = Number($("#Price").val().toLocaleString().replace(/\D/g, ''));
+        var quantity = $("#Quantity").val();
+        var Product_ID = $(".Product_List option:selected").val();
+        var Product_Name = $(".Product_List option:selected").text();
+
+    })
+
+    //--------------------------------------- Add product to Session["GioHang_Invoice"] then append data to Table
+    $(document.body).on("click", "#AddProduct", function () {
+
+        var trash = "<i class='fas fa-trash - alt'></i>";
+        var price = Number($("#Price").val().toLocaleString().replace(/\D/g, ''));
+        var quantity = $("#Quantity").val();
+        var Product_ID = $(".Product_List option:selected").val();
+        var Product_Name = $(".Product_List option:selected").text();
+
+        if (price == 0) {
+            swal("Thông báo", "Có lỗi trong quá trình xử lý. Vui lòng thử lại", "warning");
+            return;
+        }
+
+        var obj = {
+            Product_ID: Number(Product_ID),
+            Quantity: Number(quantity)
+        }
+        //---------------------------------------------------------------------
+        $.ajax({
+            url: '/Admin/AddProduct_InvoiceCart',
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=urf-8",
+            data: JSON.stringify(obj),
+            async: true,
+
+            success: function (result) {
+                if (result.status) {
+                    var item = $("#table_Product tr").closest("#Product_" + Product_ID);
+                    if (item.length == 0) {
+                        var html = "";
+                        html += '<tr id = "Product_' + Product_ID + '">';
+                        html += '<td>' + Product_ID + '</td>';
+                        html += '<td>' + Product_Name + '</td>';
+                        html += '<td id = "Price_' + Product_ID + '">' + price.toLocaleString() + '</td>';
+                        html += '<td id = "Quantity_' + Product_ID + '">' + quantity + '</td>';
+                        html += '<td id = "Amount_' + Product_ID + '" class = "Amount_Class">' + (price * quantity).toLocaleString() + '</td>';
+                        html += '<td>'
+                        html += '<button class="btn btn-danger" onclick="DeleteProduct(' + Product_ID + ')"> ' + trash + '</button> &nbsp;</td>';
+                        html += '</td>';
+                        html += '</tr> '
+                        $("#table_Product").append(html);
+                    }
+                    else {
+                        var itemQuantity = $("#table_Product tr#Product_" + Product_ID + " td#Quantity_" + Product_ID).text();
+
+                        var QuantityAfter = Number(quantity) + Number(itemQuantity);
+
+                        $("#table_Product tr#Product_" + Product_ID + " td#Quantity_" + Product_ID).text(QuantityAfter);
+
+                        var AmountAfter = Number(QuantityAfter) * Number(price);
+
+                        $("#table_Product tr#Product_" + Product_ID + " td#Amount_" + Product_ID).text(AmountAfter.toLocaleString());
+
+                    }
+                    ChangeAmount();
+                    swal("Thông báo", "Thêm thành công !!!", "success");
+                }
+                else {
+                    swal("Thông báo", "Có lỗi trong quá trình xử lý. Vui lòng thử lại", "warning"); 
+                    return;
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+                return;
+            }
+        });
+
+
+
+        //---------------------------------------------------------------------
+
+    })
+
+    function ChangeAmount() {
+        var empty_Amount = 0;
+        $("#table_Product tr").each(function () {
+            var Amount = $(this).find("td.Amount_Class").text();
+            var AmountParse = Number(Amount.toLocaleString().replace(/\D/g, ''))
+            empty_Amount += AmountParse;
+
+        });
+        $("#total").text(empty_Amount.toLocaleString() + " VNĐ");
+    }
+
+    function DeleteProduct(id) {
+        $.ajax({
+            url: '/Admin/DeleteProduct_InvoiceCart/' + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=urf-8",
+            async: true,
+
+            success: function (result) {
+                if (result.status) {
+                    $("#table_Product tr").closest("#Product_" + id).remove();
+                    ChangeAmount();
+                    swal("Thông báo", "Xóa thành công !!!", "success");
+                }
+                else {
+                    alert("failed");
+                    return;
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+                return;
+            }
+        });
+    }
+
+    function Value_Default() {
+        $("#Price").val("0");
+        $("#Quantity").val("1");
+    }
+
+
+    $(document.body).on("click", "#AddInvoice_Database", function () {
+        //---------------------------------------------------------------------------
+
+        var importer = $(".Importer").val();
+        var note = $(".Note").val();
+        var provider = Number($(".Provider_List option:selected").val());
+        var total = Number($("#total").text().replace(/\D/g, '').replace("VNĐ", ""));
+        var date = new Date($.now());
+
+        //---------------------------------------------------------------------------
+
+        if (importer == "") {
+            $("#Importer_Empty").text("Vui lòng điền vào trường này");
+            return;
+        }
+        else {
+            $("#Importer_Empty").text("");
+           
+        }
+        if (provider == 0) {
+            $("#Provider_Empty").text("Vui lòng chọn nhà cung cấp");
+            return;
+        }
+        else {
+            $("#Provider_Empty").text("");
+        }
+        if (total == 0) {
+            swal("Thông báo", "Vui lòng chọn sản phẩm !!!", "warning");
+            return;
+        }
+
+        //---------------------------------------------------------------------------
+
+        var object = {
+            Importer: importer,
+            Import_Date: date,
+            Import_Total: total,
+            Import_Note: note,
+            Provider_ID: provider,
+        }
+
+        $.ajax({
+            url: '/Admin/AddInvoice_Database/',
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=urf-8",
+            data: JSON.stringify(object),
+            async: true,
+
+            success: function (result) {
+                if (result.status) {
+                    swal("Thông báo", "Thêm hóa đơn thành công !!!", "success");
+                }
+                else {
+                    alert("failed");
+                    return;
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+                return;
+            }
+        })
+
+    })
+
+
+    // ------------------------------------ Clear Session when click f5 ---------------------------
+    document.onkeydown = capturekey;
+    document.onkeypress = capturekey;
+    document.onkeyup = capturekey;
+
+    function capturekey(e) {
+        e = e || window.event;
+        //debugger
+        if (e.code == 'F5') {
+            $.ajax({
+                url: '/Admin/ClearSession',
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json; charset=urf-8",
+
+                success: function (result) {
+                    return;
+                },
+                error: function (result) {
+                    alert(result.responseText);
+                    return;
+                }
+            });
+        }
+    }
+
+    // ---------------------------------------------------------------
+
+</script>

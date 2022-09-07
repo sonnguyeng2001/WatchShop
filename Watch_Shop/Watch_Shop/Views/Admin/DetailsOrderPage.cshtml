@@ -1,0 +1,135 @@
+﻿@model Watch_Shop.Models.Order
+
+@{
+    ViewBag.Title = "DetailsOrderPage";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .table tbody tr td{
+        vertical-align:middle;
+    }
+     
+    .iconStatus_green{
+        color:green;
+        font-size:25px;
+    }
+    .iconStatus_red{
+        color:red;
+    }
+    .myFlex {
+        padding: 0px 34px;
+        width: 50%;
+        float: right;
+    }
+    .myFlex > div{
+        padding:0px 20px;
+        font-size:20px;
+        border-bottom: 2px solid #ccc;
+    }
+</style>
+
+<main class="container-fluid" style="color:black;background:white">
+    <!-- Page Heading -->
+    <div class="container-fluid" style="font-family:'Roboto',sans-serif; padding:0;">
+        <div class="d-sm-flex align-items-center justify-content-between my-4">
+            <h1 class="h3 mb-0 text-gray-800">Thông tin chi tiết đơn hàng</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
+            </a>
+        </div>
+    </div>
+
+    <!-- Infomation Customer -->
+
+    <h4 class="py-2 text-primary border-bottom-primary">Thông tin khách hàng</h4>
+    <div class="row">
+        <div class="col-lg-6 mb-2">
+            <label>ID</label>
+            <input type="text" class="form-control" value="@Model.Order_ID" name="ID" disabled />
+        </div>
+        <div class="col-lg-6 mb-2">
+            <label>Name</label>
+            <input type="text" class="form-control" value="@Model.Name" name="Name" />
+        </div>
+        <div class="col-lg-6 mb-2">
+            <label> Email</label>
+            <input type="text" class="form-control" value="@Model.Email" name="Email" disabled />
+        </div>
+        <div class="col-lg-6 mb-2">
+            <label> Phone</label>
+            <input type="text" class="form-control" value="@Model.Phone" name="Phone" />
+        </div>
+        <div class="col-lg-6 mb-2">
+            <label> Address</label>
+            <input type="text" class="form-control" value="@Model.Address" name="Address" />
+        </div>
+        <div class="col-lg-6 mb-2">
+            <label> City</label>
+            <input type="text" class="form-control" value="@Model.City" name="City" />
+        </div>
+        <div class="col-lg-12">
+            <label>Note</label>
+            <textarea rows="5" class="form-control">@Model.Note</textarea>
+        </div>
+    </div>
+
+
+    <!-- Infomation Order -->
+
+    <h4 class="py-2 text-primary my-4 border-bottom-primary">Thông tin sản phẩm</h4>
+
+    <table class="table table-hover">
+        <thead>
+            <tr style="background-color:black; color:white">
+                 <th>Number</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetails.Where(x => x.Order_ID == Model.Order_ID).ToList())
+            {
+                <tr>
+                    <td>@item.OrderID_STT</td>
+                    <td>
+                        <img src="@item.Product.ImageLink" width="80"  style="border-radius:50%"/>
+                    </td>
+                    <td>@item.Product_Name</td>
+                    <td>@item.Product_Quantity</td>
+                    <td>@string.Format("{0:#,##0.}", item.Into_Money)</td>
+                    <td>
+                        @if (item.Status == true)
+                        {
+                            <i class="fas fa-check-circle  iconStatus_green"></i>
+                        }
+                        else
+                        {
+                            <i class="fa-solid fa-circle-xmark  iconStatus_red "></i>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+         
+    </table>
+     
+    <div class="myFlex">
+        <div class="d-flex justify-content-between py-3  ">
+            <div class="myColumn">Discount</div>
+            <div class="myColumn"> - @string.Format("{0:#,##0.}", Model.Discount) VNĐ</div>
+        </div>
+        <div class="d-flex justify-content-between py-3 ">
+            <div class="myColumn">RewardPoint</div>
+            <div class="myColumn"> - @string.Format("{0:#,##0.}", Model.Point == null ? 0 : Model.Point) VNĐ</div>
+        </div>
+        <div class="d-flex justify-content-between py-3">
+            <div class="myColumn">Total</div>
+            <div class="myColumn">@string.Format("{0:#,##0.}", Model.Total) VNĐ</div>
+        </div>
+
+
+    </div>
+</main>

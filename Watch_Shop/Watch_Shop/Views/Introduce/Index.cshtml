@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Introduce";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+     
+    .Wrap{
+        display:flex;
+    }
+    .Introduce_Content_Icon {
+        display: inline-flex;
+        border: 2px solid rgb(226, 186, 72);
+        padding: 10px;
+        border-radius: 50%;
+        margin: 0 auto;
+        transition: linear 0.2s;
+        cursor:pointer;
+    }
+    .introduce_Content:hover .Introduce_Content_Icon {
+        background-color: rgb(226, 186, 72);
+        color: white;
+    }
+    .Introduce_Content_Title{
+        color:#1c1c1c;
+        font-size:20px;
+        font-weight:700;
+        line-height:32px;
+        margin:10px 0px;
+        text-align:center;
+    }
+    .Introduce_Content_Text{
+        color:#353535;
+        text-align:center;
+        font-size:14px;
+    }
+    .clickMe{
+        background-color:black;
+        border: 1px solid black;
+        outline:none;
+        color:#fff;
+        display:block;
+        margin:10px auto;
+        font-size:12px;
+        font-weight:700;
+        letter-spacing:0.5px;
+        line-height:28px;
+        padding:0px 14px;
+        text-align:center;
+        text-transform:uppercase;
+        border-radius:21px;
+    }
+</style>
+<div class="grid wide">
+    <h2 class="Clock_Topic">Mona Media</h2>
+    <div class="Clock_Line"></div>
+    <div class="Introduce_Image">
+        <img src="~/image/slide3.jpg" width="1200" height="320" style="object-fit:cover" />
+    </div>
+    <div class="row" style="margin-top: 40px;">
+        <div class="col l-4">
+            <div class="introduce_Content">
+                <div class="Wrap">
+                    <div class="Introduce_Content_Icon">
+                        <img src="http://mauweb.monamedia.net/dongho/wp-content/uploads/2018/03/diamond.png" width="26" height="26" style="object-fit:contain" />
+                    </div>
+                </div>
+                <h2 class="Introduce_Content_Title">CONCEPT</h2>
+                <p class="Introduce_Content_Text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat….</p>
+                <button class="clickMe">Click Me</button>
+            </div>
+        </div>
+        <div class="col l-4">
+            <div class="introduce_Content">
+                <div class="Wrap">
+                    <div class="Introduce_Content_Icon">
+                        <img src="http://mauweb.monamedia.net/dongho/wp-content/uploads/2018/03/network.png" width="26" height="26" style="object-fit:contain" />
+                    </div>
+                </div>
+                <h2 class="Introduce_Content_Title">NETWORK</h2>
+                <p class="Introduce_Content_Text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat….</p>
+                <button class="clickMe">Click Me</button>
+            </div>
+        </div>
+        <div class="col l-4">
+            <div class="introduce_Content">
+                <div class="Wrap">
+                    <div class="Introduce_Content_Icon">
+                        <img src="http://mauweb.monamedia.net/dongho/wp-content/uploads/2018/03/eye.png" width="26" height="26" style="object-fit:contain" />
+                    </div>
+                </div>
+                <h2 class="Introduce_Content_Title">SEO</h2>
+                <p class="Introduce_Content_Text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat….</p>
+                <button class="clickMe">Click Me</button>
+            </div>
+        </div>
+    </div>
+      
+</div>
+

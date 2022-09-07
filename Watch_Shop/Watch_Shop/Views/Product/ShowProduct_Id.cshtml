@@ -1,0 +1,987 @@
+﻿@model Watch_Shop.Models.Product
+
+@{
+    ViewBag.Title = Model.Product_Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Related_Product = (List<Watch_Shop.Models.Product>)ViewBag.Related_Product;
+    var Related_Product_Top = (List<Watch_Shop.Models.Product>)ViewBag.Product_Top5;
+}
+<style>
+    .Product_Wrap {
+        padding-top: 50px;
+    }
+
+    .Details_Product {
+        height: 100%;
+        border-left: 3px solid #f5f5f5;
+        padding-left: 30px;
+    }
+
+    .Product_Title {
+        color: rgb(102 102 102 / 70%);
+        display: inline;
+        font-size: 14px;
+        text-transform: uppercase;
+        font-family: "Roboto Slab";
+        text-decoration: none;
+        touch-action: manipulation;
+        transition: linear 0.2s;
+        font-weight: bold;
+    }
+
+        .Product_Title:hover {
+            color: black;
+        }
+
+    .Product_Name {
+        color: rgb(28 28 28);
+        text-rendering: optimizeSpeed;
+        font-size: 27px;
+        margin-top: 14px;
+    }
+
+    .is-divider {
+        height: 3px;
+        display: block;
+        background-color: rgb(0 0 0 / 10%);
+        margin: 1em 0 1em;
+        width: 100%;
+        max-width: 30px
+    }
+
+    .Product_Description {
+        color: #353535;
+        line-height: 25px;
+        margin: 16px 0px;
+    }
+
+    .Details_Product_Right {
+        margin-left: 30px;
+    }
+
+    .Product_IDD {
+        color: #353535;
+        display: inline;
+        font-size: 12px;
+        line-height: 20px;
+        margin: 5px 0px;
+        display: inline-block;
+    }
+
+    .Category_Namee {
+        color: #353535;
+        display: inline;
+        font-size: 12px;
+        line-height: 20px;
+        margin: 5px 0px;
+        display: block;
+    }
+
+    .Product_Line {
+        width: 100%;
+        border-bottom: 3px solid #f5f5f5;
+    }
+
+    .Details_Product_AddToCart {
+        text-decoration: none;
+        font-size: 16px;
+        display: inline-block;
+        padding: 10px 20px;
+        text-align: center;
+        background-color: black;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: linear 0.1s;
+        outline: none;
+        border: none;
+        margin-left: 100px;
+        padding: 11px 20px;
+    }
+
+        .Details_Product_AddToCart:hover {
+            background-color: #e2ba48;
+        }
+    /*------------------------------------------ Tab ----------------------------*/
+    .tab_content {
+        margin-top: 10px;
+    }
+
+    .tabs {
+        display: flex;
+        position: relative;
+    }
+
+        .tabs .line {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 6px;
+            border-radius: 15px;
+            background-color: #c23564;
+            transition: all 0.2s ease;
+        }
+
+    .tab-item {
+        min-width: 80px;
+        padding: 16px 20px 11px 20px;
+        font-size: 16px;
+        text-align: center;
+        color: #c23564;
+        background-color: #fff;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        border-bottom: 5px solid transparent;
+        opacity: 0.6;
+        cursor: pointer;
+        transition: all 0.5s ease;
+    }
+
+    .tab-icon {
+        font-size: 24px;
+        width: 32px;
+        position: relative;
+        top: 2px;
+    }
+
+    .tab-item:hover {
+        opacity: 1;
+        background-color: rgba(194, 53, 100, 0.05);
+        border-color: rgba(194, 53, 100, 0.1);
+    }
+
+    .tab-item.active {
+        opacity: 1;
+        background-color: rgba(194, 53, 100, 0.05);
+    }
+
+    .tab-content {
+        padding: 24px 12px;
+    }
+
+    .tab-pane {
+        color: #333;
+        display: none;
+    }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .tab-pane h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+    .Product_Key {
+        font-size: 14px;
+    }
+
+    .Product_Value {
+        font-size: 14px;
+    }
+    /*------------------------------------------ Related Product ----------------------------*/
+    .slick-prev {
+        margin-left: 50px;
+    }
+
+    .slick-next {
+        margin-right: 38px;
+    }
+
+    .product_img img {
+        width: 203px;
+        height: 203px;
+    }
+
+    .product_img {
+        width: 203px;
+        height: 203px;
+        overflow: hidden;
+    }
+    /*------------------------------------------ Detail_Service ----------------------------*/
+    .Detail_Service {
+        padding-right: 30px;
+    }
+
+    .Service_List {
+        padding: 0px 10px;
+        border: 3px solid #f5f5f5;
+    }
+
+    .Service_Item {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        border-bottom: 2px solid #f5f5f5;
+        margin: 14px 0px;
+    }
+
+
+        .Service_Item:last-child {
+            border-bottom: none;
+        }
+
+    .Service_Image {
+    }
+
+    .Service_Content {
+        margin-left: 10px;
+    }
+
+    .Service_Name {
+        color: #62542b;
+        display: inline;
+        font-size: 13px;
+        line-height: 18px;
+        text-align: left;
+    }
+
+        .Service_Name a {
+            text-decoration: none;
+            color: #111111 !important;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+            .Service_Name a:hover {
+                color: #e2ba48 !important;
+            }
+
+    .Service_Price {
+        color: #111111;
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 18px;
+        text-align: left;
+        margin: 10px 0px;
+    }
+
+    /*------------------------------------------ Button Quantity ----------------------------*/
+    .Wrap_Quantity {
+        position: relative;
+    }
+
+        .Wrap_Quantity input::-webkit-outer-spin-button,
+        .Wrap_Quantity input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+    .Quantity {
+        text-align: center;
+        width: 10%;
+        padding: 12px 0px;
+        position: absolute;
+        left: 4%;
+        outline: none;
+        border: 1px solid rgb(221 221 221);
+        box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%);
+    }
+
+    .Increase_Quantity {
+        position: absolute;
+        padding: 12px 5px;
+        left: 13%;
+        border: 1px solid rgb(221 221 221);
+        color: rgb(102 102 102);
+        background-color: rgb(249 249 249);
+    }
+
+    .Reduction_Quantity {
+        position: absolute;
+        padding: 12px 7px;
+        left: 1%;
+        border: 1px solid rgb(221 221 221);
+        color: rgb(102 102 102);
+        background-color: rgb(249 249 249);
+    }
+
+        .Increase_Quantity:hover,
+        .Reduction_Quantity:hover {
+            color: rgb(0 0 0);
+            background-color: rgb(241 241 241);
+            cursor: pointer;
+        }
+
+    /*Feedback*/
+    .FeedBack_Wrapper {
+        max-height: 600px;
+        overflow-y: auto;
+        margin-bottom: 24px;
+    }
+
+    .FeedBack_Body {
+        display: flex;
+    }
+
+    .FeedBack_Icon {
+        font-size: 45px;
+    }
+
+    .FeedBack_Name {
+        font-weight: bold;
+    }
+
+    .FeedBack_Time {
+        font-size: 12px;
+        color: rgb(0 0 0 / 40%);
+        margin-left: 10px;
+    }
+
+    .FeedBack_Text {
+        line-height: 24px;
+        margin-top: 6px;
+    }
+
+    .FeedBack_item {
+        display: flex;
+        justify-content: space-between;
+        transition: all 0.1s ease-in-out;
+        padding: 20px 0px;
+        cursor: pointer;
+    }
+
+        .FeedBack_item:hover .removeFeedback {
+            display: block;
+        }
+
+    .removeFeedback {
+        position: relative;
+        right: 20px;
+        display: none;
+        cursor: pointer;
+    }
+
+    #WriteFeedBack {
+        border: 2px solid black;
+        padding: 20px;
+    }
+
+    .label {
+        color: #222222;
+        font-family: Roboto;
+        font-size: 14.4px;
+        font-weight: 700;
+        line-height: 23.04px;
+        margin: 0px 0px 5.76px;
+        font-family: "Roboto Slab", sans-serif;
+    }
+
+    .sender_input {
+        border: 1px solid #dddddd;
+        padding: 8px 13px;
+        border-radius: 4px;
+    }
+
+    .SendFeedBack {
+        color: rgb(0 0 0);
+        background-color: rgb(255 255 255);
+        border-color: rgb(0 0 0);
+        float: right;
+        padding: 6px 34px;
+        font-weight: 700;
+        font-size: 17px;
+        border-radius: 3px;
+        outline: none;
+        transition: all linear 0.2s;
+        cursor: pointer;
+    }
+
+        .SendFeedBack:hover {
+            background: black;
+            color: white;
+        }
+
+    .Product_Same_Category {
+        color: #1c1c1c;
+        font-size: 20px;
+        letter-spacing: 1px;
+        line-height: 24px;
+        margin: 10px 0px 0px 0px;
+        text-transform: uppercase;
+        text-align: center
+    }
+
+    #couples {
+        margin-left: 30px;
+    }
+
+    /* Modal Image */
+    .modal_Image {
+        position: fixed;
+        z-index: 999999;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.4);
+        transition: linear 0.2s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    .modal_Image_container {
+        width: 650px;
+        height: 650px;
+    }
+
+        .modal_Image_container img {
+            width: 100%;
+            object-fit: cover;
+        }
+
+    .modal_Image_close {
+        position: absolute;
+        right: 30px;
+        top: 20px;
+        color: white;
+        font-size: 30px;
+    }
+
+        .modal_Image_close:hover i {
+            color: red;
+            cursor: pointer;
+            transition: ease 0.2s;
+        }
+</style>
+<div class="grid wide">
+    <div class="Product_Wrap row">
+        <div class="col l-3 m-0 c-0">
+            <div class="Detail_Service">
+                <h3 style="color:#1c1c1c; font-size:16px;line-height:24px;text-transform:uppercase;">SẢN PHẨM BÁN CHẠY</h3>
+                <div class="is-divider"></div>
+                <ul class="Service_List">
+                    @{
+                        foreach (var item in Related_Product_Top)
+                        {
+
+                            <li class="Service_Item">
+                                <div class="Service_Image">
+                                    <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})">
+                                        <img class="Service_Image_img" src="@Url.Content("~/image/"+item.Image)" width="60" height="60" />
+                                    </a>
+                                </div>
+                                <div class="Service_Content">
+                                    <p class="Service_Name">
+                                        <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" title="@item.Product_Name">
+                                            @item.Product_Name
+                                        </a>
+                                    </p>
+                                    <br />
+                                    <p class="Service_Price">
+                                        @string.Format("{0:#,##0.}", item.Price) VNĐ
+                                    </p>
+                                    <p class="Service_Price" style="color: rgb(17 17 17 / 64%)">
+                                        Đã bán: @item.Sales
+                                    </p>
+                                </div>
+                            </li>
+                        }
+                    }
+                </ul>
+                @* --------------------------------------------- New Post *@
+
+                <h3 style="color:#1c1c1c; font-size:16px;line-height:24px;text-transform:uppercase; margin-top: 30px;">Bài viết mới nhất</h3>
+                <div class="is-divider"></div>
+                <ul class="Service_List">
+                    @{
+                        foreach (var item in Related_Product)
+                        {
+                            <li class="Service_Item">
+                                <div class="Service_Image">
+                                    <img class="Service_Image_img" src="~/image/slide2.jpg" width="60" height="60" style="object-fit:cover" />
+                                </div>
+                                <div class="Service_Content">
+                                    <p class="Service_Name">
+                                        Duis luctus elit nisi, et cursus magna pellentesque non.
+                                    </p>
+                                    <br />
+                                </div>
+                            </li>
+                        }
+                    }
+                </ul>
+
+            </div>
+
+
+        </div>
+        <div class="col l-9 m-12 c-12">
+            <div class="Details_Product grid wide">
+                @*---------------- Chi tiết 1 sản phẩm *@
+                <div class="row">
+                    <div class="col l-5 m-12">
+                        <div class="Details_Product_Left" style="overflow:hidden">
+                            <img src="@Url.Content("~/image/"+Model.Image)" style="cursor:pointer" title="Nhấn vào đây để xem chi tiết " id="image_Name" alt="" width="400" height="400">
+                        </div>
+                    </div>
+                    <div class="col l-7 m-12">
+                        <div class="Details_Product_Right">
+                            <a class="Product_Title" href="@Url.Action("ShowProduct","Product")">Trang chủ &nbsp;/ &nbsp;</a>
+                            <a class="Product_Title" style="color:black" href="#">@Model.Category.Category_Name</a>
+                            <h2 class="Product_Name">@Model.Product_Name</h2>
+                            <div class="is-divider"></div>
+                            <h2 class="Product_Name"> @string.Format("{0:#,##0.}", Model.Price) VNĐ</h2>
+                            <p class="Product_Description">
+                                @Model.Description
+                            </p>
+                            @if (Model.Quantity > 0)
+                            {
+                                <div class="Wrap_Quantity">
+                                    <input type="number" min="1" value="1" name="Quantity" class="Quantity" id="Quantity" disabled style="background-color:white !important" />
+                                    <input type="button" value="-" class="Reduction_Quantity" onclick="Reduction();" />
+                                    <input type="button" value="+" class="Increase_Quantity" onclick="Increase();" />
+                                    <input type="submit" class="Details_Product_AddToCart" value="Thêm vào giỏ hàng" />
+                                    
+                                </div>
+                                <br />
+                            }
+                            else
+                            {
+                                <div style="color:red;font-size:20px;font-style:italic">Sản phẩm đã hết hàng</div>
+                            }
+                            <div id="limited" style="color:red;font-style:italic;font-size:14px;"> Số lượng sản phẩm vượt quá giới hạn !!!</div>
+                            <br /><br />
+
+
+                            <div class="Product_Line"></div>
+                            <span class="Product_IDD">Mã sản phẩm &nbsp;</span>
+                            <input type="text" name="Product_ID" id="Product_ID" class="Product_IDD" readonly value="@Model.Product_ID" style="border:none; outline:none" />
+                            <div class="Product_Line"></div>
+                            <span class="Product_IDD">Số lượng  &nbsp;</span>
+                            <input type="text" name="Quantity_Kho" id="Quantity_Kho" readonly class="Product_IDD" value="@Model.Quantity" style="border:none; outline:none" />
+
+                            <div class="Product_Line"></div>
+                            <p class="Category_Namee">Danh mục: @Model.Category.Category_Name</p>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="Product_Line" style="margin:30px 0px"></div>
+
+                @*---------------- Thông số đi kèm của sản phẩm *@
+                <div class="tab_content">
+                    <div class="tabs">
+                        <div class="tab-item active">
+                            <i class="tab-icon fas fa-code"></i>
+                            Thông tin chi tiết
+                        </div>
+                        <div class="tab-item">
+                            <i class="tab-icon fas fa-cog"></i>
+                            Đánh giá
+                            <span class="quantity_feedback">(<span class="quantity_feedback_number"></span>)</span>
+                        </div>
+                        <div class="tab-item">
+                            <i class="tab-icon fas fa-plus-circle"></i>
+                            Chính sách bảo hành
+                        </div>
+                        <div class="line"></div>
+                    </div>
+
+                    <!-- Tab content -->
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <div class="table">
+                                <div class="row">
+                                    <div class="col l-6">
+                                        <h4 class="Product_Key">BỘ MÁY & NĂNG LƯỢNG</h4>
+                                    </div>
+                                    <div class="col l-6">
+                                        <p class="Product_Value"> @Model.Aparatus_and_Energy</p>
+                                    </div>
+                                    <div class="Product_Line" style="margin:14px 0px"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col l-6">
+                                        <h4 class="Product_Key">CHẤT LIỆU DÂY</h4>
+                                    </div>
+                                    <div class="col l-6">
+                                        <p class="Product_Value"> @Model.Material_Day</p>
+                                    </div>
+                                    <div class="Product_Line" style="margin:14px 0px"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col l-6">
+                                        <h4 class="Product_Key">CHẤT LIỆU MẶT KÍNH</h4>
+                                    </div>
+                                    <div class="col l-6">
+                                        <p class="Product_Value"> @Model.Material_Matkinh</p>
+                                    </div>
+                                    <div class="Product_Line" style="margin:14px 0px"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col l-6">
+                                        <h4 class="Product_Key">HÌNH DẠNG MẶT SỐ</h4>
+                                    </div>
+                                    <div class="col l-6">
+                                        <p class="Product_Value"> @Model.Dial_HinhDang</p>
+                                    </div>
+                                    <div class="Product_Line" style="margin:14px 0px"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col l-6">
+                                        <h4 class="Product_Key">KÍCH THƯỚC MẶT SỐ</h4>
+                                    </div>
+                                    <div class="col l-6">
+                                        <p class="Product_Value"> @Model.Dial_KichThuoc</p>
+                                    </div>
+                                    <div class="Product_Line" style="margin:14px 0px"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col l-6">
+                                        <h4 class="Product_Key">MÀU MẶT SỐ</h4>
+                                    </div>
+                                    <div class="col l-6">
+                                        <p class="Product_Value"> @Model.Dial_MauSac</p>
+                                    </div>
+                                    <div class="Product_Line" style="margin:14px 0px"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col l-6">
+                                        <h4 class="Product_Key">MỨC CHỐNG NƯỚC</h4>
+                                    </div>
+                                    <div class="col l-6">
+                                        <p class="Product_Value"> @Model.Waterproof</p>
+                                    </div>
+                                    <div class="Product_Line" style="margin:14px 0px"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col l-6">
+                                        <h4 class="Product_Key">THƯƠNG HIỆU</h4>
+                                    </div>
+                                    <div class="col l-6">
+                                        <p class="Product_Value"> @Model.TradeMark</p>
+                                    </div>
+                                    <div class="Product_Line" style="margin:14px 0px"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col l-6">
+                                        <h4 class="Product_Key">XUẤT XỨ</h4>
+                                    </div>
+                                    <div class="col l-6">
+                                        <p class="Product_Value"> @Model.Origin</p>
+                                    </div>
+                                    <div class="Product_Line" style="margin:14px 0px"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane  ">
+                            <div id="NoFeedBack" style="display:none; margin-bottom:30px;">
+                                <h2>Sản phẩm chưa có đánh giá !!!</h2>
+                            </div>
+                            <div id="FeedBack" class="FeedBack_Wrapper">
+                            </div>
+                            <div id="WriteFeedBack">
+                                <h2 style="text-align:center">Đánh giá sản phẩm</h2>
+                                <form>
+                                    <div class="row no-gutters">
+                                        <div class="col l-6">
+                                            <p class="label">Tên</p>
+                                            <input type="text" id="senderName" class="sender_input" required size="42" />
+                                        </div>
+                                        <div class="col l-6">
+                                            <p class="label">Email</p>
+                                            <input type="email" id="senderEmail" class="sender_input" required size="42" />
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col l-12">
+                                            <p class="label">Nhận xét</p>
+                                            <textarea rows="7" id="senderContent" style="width:100%" required class="sender_input"></textarea>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col l-12">
+                                            <button type="button" onclick="AddFeedBack()" class="SendFeedBack">Gửi đi </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="Product_Line"></div>
+                        </div>
+
+                        <div class="tab-pane">
+                            <p>
+                                Chính sách bảo hành của riêng mỗi hãng: <br /> <br />
+
+                                CASIO: Bảo hành chính hãng máy 1 năm, pin 1,5 năm <br /> <br />
+
+                                CITIZEN: Bảo hành chính hãng toàn cầu máy 1 năm, pin 1 năm <br /><br />
+
+                                SEIKO: Bảo hành chính hãng toàn cầu máy 1 năm, pin 1 năm <br /><br />
+
+                                ORIENT: Bảo hành chính hãng toàn cầu máy 1 năm, pin 1 năm <br /><br />
+
+                                OP: Bảo hành chính hãng máy 2 năm, pin 1 năm <br /><br />
+
+                                RHYTHM: Bảo hành chính hãng máy 1 năm, pin 1 năm <br /><br />
+
+                                OGIVAL: Bảo hành chính hãng máy 2 năm, pin 1 năm <br /><br />
+
+                                ELLE: Bảo hành chính hãng máy 2 năm, pin 2 năm <br /><br />
+
+                                TISSOT: Bảo hành chính hãng máy 2 năm, pin 1 năm <br /><br />
+                            </p>
+                            <div class="Product_Line" style="margin:14px 0px"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                @*---------------- Sản phẩm tương tự *@
+                <h3 class="Product_Same_Category">SẢN PHẨM TƯƠNG TỰ</h3>
+                <div class="row Related_Product" id="couples">
+                    @{
+                        foreach (var item in Related_Product)
+                        {
+                            <div class="col l-3 m-6 m-12">
+                                <div class="product_item" style="margin-top:0px;">
+                                    @if (item.Quantity <= 0)
+                                    {
+                                        <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" class="OutOfStock">Sản phẩm đã hết hàng</a>
+                                    }
+                                    <div style="overflow:hidden">
+                                        <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" class="product_img">
+                                            <img src="@Url.Content("~/image/"+item.Image)" alt="" width="203" height="203">
+                                        </a>
+                                    </div>
+                                    <p class="product_description">
+                                        <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" class="product_description_link" style="margin-top:0px;" title="@item.Product_Name">@item.Product_Name</a>
+                                    </p>
+                                    <p class="product_price">@string.Format("{0:#,##0.}", item.Price) vnđ</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal_Image">
+    <div class="modal_Image_close">
+        <i class="fas fa-times"></i>
+    </div>
+    <div class="modal_Image_container">
+        <img src="~/image/Image_Couple_1.jpg" width="400" alt="Alternate Text" />
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        GetFeedBackList();
+        $('#limited').css("opacity", "0");
+    });
+    var quantity = Number($("#Quantity").val());
+    var quantity_kho = Number($("#Quantity_Kho").val());
+    // Add multiple quantity
+    function Reduction() {
+        quantity -= 1;
+        quantity <= 1 ? quantity = 1 : quantity = quantity;
+        if (quantity <= quantity_kho) {
+            $(".Details_Product_AddToCart").prop("disabled", false);
+            $(".Details_Product_AddToCart").css("background-color", "black");
+            $('.Details_Product_AddToCart').on('hover');
+            $('#limited').css("opacity" , "0");
+        }
+        $("#Quantity").val(quantity);
+    }
+    function Increase() {
+        quantity += 1;
+        if (quantity > quantity_kho) {
+            $(".Details_Product_AddToCart").prop("disabled", true);
+            $(".Details_Product_AddToCart").css("background-color", "#dddddd");
+            $('.Details_Product_AddToCart').off('hover');
+            $('#limited').css("opacity", "1");
+        }
+        $("#Quantity").val(quantity);
+
+    }
+
+    $(document).on("click", ".Details_Product_AddToCart", function () {
+        var info = {
+            Product_id: $("#Product_ID").val(),
+            Quantity: quantity
+        }
+        $.ajax({
+            url: '/Cart/Add_Product_Quantity',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(info),
+            success: function (result) {
+                if (result.status) {
+                    swal("Good job!", "Thêm thành công !!!", "success").then(function () {
+                        $(".quantity_cart_number").load(location.href + " .quantity_cart_number");
+                    });
+                } else {
+                    alert(result.responseText);
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        })
+    })
+    // End Add multiple quantity
+    var myArray = [
+            'fas fa-user-injured',
+            'fas fa-user-circle',
+            'fas fa-female',
+            'fas fa-user-secret',
+            'fas fa-user-astronaut',
+            'fas fa-poo',
+            'fas fa-skiing',
+        ];
+    function GetFeedBackList() {
+        var max = Number(myArray.length);
+        var session = '@Session["Username"]';
+        $.ajax({
+            url: '/FeedBack/FeedBack_Product',
+            type: 'GET',
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            data: { Product_id: $("#Product_ID").val() },
+
+            success: function (result) {
+                if (result.status) {
+                    var html = '';
+                    $.each(result.data, function (key, item) {
+                        var date = new Date(parseInt(item.FeedBack_Time.substr(6)));
+                        var day = date.getDay() < 10 ? "0" + date.getDay() : date.get();
+                        var month = date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth();
+                        var year = date.getFullYear();
+                        var hours = date.getHours();
+                        var minutes = date.getMinutes();
+                        var second = date.getSeconds();
+
+                        // Đang fix
+                        var resultDate = year + "" + month + "" + day;
+
+                        console.log(resultDate + "/" + hours + "/" + minutes + "/" + second);
+                        var finalDate = moment(resultDate, "YYYYMMDD").fromNow();
+                        html += '<div class = "FeedBack_item" id = "item_' + item.FeedBack_ID + '">';
+                        html += '<div class="FeedBack_Body">';
+                        html += '<div style="min-width: 80px;text-align: center">';
+                        html += '<i class="' + myArray[Math.floor(Math.random() * max)].toString() + ' FeedBack_Icon"></i>';
+                        html += '</div>';
+                        html += '<div class="FeedBack_Content">';
+                        html += '<span class="FeedBack_Name">' + item.FeedBack_User + '</span>';
+                        html += '<span class="FeedBack_Time">' + finalDate + '</span>';
+                        html += '<p class="FeedBack_Text">' + item.FeedBack_Content + '</p>';
+                        html += '</div>';
+                        html += '</div>';
+                        if (session.toString() == "admin") {
+                            html += '<div class = "removeFeedback" onclick="removeFeedback(' + item.FeedBack_ID + ')">';
+                            html += '<i class="far fa-times-circle" style = "font-size: 24px;" ></i >';
+                            html += '</div>';
+                        }
+                        html += '</div>';
+
+                    })
+                    $('#FeedBack').html(html);
+                    $(".quantity_feedback_number").html(result.quantity);
+
+                    var itemQuantity = $(".FeedBack_item");
+                    if (itemQuantity.length > 0) {
+                        $("#FeedBack").css("display", "block");
+                        $("#NoFeedBack").css("display", "none");
+                    }
+                }
+                else {
+                    $('#FeedBack').hide();
+                    $('#NoFeedBack').show();
+                }
+
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        })
+    }
+
+    
+    function AddFeedBack() {
+        var d = new Date();
+        var obj = {
+            FeedBack_User: $('#senderEmail').val(),
+            FeedBack_Content: $('#senderContent').val(),
+            FeedBack_Time: d,
+            Product_ID: $("#Product_ID").val(),
+        };
+        $.ajax({
+            url: '/FeedBack/AddFeedBack',
+            type: 'POST',
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(obj),
+            success: function (result) {
+                if (result.status) {
+                    GetFeedBackList();
+                } else {
+                    alert("Vui lòng điền đầy đủ thông tin trước khi gửi !!!!");
+                    return;
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        });
+
+    };
+    function removeFeedback(id) {
+        $.ajax({
+            url: '/FeedBack/deleteFeedback/' + id,
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+                if (result.status) {
+                    GetFeedBackList();
+                }
+                else {
+                    swal("Error", "Some thing went wrong !!!", "error");
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        });
+
+    }
+    // Click and zoom Image
+
+    $(".modal_Image_close").click(function () {
+        $(".modal_Image").css({
+            "opacity": "0",
+            "visibility": "hidden"
+        });
+    })
+    $("#image_Name").click(function () {
+        var src = $(this).attr("src");
+        $(".modal_Image_container img").attr("src", src);
+        $(".modal_Image").css({
+            "opacity": "1",
+            "visibility": "visible"
+        })
+        console.log($(this));
+    })
+    $(".modal_Image_container").click(function (e) {
+        e.stopPropagation();
+    })
+</script>
+
+
+
+

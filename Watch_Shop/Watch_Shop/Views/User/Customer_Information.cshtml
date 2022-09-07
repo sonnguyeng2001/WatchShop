@@ -1,0 +1,103 @@
+﻿@model Watch_Shop.Models.User
+
+@{
+    ViewBag.Title = "Customer_Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .area_Password{
+        position:relative;
+    }
+    .area_Password i {
+        position:absolute;
+        right:12px;
+        top:10px;
+        z-index:100;
+        cursor:pointer;
+    }
+    .area_Password i:active{
+            color:red;
+        }
+</style>
+<div class="content grid wide">
+    <div class="Clock_Content">
+        <h2 class="Clock_Topic">Information</h2>
+        <div class="modal-body" style="height:auto">
+            @using (Html.BeginForm("Update_Info_Customer", "User", FormMethod.Post, new {@id = "formUpdate"}))
+            {
+                @Html.AntiForgeryToken()
+
+                <input type="text" class="modal-input" name="UserID" value="@Model.UserID" readonly/>
+
+                @Html.ValidationSummary(true)
+                <label for="quantity" class="modal-label"> Account *</label>
+                <input type="text" class="modal-input" name="Username" value=" @Model.Username" required>
+
+                @Html.ValidationSummary(true)
+                <label for="Email" class="modal-label"> Password * </label>
+                <div class="area_Password">
+                    <i class="fa-solid fa-eye-slash" id="hidePassword"></i>
+                    <input type="password" class="modal-input" name="Password" value=" @Model.Password" required>
+                </div>
+
+                @Html.ValidationSummary(true)
+                <label for="Email" class="modal-label"> Name * </label>
+                <input  type="text" class="modal-input" name="CustomerName" value=" @Model.CustomerName" required>
+
+                @Html.ValidationSummary(true)
+                <label for="Email" class="modal-label"> Email * </label>
+                <input  type="text" class="modal-input" name="CustomerEmail" value=" @Model.CustomerEmail" required>
+
+                @Html.ValidationSummary(true)
+                <label for="Email" class="modal-label"> Phone * </label>
+                <input  type="text" class="modal-input" name="CustomerPhone" value=" @Model.CustomerPhone" required>
+
+                @Html.ValidationSummary(true)
+                <label for="Email" class="modal-label"> Address Delivery * </label>
+                <input  type="text" class="modal-input" name="CustomerAddress" value=" @Model.CustomerAddress" required>
+
+                @Html.ValidationSummary(true)
+                <label for="Email" class="modal-label">City * </label>
+                <input  type="text" class="modal-input" name="CustomerCity" value=" @Model.CustomerCity" required>
+
+                <input type="submit" value="Accept" class="btn_login" id="btnUpdate" />
+            }
+        </div>
+
+         
+    </div>
+</div>
+<script type="text/javascript">
+    $(document.body).on("click", "#hidePassword", function () {
+        var x = document.querySelector("input[name = 'Password']");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    })
+    $("#btnUpdate").click(function (e) {
+
+        e.preventDefault();
+        var formData = $("#formUpdate").serialize();
+        $.ajax({
+            url: "/User/Update_Info_Customer",
+            type: "post",
+            data: formData,
+
+            success: function (res) {
+                if (res.status) {
+                    swal("Thông báo", "Cập nhật thành công", "success");
+
+                } else {
+                    swal("Thông báo", res.msg, "warning");
+                }
+            },
+            error: function (res) {
+                alert(res.responseText);
+            }
+
+        })
+    })
+</script>

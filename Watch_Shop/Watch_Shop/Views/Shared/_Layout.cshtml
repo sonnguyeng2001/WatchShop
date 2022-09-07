@@ -1,0 +1,309 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="icon" href="~/image/Black Carbon - Quartz Watch _ Stigma Watches™ - Online Store.jpg" />
+    @Styles.Render("~/bundles/Assets")
+    <link href="~/Assets/responsive.css" rel="stylesheet" />
+</head>
+<body id="appBody">
+    <div class="app grid">
+        <button class="top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="header">
+            <div class="container">
+                <div class="slides">
+                    <div class="slide">
+                        <img src="~/image/slide1.jpg" alt=""
+                             height="680px"
+                             width="100%">
+                    </div>
+                    <div class="slide">
+                        <img src="~/image/slide2.jpg" alt=""
+                             height="680px"
+                             width="100%">
+                    </div>
+                    <div class="slide">
+                        <img src="~/image/slide3.jpg" alt=""
+                             height="680px"
+                             width="100%">
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar_modal">
+                <div class="sidebar_modal_container">
+                    <div class="sidebar_modal_close  ">
+                        <i class="fas fa-times js-sidebar-close"></i>
+                    </div>
+                    <h2 class="sidebar_modal_title">Danh mục</h2>
+                    <ul class="sidebar_modal_list">
+                        <li class="sidebar_modal_item">
+                            <a class="sidebar_modal_link">Giới thiệu</a>
+                        </li>
+                        <li class="sidebar_modal_item">
+                            <a class="sidebar_modal_link">Đồng hồ nam</a>
+                        </li>
+                        <li class="sidebar_modal_item">
+                            <a class="sidebar_modal_link">Đồng hồ nữ</a>
+                        </li>
+                        <li class="sidebar_modal_item">
+                            <a class="sidebar_modal_link">Đồng hồ đôi</a>
+                        </li>
+                        <li class="sidebar_modal_item">
+                            <a href="/" class="sidebar_modal_link">Phụ kiện </a>
+                        </li>
+                        <li class="sidebar_modal_item">
+                            <a class="sidebar_modal_link">Tin tức</a>
+                        </li>
+                        <li class="sidebar_modal_item">
+                            <a class="sidebar_modal_link">Liên hệ</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="header_nav">
+                    <div class="row">
+                        <div class="col l-0 m-3 c-7">
+                            <div class="header_nav_img" style="height:100%">
+                                <i class="fas fa-bars js-sidebar-open" style="font-size:30px"></i>
+                                <i class="fas fa-bars" style="font-size:30px;visibility:hidden"></i>
+                            </div>
+                        </div>
+                        <div class="col l-3 m-6 c-0">
+                            <div class="header_nav_img ">
+                                <a href="@Url.Action("ShowProduct","Product")" class="header_nav_img_link">
+                                    <img src="~/image/logo-mona-watches-white.png" alt="" width="120" height="40">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col l-7 m-0 c-0">
+                            <div class="header_nav_category">
+                                <ul class="header_nav_list">
+                                    <li class="header_nav_item">
+                                        <a href="@Url.Action("Index","Introduce")" class="header_nav_link">
+                                            Giới thiệu
+                                        </a>
+                                    </li>
+                                    <li class="header_nav_item">
+                                        <a href="" class="header_nav_link">
+                                            Đồng hồ nam
+                                        </a>
+                                    </li>
+                                    <li class="header_nav_item">
+                                        <a href="" class="header_nav_link">
+                                            Đồng hồ nữ
+                                        </a>
+                                    </li>
+                                    <li class="header_nav_item">
+                                        <a href="" class="header_nav_link">
+                                            Đồng hồ đôi
+                                        </a>
+                                    </li>
+                                    <li class="header_nav_item">
+                                        <a href="" class="header_nav_link">
+                                            Phụ kiện
+                                            @Html.Action("Show_PhuKien", "Product")
+                                        </a>
+                                    </li>
+                                    <li class="header_nav_item">
+                                        <a href="" class="header_nav_link">
+                                            Tin tức
+                                        </a>
+                                    </li>
+                                    <li class="header_nav_item">
+                                        <a href="@Url.Action("Index","Contact")" class="header_nav_link">Liên hệ</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col l-2 m-3 c-5">
+                            <div class="header_nav_info">
+                                @if (Session["Username"] == null)
+                                {
+
+                                    <div class="header_nav_icon search">
+                                        <i class="fas fa-search header_nav_icon_js"></i>
+                                        <div class="search_input">
+                                            <div id="Area_Input">
+                                                <input type="text" name="keyword" placeholder="Tìm kiếm thông tin sản phẩm..." class="search_key" />
+                                            </div>
+                                            <div id="ShowListFromKey">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="header_nav_icon">
+                                        <i class="fas fa-user header_nav_icon_js user"></i>
+                                    </div>
+                                    <div class="header_nav_icon">
+                                        @Html.Action("GioHangPartial", "Cart")
+                                    </div>
+                                }
+                                else if (Session["Username"].ToString() == "admin")
+                                {
+                                    <div class="header_nav_link_user header_nav_icon_js" id="hover-special" style="font-size:14px;">
+                                        Xin chào &nbsp; <a href="@Url.Action("Dashboard","Admin")" style="color:#ffd800;text-decoration:underline;font-style:italic">Admin</a>
+                                        <ul class="header_nav_link_user-sublist">
+                                            <li class="header_nav_link_user-subitem">
+                                                <a href="@Url.Action("Logout","User")" class="header_nav_link_user-sublink">
+                                                    <i class="fas fa-sign-out-alt"></i>
+                                                    Logout
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="header_nav_link_user header_nav_icon_js" id="hover-special" style="font-size:14px;">
+                                        Thông tin cá nhân
+                                        <ul class="header_nav_link_user-sublist">
+                                            <li class="header_nav_link_user-subitem">
+                                                <a href="@Url.Action("Customer_Information","User", new {@Customer_ID = Convert.ToInt32(Session["User_ID"]) })" class="header_nav_link_user-sublink">
+                                                    <i class="fas fa-user cart"></i>
+                                                    Thông tin cá nhân
+                                                </a>
+                                            </li>
+                                            <li class="header_nav_link_user-subitem">
+                                                <a href="@Url.Action("OrderHistory","Order_History", new {@user_ID = Convert.ToInt32(Session["User_ID"]) })" class="header_nav_link_user-sublink">
+                                                    <i class="fas fa-history"></i>
+                                                    Lịch sử đơn hàng
+                                                </a>
+                                            </li>
+                                            <li class="header_nav_link_user-subitem">
+                                                @Html.Action("Page_Product_Favorite_Partial", "User", new { @user_ID = Convert.ToDecimal(Session["User_ID"]) })
+                                            </li>
+                                            <li class="header_nav_link_user-subitem">
+                                                @Html.Action("GioHangPartial", "Cart")
+                                            </li>
+                                            <li class="header_nav_link_user-subitem">
+                                                <a href="@Url.Action("Logout","User")" id="Remove_USER_ID" class="header_nav_link_user-sublink">
+                                                    <i class="fas fa-sign-out-alt"></i>
+                                                    Đăng xuất
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="mainContent">
+                @RenderBody()
+            </div>
+            <div class="modal js-modal">
+                <div class="modal-container js-modal-container">
+                    <div class="modal-close js-modal-close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="modal-body">
+                        @Html.Action("Login", "User")
+                    </div>
+
+                </div>
+            </div>
+            <!-- Footer -->
+            <div class="footer grid">
+                <div class="grid wide">
+                    <div class="row">
+                        <div class="col l-3 m-12 c-12">
+                            <div class="Column_1">
+                                <h2>Điều hướng</h2>
+                                <ul class="footer_list">
+                                    <li class="footer_item">
+                                        <a class="footer_link">Trang chủ</a>
+                                    </li>
+                                    <li class="footer_item">
+                                        <a class="footer_link">Về chúng tôi</a>
+                                    </li>
+                                    <li class="footer_item">
+                                        <a class="footer_link">Sản phẩm</a>
+                                    </li>
+                                    <li class="footer_item">
+                                        <a class="footer_link">Điểm tin hữu ích</a>
+                                    </li>
+                                    <li class="footer_item">
+                                        <a class="footer_link">Liên hệ</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col l-6 m-12 c-12">
+                            <div class="Column_2">
+                                <img src="~/image/logo-mona-watches-white.png"
+                                     alt="" width="150" height="52">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetuer
+                                    adipiscing elit, sed diam nonummy
+                                    nibheuismod
+                                    tincidunt ut laoreet ....
+                                </p>
+                                <input type="text" placeholder="Email...">
+                            </div>
+                        </div>
+                        <div class="col l-3 m-12 c-12">
+                            <div class="Column_3">
+                                <h2>THÔNG TIN LIÊN HỆ</h2>
+                                <p>
+                                    319 c16 Lý Thường Kiệt, Phường 15,<br> Quận
+                                    11,Tp.HCM
+                                </p>
+                                <p>0936-249-051</p>
+                                <p>sonnguyeng2001@gmail.com</p>
+                                <p>Nguyễn Văn Sơn</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col l-12 m-12 c-12">
+                            <p class="final">
+                                © All rights reserved. Thiết kế
+                                website <img src="http://mona-media.com/logo.png"
+                                             width="20" height="20" style="position:
+                                    relative; top:4px;"> MonaMedia
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast_wrap">
+
+    </div>
+
+    @* -------------------------------------------------------------------------------- *@
+
+
+    @* -------------------------------------------------------------------------------- *@
+
+
+    <script type="text/javascript"
+            src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript"
+            src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="~/Assets/JavaScript.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

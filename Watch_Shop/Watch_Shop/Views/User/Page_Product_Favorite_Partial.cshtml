@@ -1,0 +1,5 @@
+﻿ 
+<a href="@Url.Action("Page_Product_Favorite","User", new {@Customer_ID = Convert.ToInt32(Session["User_ID"]) })" class="header_nav_link_user-sublink">
+    <i class="fas fa-heart-broken"></i>
+    Sản phẩm yêu thích <span id="quantity_cart_number_favorite">(@ViewBag.Quantity)</span>
+</a>

@@ -1,0 +1,78 @@
+﻿@model List<Watch_Shop.Models.Customer_Product>
+@{
+    ViewBag.Title = "Page_Product_Favorite";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .Add_To_Cart a:first-child:hover {
+        color: red;
+    }
+</style>
+@if (ViewBag.Quantity <= 0)
+{
+    <h2 style="text-transform:capitalize" class="Clock_Topic">
+        Add something to make me happy :))<br /><br /><br />
+        <img src="~/image/Product_Like_Empty.png" width="300" />
+    </h2>
+}
+else
+{
+    <div class="content grid wide">
+        <div class="Clock_Content">
+            <h2 class="Clock_Topic">Favorite Froduct</h2>
+            <div class="Clock_Line"></div>
+            <div class="row" id="rowMale">
+                @{
+                    foreach (var item in Model)
+                    {
+                        <div class="col l-3 m-6 c-6" id="Product_Item_@item.Product_ID">
+                            <div class="product_item">
+                                @if (item.Product.Quantity <= 0)
+                                {
+                                    <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" class="OutOfStock">Sản phẩm đã hết hàng</a>
+                                }
+                                <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" class="product_img" title="Nhấn vào để xem chi tiết">
+                                    <img src="@Url.Content("~/image/"+item.Product.Image)" alt="">
+                                </a>
+                                <p class="product_description">
+                                    <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" class="product_description_link">@item.Product.Product_Name</a>
+                                </p>
+                                <p class="product_price">@string.Format("{0:#,##0.}", item.Product.Price) VNĐ</p>
+                                <div class="Add_To_Cart">
+                                    @if (item.Product.Quantity > 0)
+                                    {
+                                        <div>
+                                            <a onclick="DeleteProductFavorite(@item.Product_ID)" title="Xóa khỏi danh mục này">
+                                                <i class="far fa-times-circle icon_cart icon_cart_remove" style="font-size:21px;"></i>
+                                            </a>
+                                            <a onclick="return AddProduct(@item.Product_ID)" title="Thêm vào giỏ hàng">
+                                                <i class="fas fa-cart-plus icon_cart icon_cart_add"></i>
+                                            </a>
+                                            <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" title="Nhấn vào để xem chi tiết">
+                                                <i style="font-size:21px;" class="fa-solid fa-circle-info icon_cart icon_cart_info"></i>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <a onclick="DeleteProductFavorite(@item.Product_ID)" style="margin:12px 0px 0px 12px; display:inline-block" title="Xóa khỏi danh mục này">
+                                            <i class="far fa-times-circle" style="font-size: 26px;"></i>
+                                        </a>
+                                    }
+                                </div>
+                                <span style="display:none" id="Session_UserID"> @Session["User_ID"]</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script type="text/javascript">
+
+    </script>
+}

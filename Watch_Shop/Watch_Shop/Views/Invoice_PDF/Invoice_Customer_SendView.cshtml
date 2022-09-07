@@ -1,0 +1,183 @@
+﻿@model Watch_Shop.Models.Order
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width">
+    <title>Invoice_Customer_SendView</title>
+
+</head>
+<body style="font-family:'Montserrat', sans-serif;">
+    <div style="width: 1400px;">
+        <div class="row d-flex justify-content-center" style="display:flex;justify-content:center;">
+            <div class="col-md-8" style="flex:0 0 auto;width:66.666667%;">
+                <div class="card" style="background-color: #ffe8d2; border: none; position: relative; display: flex; flex-direction: column; min-width: 0; word-wrap: break-word;background-clip: border-box; border: 1px solid rgb(0 0 0 / 13%); border-radius: 0.25rem;">
+                    <div class=" text-left logo p-2 px-5" style="background-color:#eeeeeea8;text-align:left !important;padding-right:3rem !important;padding-left:3rem !important;"> <img src="https://i.imgur.com/2zDU056.png" width="50"> </div>
+                    <div class="invoice p-5" style="padding: 1.5rem 3rem !important; background-color: #ffe8d2;">
+                        <h2>Your order Confirmed!</h2>
+                        <span class="font-weight-bold d-block mt-4" style="font-weight:700 !important;margin-top:1.5rem !important;display:block !important;">Hello, &nbsp;@Model.Name</span> <span>You order has been confirmed and will be shipped in next two days!</span>
+                        <div style="margin-top:1rem !important;margin-bottom:1rem !important;border-bottom:1px solid rgb(222 226 230) !important;border-top:1px solid rgb(222 226 230) !important;">
+                            <table width="100%" style="width :100%">
+                                <tr>
+                                    <td>
+                                        <div class="py-2" style="padding-top:0.5rem !important;padding-bottom:0.5rem !important;">
+                                            <p class="d-block text-muted" style="display:block !important;color:rgb(108 117 125) !important;">Order Date</p>
+                                            <p>@DateTime.Now</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2" style="padding-top:0.5rem !important;padding-bottom:0.5rem !important;">
+                                            <p class="d-block text-muted" style="display:block !important;color:rgb(108 117 125) !important;">Order No</p>
+                                            <p> @Model.Order_ID</p>
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div class="py-2" style="padding-top:0.5rem !important;padding-bottom:0.5rem !important;">
+                                            <p class="d-block text-muted" style="display:block !important;color:rgb(108 117 125) !important;">Payment</p>
+                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjP0FGHcXq7uoqFiBT_1rCey7kD-zfev0k3Q&usqp=CAU" width="30" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2" style="padding-top:0.5rem !important;padding-bottom:0.5rem !important;">
+                                            <p class="d-block text-muted" style="display:block !important;color:rgb(108 117 125) !important;">Shiping Address</p>
+                                            <p>@Model.Address, @Model.City</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+
+
+
+
+                        </div>
+                        <div class="product border-bottom table-responsive" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-bottom:1px solid rgb(222 226 230) !important;">
+                            <table class="table table-borderless" style="border-collapse:collapse;width:87%">
+                                <tbody>
+                                    <tr style="background: rgb(226 186 72); color: white; ">
+                                        <td style="padding: 0.5rem 0">#</td>
+                                        <td style="padding: 0.5rem 0">Image</td>
+                                        <td style="padding: 0.5rem 0">Description</td>
+                                        <td style="padding: 0.5rem 0">Amount</td>
+                                    </tr>
+                                    @foreach (var item in Model.OrderDetails.Where(x => x.Order_ID == Model.Order_ID).ToList())
+                                    {
+
+                                        <tr>
+                                            <td width="5%" style="padding: 0.5rem 1rem 0.5rem 0">@item.Product_ID</td>
+                                            <td style="padding: 0.5rem 1rem 0.5rem 0">
+                                                @if (item.Product.ImageLink == null)
+                                                {
+                                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRktwbT-KQiekd5Tjjfzjd5FODUXaEipV12yg&usqp=CAU" width="90" style="border-radius:50%">
+                                                }
+                                                else
+                                                {
+                                                  <img src="@item.Product.ImageLink" width="90" style="border-radius:50%">
+                                                }
+                                            </td>
+                                            <td width="65%" style="padding-right:10px; padding:0.5rem 1rem 0.5rem 0">
+                                                <span class="font-weight-bold" style="font-weight:700 !important;">
+                                                    @item.Product_Name
+                                                    <span style="font-size:12px;font-weight:bold">
+                                                        (@item.Product_Quantity * @string.Format("{0:#,##0.}", item.Product.Price))
+                                                    </span>
+                                                </span>
+                                            </td>
+                                            <td style="padding: 0.5rem 1rem 0.5rem 0">
+                                                <div class="text-left" style="text-align:left !important;"> <span class="font-weight-bold" style="font-weight:700 !important;">@string.Format("{0:#,##0.}", item.Into_Money)</span> </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row d-flex" style="display:flex;justify-content:space-between !important;">
+                            <div class="col-md-5" style="flex:0 0 auto;width:41.666667%; opacity:0;">
+                                <table class="table table-borderless" style="--bs-table-bg:rgb(0 0 0 / 0%);--bs-table-accent-bg:rgb(0 0 0 / 0%);--bs-table-striped-color:rgb(33 37 41);--bs-table-striped-bg:rgb(0 0 0 / 5%);--bs-table-active-color:rgb(33 37 41);--bs-table-active-bg:rgb(0 0 0 / 10%);--bs-table-hover-color:rgb(33 37 41);--bs-table-hover-bg:rgb(0 0 0 / 8%);width:100%;margin-bottom:1rem;color:rgb(33 37 41);vertical-align:top;border-color:rgb(222 226 230);border-collapse:collapse;">
+                                    <tbody class="totals">
+                                        <tr>
+                                            <td style="font-size:13px;padding: 0.5rem 0;">
+                                                <div class="text-left" style="text-align:left !important;"> <span class="text-muted font-weight-bold" style="font-weight:700 !important;color:rgb(108 117 125) !important;font-size:14px;">Subtotal</span> </div>
+                                            </td>
+                                            <td style="font-size:13px;padding: 0.5rem 0;">
+                                                <div class="text-right" style="text-align:right !important;"> <span class="font-weight-bold" style="font-weight:700 !important;font-size:14px;">@string.Format("{0:#,##0.}", Model.Total)</span> </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:13px;padding: 0.5rem 0;">
+                                                <div class="text-left" style="text-align:left !important;"> <span class="text-muted font-weight-bold" style="font-weight:700 !important;color:rgb(108 117 125) !important;font-size:14px;"> Discount</span> </div>
+                                            </td>
+                                            <td style="font-size:13px;padding: 0.5rem 0;">
+                                                <div class="text-right" style="text-align:right !important;"> <span class="text-success font-weight-bold" style="font-weight:700 !important;font-size:14px;"> -  @string.Format("{0:#,##0.}", Model.Discount)</span> </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-top border-bottom" style="border-bottom:1px solid rgb(222 226 230) !important;border-top:1px solid rgb(222 226 230) !important;">
+                                            <td style="font-size:13px;padding: 0.5rem 0;">
+                                                <div class="text-left" style="text-align:left !important;"> <span class="font-weight-bold" style="font-weight:700 !important;font-size:14px;">Subtotal</span> </div>
+                                            </td>
+                                            <td style="font-size:13px;padding: 0.5rem 0;">
+                                                <div class="text-right" style="text-align:right !important;">
+                                                    <span class="font-weight-bold" style="font-weight:700 !important;font-size:14px;">string.Format("{0:#,##0.}", Subtotal) VNĐ</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-5" style="flex:0 0 auto;width:41.666667%;">
+                                <table width="90%" style="width:90%;border-collapse:collapse;width:100%">
+                                    <tbody class="totals">
+                                         
+                                        <tr>
+                                            <td style="font-size:13px;padding: 0.5rem 0;">
+                                                <div class="text-left" style="text-align:left !important;"> <span class="text-muted font-weight-bold" style="font-weight:700 !important;color:rgb(108 117 125) !important;font-size:14px;"> Discount</span> </div>
+                                            </td>
+                                            <td style="font-size:13px;padding: 0.5rem 0;">
+                                                <div class="text-right" style="text-align:right !important;"> <span class="text-success font-weight-bold" style="font-weight:700 !important;font-size:14px;"> -  @string.Format("{0:#,##0.}", Model.Discount)</span> </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:13px;padding: 0.5rem 0;">
+                                                <div class="text-left" style="text-align:left !important;"> <span class="text-muted font-weight-bold" style="font-weight:700 !important;color:rgb(108 117 125) !important;font-size:14px;"> RewardPoint</span> </div>
+                                            </td>
+                                            <td style="font-size:13px;padding: 0.5rem 0;">
+                                                <div class="text-right" style="text-align:right !important;"> <span class="text-success font-weight-bold" style="font-weight:700 !important;font-size:14px;"> -  @string.Format("{0:#,##0.}", Model.Point)</span> </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-top border-bottom" style="border-bottom:1px solid rgb(222 226 230) !important;border-top:1px solid rgb(222 226 230) !important;">
+                                            <td style="font-size:13px;padding: 0.5rem 0;">
+                                                <div class="text-left" style="text-align:left !important;"> <span class="font-weight-bold" style="font-weight:700 !important;font-size:14px;">Total</span> </div>
+                                            </td>
+                                            <td style="font-size:13px;padding: 0.5rem 0;">
+                                                <div class="text-right" style="text-align:right !important;">
+                                                    <span class="font-weight-bold" style="font-weight:700 !important;font-size:14px;">@string.Format("{0:#,##0.}", Model.Total)VNĐ</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        <p>We will be sending shipping confirmation email when the item shipped successfully!</p>
+                        <p class="font-weight-bold mb-0" style="margin-bottom:0;font-weight:700 !important;">Thanks for shopping with us!</p>
+                        <span>Nike Team</span>
+                    </div>
+                    <div class="d-flex justify-content-between footer p-3" style="background-color:#eeeeeea8;display:flex;padding:1rem !important;justify-content:space-between !important;">
+                        <span style="font-size:12px;">Need Help? visit our <a href="#"> help center</a></span>
+                        <span style="font-size:12px;">@DateTime.Now </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+

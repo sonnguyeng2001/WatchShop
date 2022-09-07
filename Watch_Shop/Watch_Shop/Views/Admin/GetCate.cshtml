@@ -1,0 +1,230 @@
+﻿@model IEnumerable<Watch_Shop.Models.Category>
+
+@{
+    ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+
+<main>
+    <div class="container-fluid px-4" style="font-family:'Roboto',sans-serif;">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h1 class="h3 mb-0 text-gray-800">Category</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
+            </a>
+        </div>
+        <button type="button" id="openModal_Add" class="btn btn-primary pull-right mt-3 mb-3 font-weight-bold" style="padding:10px 20px" data-toggle="modal" data-target="#staticBackdrop">
+            Add new Category
+        </button>
+        <br />
+         
+    <div class="card shadow mb-4">
+        
+        <div class="card-body">
+            <div class="table-responsive">
+                <table  class="table table-hover table-bordered" id="dataTable" width="100%" cellspacing="0" >
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Total Product
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                     
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr style="color:black">
+                                <td>
+                                    @item.Category_ID
+                                </td>
+                                <td>
+                                    @item.Category_Name
+                                </td>
+                                <td>
+                                    @item.Products.Count
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Product_ByCate","Admin", new {id = item.Category_ID  })" class="btn btn-info"><i class='fas fa-layer-group'></i></a> &nbsp;
+                                    <button id="openModal_Update" onclick="DetailsCate(@item.Category_ID)" class="btn btn-success"><i class='far fa-edit'></i></button> &nbsp;
+                                    <button class="btn btn-danger" onclick="DeleteCate(@item.Category_ID)"><i class='fas fa-trash-alt'></i></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+        <!-- Button trigger modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                        <button type="button" class="close" style="outline:none;border:none" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <label> Categoty ID</label>
+                            <input type="text" class="form-control" id="CateID" disabled />
+
+                            <label> Categoty Name</label>
+                            <input type="text" class="form-control" id="CateName" />
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" id="addCate" onclick="CreateCate()" class="btn btn-primary">Accept</button>
+                        <button type="button" id="updateCate" onclick="UpdateCate()" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+@section scripts{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".nav-item.active").removeClass("active");
+            $(".nav-Category").addClass("active");
+            $('#addCate').hide();
+            $('#updateCate').hide();
+        });
+        $('#openModal_Add').click(function () {
+            Clear_Textbox();
+            $('#addCate').show();
+            $('#updateCate').hide();
+        });
+        $('#openModal_Update').click(function () {
+            $('#addCate').hide();
+            $('#updateCate').show();
+        });
+        function CreateCate() {
+            var obj = {
+                Category_ID: $("#CateID").val(),
+                Category_Name: $("#CateName").val()
+            };
+
+            $.ajax({
+                url: "/Admin/CreateCate",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(obj),
+
+                success: function () {
+                    swal("Good job!", "You clicked the button!", "success").then((value) => {
+                        $("#staticBackdrop").modal("hide");
+                        window.location.reload();
+                    });
+                },
+                error: function (mes) {
+                    alert(mes.responseText);
+                }
+            });
+        };
+        function DeleteCate(id) {
+            swal({
+                title: "Are you sure about that?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: "/Admin/DeleteCate?id=" + id,
+                            type: "POST",
+                            contentType: "application/json;charset=utf-8",
+                            dataType: "json",
+                            async: true,
+                            success: function (result) {
+                                if (result.status) {
+                                    swal("Good job!", "You clicked the button!", "success").then((value) => {
+                                        $("#staticBackdrop").modal("hide");
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    swal("Error !!!", "Xóa sản phẩm trước rồi mới xóa danh mục :)))", "error");
+                                    return;
+                                }
+                            },
+                            error: function (mes) {
+                                alert(mes.responseText);
+                            }
+                        });
+
+                    }
+                });
+
+        };
+        function DetailsCate(id) {
+            $.ajax({
+                url: "/Admin/DetailsCate/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+                    $('#CateID').val(result.Category_ID);
+                    $('#CateName').val(result.Category_Name);
+                    $('#staticBackdrop').modal('show');
+                },
+                error: function (mes) {
+                    alert(mes.responseText);
+                }
+            });
+            return false;
+        };
+        function UpdateCate() {
+            var obj = {
+                Category_ID: $("#CateID").val(),
+                Category_Name: $("#CateName").val()
+            };
+            $.ajax({
+                url: "/Admin/UpdateCate",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(obj),
+
+                success: function () {
+                    swal("Good job!", "You clicked the button!", "success").then((value) => {
+                        $("#staticBackdrop").modal("hide");
+                        window.location.reload();
+                    });
+                },
+                error: function (mes) {
+                    alert(mes.responseText);
+                }
+            })
+        };
+        function Hide() {
+            $('#tablehello').hide();
+        };
+        function Clear_Textbox() {
+            $("#CateID").val(''),
+                $("#CateName").val('')
+        }
+    </script>
+}
+

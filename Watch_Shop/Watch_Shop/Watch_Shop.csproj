@@ -1,0 +1,579 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props" Condition="Exists('..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AD77A6B4-C763-49E7-83DD-2E3BF128646A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Watch_Shop</RootNamespace>
+    <AssemblyName>Watch_Shop</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44303</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <DockerLaunchUrl>http://{ServiceIPAddress}</DockerLaunchUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=6.0.3.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.6.0.3\lib\net452\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Interfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.Interfaces.6.0.0\lib\net452\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.System.Drawing.6.0.0\lib\net452\EPPlus.System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\ExportExcelController.cs" />
+    <Compile Include="Controllers\FeedBackController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IntroduceController.cs" />
+    <Compile Include="Controllers\Invoice_PDFController.cs" />
+    <Compile Include="Controllers\Order_HistoryController.cs" />
+    <Compile Include="Controllers\Page404_Controller.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\ViewToStringController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Contact.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Customer_Product.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Discount.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FeedBack.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GioHang.cs" />
+    <Compile Include="Models\ImageViewModel.cs" />
+    <Compile Include="Models\Import.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Import_Details.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Order.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderDetail.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Providerr.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Watch_Shop.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Watch_Shop.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Watch_Shop.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Watch_Shop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Watch_Shop.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Watch_Shop.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AdminSB2\css\sb-admin-2.css" />
+    <Content Include="AdminSB2\css\sb-admin-2.min.css" />
+    <Content Include="AdminSB2\js\demo\chart-area-demo.js" />
+    <Content Include="AdminSB2\js\demo\chart-bar-demo.js" />
+    <Content Include="AdminSB2\js\demo\chart-pie-demo.js" />
+    <Content Include="AdminSB2\js\demo\datatables-demo.js" />
+    <Content Include="AdminSB2\js\sb-admin-2.js" />
+    <Content Include="AdminSB2\js\sb-admin-2.min.js" />
+    <Content Include="AdminSB2\vendor\bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="AdminSB2\vendor\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="AdminSB2\vendor\bootstrap\js\bootstrap.js" />
+    <Content Include="AdminSB2\vendor\bootstrap\js\bootstrap.min.js" />
+    <Content Include="AdminSB2\vendor\chart.js\Chart.bundle.js" />
+    <Content Include="AdminSB2\vendor\chart.js\Chart.bundle.min.js" />
+    <Content Include="AdminSB2\vendor\chart.js\Chart.js" />
+    <Content Include="AdminSB2\vendor\chart.js\Chart.min.js" />
+    <Content Include="AdminSB2\vendor\datatables\dataTables.bootstrap4.css" />
+    <Content Include="AdminSB2\vendor\datatables\dataTables.bootstrap4.js" />
+    <Content Include="AdminSB2\vendor\datatables\dataTables.bootstrap4.min.css" />
+    <Content Include="AdminSB2\vendor\datatables\dataTables.bootstrap4.min.js" />
+    <Content Include="AdminSB2\vendor\datatables\jquery.dataTables.js" />
+    <Content Include="AdminSB2\vendor\datatables\jquery.dataTables.min.js" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\attribution.js" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\all.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\all.min.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\brands.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\brands.min.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\fontawesome.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\fontawesome.min.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\regular.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\regular.min.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\solid.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\solid.min.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\svg-with-js.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\svg-with-js.min.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\v4-shims.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\css\v4-shims.min.css" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-brands-400.svg" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-regular-400.svg" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-solid-900.svg" />
+    <Content Include="AdminSB2\vendor\jquery-easing\jquery.easing.compatibility.js" />
+    <Content Include="AdminSB2\vendor\jquery-easing\jquery.easing.js" />
+    <Content Include="AdminSB2\vendor\jquery-easing\jquery.easing.min.js" />
+    <Content Include="AdminSB2\vendor\jquery\jquery.js" />
+    <Content Include="AdminSB2\vendor\jquery\jquery.min.js" />
+    <Content Include="AdminSB2\vendor\jquery\jquery.slim.js" />
+    <Content Include="AdminSB2\vendor\jquery\jquery.slim.min.js" />
+    <Content Include="Assets\Admin.css" />
+    <Content Include="Assets\Cart.css" />
+    <Content Include="Assets\client\sendToken.html" />
+    <Content Include="Assets\client\neworder.html" />
+    <Content Include="Assets\Contact.css" />
+    <Content Include="Assets\grid_system.css" />
+    <Content Include="Assets\Invoice_PDF.css" />
+    <Content Include="Assets\JavaScript.js" />
+    <Content Include="Assets\jquery.timeago.js" />
+    <Content Include="Assets\responsive.css" />
+    <Content Include="Assets\StyleSheet1.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="image\Black Carbon - Quartz Watch _ Stigma Watches™ - Online Store.jpg" />
+    <Content Include="image\Contact-Image.jpg" />
+    <Content Include="image\empty-cart.png" />
+    <Content Include="image\error-img.png" />
+    <Content Include="image\Image_Couple_1.jpg" />
+    <Content Include="image\Image_Couple_2.jpg" />
+    <Content Include="image\Image_Couple_3.jpg" />
+    <Content Include="image\Image_Couple_4.jpg" />
+    <Content Include="image\Image_Couple_5.jpg" />
+    <Content Include="image\Image_Nam_1.jpg" />
+    <Content Include="image\Image_Nam_2.jpg" />
+    <Content Include="image\Image_Nam_3.jpg" />
+    <Content Include="image\Image_Nam_4.jpg" />
+    <Content Include="image\Image_Nam_5.jpg" />
+    <Content Include="image\Image_Nam_6.jpg" />
+    <Content Include="image\Image_Nam_7.jpg" />
+    <Content Include="image\Image_Nam_8.jpg" />
+    <Content Include="image\Image_Nam_9.jpg" />
+    <Content Include="image\Image_Nu_2.jpg" />
+    <Content Include="image\Image_Nu_3.jpg" />
+    <Content Include="image\Image_Nu_4.jpg" />
+    <Content Include="image\Image_Nu_5.jpg" />
+    <Content Include="image\Image_Nu_6.jpg" />
+    <Content Include="image\Image_Nu_7.jpg" />
+    <Content Include="image\Image_Nu_8.jpg" />
+    <Content Include="image\Image_Nu_9.jpg" />
+    <Content Include="image\img_left.jpg" />
+    <Content Include="image\img_right.jpg" />
+    <Content Include="image\logo-mona-watches-white.png" />
+    <Content Include="image\movement-gears-background.jpg" />
+    <Content Include="image\Product_Like_Empty.png" />
+    <Content Include="image\slide1.jpg" />
+    <Content Include="image\slide2.jpg" />
+    <Content Include="image\slide3.jpg" />
+    <Content Include="image\WatchShopLogo.png" />
+    <Content Include="Assets\Font-Family\CircularStd-Medium.otf" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="AdminSB2\vendor\bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="AdminSB2\vendor\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="AdminSB2\vendor\bootstrap\js\bootstrap.js.map" />
+    <Content Include="AdminSB2\vendor\bootstrap\js\bootstrap.min.js.map" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\bootstrap-grid.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\bootstrap-reboot.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\bootstrap.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_alert.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_background-variant.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_badge.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_border-radius.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_box-shadow.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_breakpoints.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_buttons.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_caret.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_clearfix.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_deprecate.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_float.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_forms.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_gradients.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_grid-framework.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_grid.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_hover.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_image.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_list-group.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_lists.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_nav-divider.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_pagination.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_reset-text.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_resize.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_screen-reader.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_size.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_table-row.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_text-emphasis.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_text-hide.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_text-truncate.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_transition.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\mixins\_visibility.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_align.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_background.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_borders.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_clearfix.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_display.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_embed.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_flex.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_float.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_interactions.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_overflow.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_position.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_screenreaders.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_shadows.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_sizing.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_spacing.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_stretched-link.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_text.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\utilities\_visibility.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\vendor\_rfs.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_alert.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_badge.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_breadcrumb.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_button-group.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_buttons.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_card.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_carousel.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_close.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_code.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_custom-forms.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_dropdown.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_forms.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_functions.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_grid.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_images.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_input-group.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_jumbotron.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_list-group.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_media.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_mixins.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_modal.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_nav.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_navbar.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_pagination.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_popover.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_print.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_progress.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_reboot.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_root.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_spinners.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_tables.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_toasts.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_tooltip.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_transitions.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_type.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_utilities.scss" />
+    <Content Include="AdminSB2\vendor\bootstrap\scss\_variables.scss" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\package.json" />
+    <Content Include="AdminSB2\vendor\jquery\jquery.min.map" />
+    <Content Include="AdminSB2\vendor\jquery\jquery.slim.min.map" />
+    <EntityDeploy Include="Models\Watch_Shop.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Watch_Shop.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Watch_Shop.edmx.diagram">
+      <DependentUpon>Watch_Shop.edmx</DependentUpon>
+    </Content>
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-brands-400.eot" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-brands-400.ttf" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-brands-400.woff" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-brands-400.woff2" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-regular-400.eot" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-regular-400.ttf" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-regular-400.woff" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-regular-400.woff2" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-solid-900.eot" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-solid-900.ttf" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-solid-900.woff" />
+    <Content Include="AdminSB2\vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Models\Watch_Shop.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Watch_Shop.edmx</DependentUpon>
+      <LastGenOutput>Watch_Shop.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Watch_Shop.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Watch_Shop.edmx</DependentUpon>
+      <LastGenOutput>Watch_Shop.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Product\Show_PhuKien.cshtml" />
+    <Content Include="Views\Product\ShowProduct.cshtml" />
+    <Content Include="Views\Product\ShowProduct_Id.cshtml" />
+    <Content Include="Views\Introduce\Index.cshtml" />
+    <Content Include="Views\Shared\View.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Cart\GioHangPartial.cshtml" />
+    <Content Include="Views\Cart\GioHang.cshtml" />
+    <Content Include="Views\Payment\Payment.cshtml" />
+    <Content Include="Views\User\Customer_Information.cshtml" />
+    <Content Include="Views\Page404_\Index.cshtml" />
+    <Content Include="Views\Contact\Index.cshtml" />
+    <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Admin\GetCate.cshtml" />
+    <Content Include="Views\Admin\Product_ByCate.cshtml" />
+    <Content Include="Views\Admin\GetPro.cshtml" />
+    <Content Include="Views\Admin\GetOrder.cshtml" />
+    <Content Include="Views\Admin\GetDiscount.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\User\ForgetPasword.cshtml" />
+    <Content Include="Views\Admin\GetAccount.cshtml" />
+    <Content Include="Views\Admin\Page_Import.cshtml" />
+    <Content Include="Views\Admin\CreateInvoice.cshtml" />
+    <Content Include="Views\Invoice_PDF\Invoice_Customer.cshtml" />
+    <Content Include="Views\User\Page_Product_Favorite.cshtml" />
+    <Content Include="Views\User\Page_Product_Favorite_Partial.cshtml" />
+    <Content Include="Views\Order_History\OrderHistory.cshtml" />
+    <Content Include="Views\Contact\ListContact_Partial.cshtml" />
+    <Content Include="Views\Payment\Index.cshtml" />
+    <Content Include="Views\Invoice_PDF\Invoice_Customer_SendView.cshtml" />
+    <Content Include="Views\Admin\DetailsOrderPage.cshtml" />
+    <Content Include="Scripts\moment.min.js.map" />
+    <Content Include="Scripts\moment-with-locales.min.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Views\ExportExcel\" />
+    <Folder Include="Views\FeedBack\" />
+    <Folder Include="Views\ViewToString\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{02455450-15f4-4a7e-be65-fe0580166c5f}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52120</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44303/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,151 @@
+﻿ 
+<div class="LoginShow" style="transition:all 0.3s linear;">
+
+    <header class="modal-header">Đăng nhập</header>
+
+    <label for="quantity" class="modal-label"> Tên tài khoản hoặc Email *</label>
+    <input id="Username" type="text" class="modal-input" name="TenDN" required>
+
+    <label for="Email" class="modal-label"> Mật khẩu * </label>
+    <input id="Password" type="password" class="modal-input" name="Matkhau" required>
+
+    <button class="btn_login" id="Login">Đăng nhập</button>
+    <a href="@Url.Action("ForgetPasword","User")" style="text-decoration:none;font-size:13px" class="btn_login">Quên mật khẩu</a>
+    <p id="message" style="color: red ; font-style:italic; margin-top:5px; font-size:15px"></p>
+    <p style="padding: 10px 0px">
+        Không có tài khoản
+        <span style="text-decoration:underline;font-style:italic;color:dodgerblue;cursor:pointer" id="ShowRegisterForm">Nhấn vào đây để đăng ký</span>
+    </p>
+</div>
+<div class="RegisterShow" style="transition:all 0.3s linear;">
+    @using (Html.BeginForm("Index", "Page404_", FormMethod.Post, new { @id = "formRegister" }))
+    {
+        @Html.AntiForgeryToken()
+        <header class="modal-header" style="text-align:center">Thông tin đăng nhập</header>
+
+        @Html.ValidationSummary(true)
+        <label class="modal-label"> Tên đăng nhập hoặc Email</label>
+        <input type="text" name="Username" class="modal-input" required>
+
+        @Html.ValidationSummary(true)
+        <label class="modal-label"> Mật khẩu * </label>
+        <input type="password" name="Password" class="modal-input" required>
+
+        <header class="modal-header" style="text-align:center">Thông tin nhận hàng</header>
+
+        @Html.ValidationSummary(true)
+        <label class="modal-label"> Họ và tên *</label>
+        <input type="text" name="CustomerName" class="modal-input" required>
+
+        @Html.ValidationSummary(true)
+        <label class="modal-label"> Địa chỉ Email *</label>
+        <input type="email" name="CustomerEmail" class="modal-input" required>
+
+        @Html.ValidationSummary(true)
+        <label class="modal-label"> Điện thoại *</label>
+        <input type="tel" name="CustomerPhone" class="modal-input" required>
+
+        @Html.ValidationSummary(true)
+        <label class="modal-label"> Địa chỉ nhận hàng *</label>
+        <input type="text" name="CustomerAddress" class="modal-input" required>
+
+        @Html.ValidationSummary(true)
+        <label class="modal-label"> Thành phố *</label>
+        <input type="text" name="CustomerCity" class="modal-input" autocomplete="on" required>
+
+        <input type="submit" id="btnRegister" value="Đăng ký" class="btn_login" />
+        <p style="padding: 10px 0px">
+            Đã có tài khoản
+            <span style="text-decoration:underline;font-style:italic;color:dodgerblue;cursor:pointer" id="ShowLoginForm">Nhấn vào đây để đăng nhập</span>
+        </p>
+
+    }
+</div>
+ 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var register = document.querySelector('#ShowRegisterForm');
+        var login = document.querySelector('#ShowLoginForm');
+        var loginform = document.querySelector('.LoginShow');
+        var registerform = document.querySelector('.RegisterShow');
+        var modalBody = document.querySelector('.modal-body');
+
+        register.addEventListener('click', function () {
+            loginform.style.transform = 'translateY(-107%)';
+            loginform.style.visibility = 'hidden';
+            registerform.style.transform = 'translateY(-39%)';
+            modalBody.style.height = '700px';
+            $("#message").text("");
+        })
+
+        login.addEventListener('click', function () {
+            loginform.style.transform = 'translateY(0)';
+            loginform.style.visibility = 'visible';
+            modalBody.style.height = '284px';
+            registerform.style.transform = 'translateY(0)';
+        })
+    })
+    $("#btnRegister").click(function (e) {
+        e.preventDefault();
+        var formData = $("#formRegister").serialize();
+        $.ajax({
+            url: "/User/Register",
+            type: "post",
+            data: formData,
+
+            success: function (res) {
+                if (res.status) {
+                    swal("Notification", "Success", "success");
+
+                } else {
+                    swal("Notification", res.msg, "warning");
+                }
+            },
+            error: function (res) {
+                alert(res.responseText);
+            }
+
+        })
+    })
+
+    $("#Login").click(function () {
+        var modalBody = document.querySelector('.modal-body');
+        var obj = {
+            username: $("#Username").val(),
+            password: $("#Password").val(),
+        }
+        
+        $.ajax({
+            url: "/User/CheckLogin",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(obj),
+            success: function (result) {
+                if (result.status && result.role == "admin") {
+                    var url = '@Url.Action("Dashboard", "Admin")';
+                    swal("Login Successfully", "Role: Admin", "success").then(function () {
+                        window.location.href = url;
+                    });
+                }
+                else if (result.status && result.role == "user") {
+                    swal("Login Successfully", "Hello " + $("#Username").val(), "success").then(function () {
+                        window.localStorage.setItem("USER_ID", result.user_id);
+                        window.location.reload();
+                    });
+                }
+                else if (!result.status) {
+                    modalBody.style.height = '310px';
+                    $("#message").text(result.msg);
+                }
+                else {
+                    alert(mes.responseText);
+                }
+            },
+            error: function (mes) {
+                alert(mes.responseText);
+            }
+        })
+    })
+</script>

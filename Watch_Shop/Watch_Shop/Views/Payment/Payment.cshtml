@@ -1,0 +1,642 @@
+﻿@using Watch_Shop.Models;
+@model List<GioHang>
+@{
+    ViewBag.Title = "ShowPayment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var format = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    th {
+        padding: 12px 0px 8px 0px;
+    }
+
+    td {
+        padding: 10px 0px;
+    }
+
+    #OpenBlog:hover {
+        color: #e2ba48;
+        transition: linear 0.2s;
+        cursor: pointer;
+    }
+
+    .BlogWrapper {
+        padding: 20px;
+        display: flex;
+        border: 2px dashed black;
+        display: none;
+    }
+
+    .form-control {
+        border: 1px solid rgb(204 204 204);
+        width: 80%;
+        padding: 10px 14px;
+        font-size: 14px;
+        border-radius: 3px;
+    }
+
+    .apdungBlog {
+        padding: 10px 20px;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        background: black;
+        color: white;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-left: 10px;
+        transition: all 0.1s linear;
+    }
+
+        .apdungBlog:hover {
+            background: #e2ba48;
+        }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .my_Container {
+        margin-top: 20px;
+    }
+
+        .my_Container i {
+            font-size: 70px;
+            color: green;
+        }
+
+        .my_Container h5, h3, .btn_login {
+            margin-top: 10px;
+        }
+
+        .my_Container h5 {
+            font-style: italic;
+            color: rgb(102 102 102);
+            font-size: 16px;
+        }
+
+        .my_Container h3 {
+            font-size: 26px;
+        }
+
+
+    .CoinsWrap {
+        border: 2px dashed rgb(0 0 0);
+        display: flex;
+        justify-content: space-between;
+        align-items:center;
+        padding: 15px 20px;
+    }
+
+        .CoinsWrap span {
+            font-size: 16px;
+            font-style: italic;
+        }
+
+        .CoinsWrap button {
+            padding: 6px 37px;
+            border-radius: 4px;
+            border-color: rgb(0 0 0 / 0%);
+            font-size: 14px;
+            cursor:pointer;
+            transition: all 0.1s linear;
+        }
+        .CoinsWrap button:hover{
+            background-color:#e2ba48;
+            color:white;
+        }
+</style>
+<div class="grid wide" id="Paying">
+    <div class="cart_layout">
+        <div class="row">
+            <div class="col l-12 m-12 c-12">
+                <span style="color:#353535"><i class="fas fa-tag"></i>Có mã ưu đãi?&nbsp;<a id="OpenBlog">Nhấn vào đây để nhập mã của bạn</a></span> <br /><br />
+                <div class="BlogWrapper">
+                    <input type="text" class="form-control" id="ValueDiscount" placeholder="Nhập mã ưu đãi ở đây..." />
+                    <button class="apdungBlog" id="AcceptDiscount">Áp dụng mã giảm giá</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cart_layout" style="margin-top:20px">
+        @if (Session["User_ID"] == null)
+        {
+            <div class="row my_disable">
+                <div class="col l-7 m-12 c-12">
+                    @using (Html.BeginForm("Payment", "Payment", FormMethod.Post, new { @class = "formAjax" }))
+                    {
+                        <div class="modal-body payment_info" style="width:unset; height:auto;padding-left:0">
+                            @Html.AntiForgeryToken()
+                            <header class="modal-header">Thông tin thanh toán</header>
+
+                            @Html.ValidationSummary(true)
+                            <label class="modal-label">Họ và tên *</label>
+                            <input type="text" class="modal-input" name="Name" required>
+
+                            @Html.ValidationSummary(true)
+                            <label class="modal-label"> Email * </label>
+                            <input type="email" class="modal-input" name="Email" required>
+
+                            @Html.ValidationSummary(true)
+                            <label class="modal-label"> Số điện thoại liên lạc * </label>
+                            <input type="number" max="11" class="modal-input" name="Phone" required>
+
+                            @Html.ValidationSummary(true)
+                            <label class="modal-label"> Địa chỉ nhận hàng * </label>
+                            <input type="text" class="modal-input" name="Address" required>
+
+                            @Html.ValidationSummary(true)
+                            <label class="modal-label"> Thành phố * </label>
+                            <input type="text" class="modal-input" name="City" required>
+
+                            @Html.ValidationSummary(true)
+                            <label class="modal-label"> Ghi chú đơn hàng </label>
+                            <textarea type="text" class="modal-input" name="Note" rows="5" placeholder="Write somethong here..."></textarea>
+                        </div>
+                    }
+
+                </div>
+
+                @* ---------------------------------- Pay ment ---------------------------------- *@
+                <div class="col l-5 m-12 c-12" style="margin-bottom:15px">
+                    <div class="" style="border:2px solid black;padding: 16px;">
+                        <header class="modal-header" style="margin-bottom:0px">Đơn hàng của bạn</header>
+                        <table width="100%">
+                            <tr style="font-size:14px;">
+                                <th style="text-align:left">Sản phẩm</th>
+                                <th style="text-align:right">Tổng cộng</th>
+                            </tr>
+                            <tr>
+                                <td colspan="8" style="border-top: 3px solid rgb(236 236 236); padding:0px;"></td>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="text-align: left; font-size: 14px; color: rgb(102 102 102); line-height:22px; " width="10%">
+                                        @item.sProduct_Name
+                                        (
+                                        <span style="font-size: 13px;font-weight:700">@item.iProduct_SoLuong &nbsp; x &nbsp;@string.Format("{0:#,##0.}", item.dProduct_DonGia)</span>
+                                        )
+                                    </td>
+                                    <td style="font-size: 14px; text-align: right; color: #353535; font-weight: 700" width="30%">
+                                        @string.Format("{0:#,##0.}", item.dProduct_ThanhTien) VNĐ
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="8" style="border-top: 2px solid rgb(236 236 236); padding: 0px;"></td>
+                                </tr>
+                            }
+                            <tr>
+                                <td style="text-align: left; font-size: 14px; color: rgb(102 102 102); line-height:22px; " width="70%">
+                                    Hình thức thanh toán:
+                                </td>
+                                <td style="text-align:right; color:#353535; font-weight:700; font-size:14px;" width="30%">
+                                    Nhận tiền khi giao hàng
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left; font-size: 14px; color: rgb(102 102 102); line-height:22px; " width="70%">
+                                    Tổng tiền hàng:
+                                </td>
+                                <td style="text-align:right; color:#353535; font-weight:700; font-size:14px;" width="30%">
+                                    <span style="text-align: right; border: none; color: #353535; font-weight: 700; font-size: 14px;" id="TotalCart"></span>
+                                </td>
+                            </tr>
+                            <tr class="ShowDiscount" style="display:none">
+                                <td style="text-align: left; font-size: 14px; color: rgb(102 102 102); line-height:22px; " width="70%">
+                                    Số tiền khuyến mãi
+                                </td>
+                                <td style="text-align:right; color:#353535; font-weight:700; font-size:14px;" width="30%">
+                                   - <span id="ShowDiscountPrice"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="8" style="border-top: 2px solid rgb(236 236 236); padding: 0px;"></td>
+                            </tr>
+                            <tr class="ShowFinalTotal" style="display:none">
+                                <td style="text-align: left; font-size: 14px; color: rgb(102 102 102); line-height:22px; " width="70%">
+                                    Tổng thành tiền:
+                                </td>
+                                <td style="text-align:right; color:#353535; font-weight:700; font-size:14px;" width="30%">
+                                    <span style="text-align: right; border: none; color: #353535; font-weight: 700; font-size: 14px;" id="TotalShow"></span>
+                                </td>
+                            </tr>
+                        </table>
+                        <input style="text-align: right; border: none; color: #353535; font-weight: 700; font-size: 14px; display:none" id="TotalHide" value="@Session["Total"]" />
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            @* ---------------------------------- Pay ment ---------------------------------- *@
+            <div class="row my_disable" style="display:flex; justify-content:center;margin-bottom:15px">
+                <div class="col l-8">
+                    <div class="modal-body" style="border:2px solid black; width:unset; height:auto; padding:16px 15px">
+                        <header class="modal-header" style="margin-bottom:0px">Đơn hàng của bạn</header>
+                        <table width="100%">
+                            <tr style="font-size:14px;">
+                                <th style="text-align:left">Sản phẩm</th>
+                                <th style="text-align:right">Tổng cộng</th>
+                            </tr>
+                            <tr>
+                                <td colspan="8" style="border-top: 3px solid rgb(236 236 236); padding:0px;"></td>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td style="text-align: left; font-size: 14px; color: rgb(102 102 102); line-height:22px; " width="20%">
+                                        @item.sProduct_Name &nbsp;
+                                        <span style="font-size: 14px;font-weight:700">( @item.iProduct_SoLuong x @string.Format("{0:#,##0.}", item.dProduct_DonGia) )</span>
+                                    </td>
+                                    <td style="font-size: 14px; text-align: right; color: #353535; font-weight: 700" width="20%">
+                                        @string.Format("{0:#,##0.}", item.dProduct_ThanhTien) VNĐ
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="8" style="border-top: 2px solid rgb(236 236 236); padding: 0px;"></td>
+                                </tr>
+                            }
+                            <tr>
+                                <td style="text-align: left; font-size: 14px; color: rgb(102 102 102); line-height:22px; " width="70%">
+                                    Hình thức thanh toán:
+                                </td>
+                                <td style="text-align:right; color:#353535; font-weight:700; font-size:14px;" width="30%">
+                                    Nhận tiền khi giao hàng
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="8" style="border-top: 2px solid rgb(236 236 236); padding: 0px;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left; font-size: 14px; color: rgb(102 102 102); line-height:22px; " width="70%">
+                                    Tổng tiền hàng:
+                                </td>
+                                <td style="text-align:right; color:#353535; font-weight:700; font-size:14px;" width="30%">
+                                    <span style="text-align: right; border: none; color: #353535; font-weight: 700; font-size: 14px;" id="TotalCart"></span>
+                                </td>
+                            </tr>
+
+                            @*<tr class="ShowDiscount" style="display:none">
+                                       <td style="text-align: left; font-size: 14px; color: rgb(102 102 102); line-height:22px; " width="70%">
+                                           Mã khuyến mãi
+                                       </td>
+                                       <td style="text-align:right; color:#353535; font-weight:700; font-size:14px;" width="30%">
+                                           <span id="ShowDiscountName"></span>
+                                       </td>
+                                </tr>*@
+                            <tr class="ShowDiscount" style="display:none">
+                                <td style="text-align: left; font-size: 14px; color: rgb(102 102 102); line-height:22px; " width="70%">
+                                    Số tiền khuyến mãi
+                                </td>
+                                <td style="text-align:right; color:#353535; font-weight:700; font-size:14px;" width="30%">
+                                    - <span id="ShowDiscountPrice"></span>
+                                </td>
+                            </tr>
+
+                            <tr class="ShowCoins" style="display:none">
+                                <td style="text-align: left; font-size: 14px; color: rgb(102 102 102); line-height:22px; " width="70%">
+                                    Số xu khuyến mãi: <span id="ShowNumberCoins"></span>
+                                </td>
+                                <td style="text-align:right; color:#353535; font-weight:700; font-size:14px;" width="30%">
+                                    - <span id="ShowCoinsPrice"></span>
+                                </td>
+                            </tr>
+
+                            <tr class="ShowFinalTotal" style="display:none">
+                                <td style="text-align: left; font-size: 14px; color: rgb(102 102 102); line-height:22px; " width="70%">
+                                    Tổng thành tiền:
+                                </td>
+                                <td style="text-align:right; color:#353535; font-weight:700; font-size:14px;" width="30%">
+                                    <span style="text-align: right; border: none; color: #353535; font-weight: 700; font-size: 14px;" id="TotalShow"></span>
+                                </td>
+                            </tr>
+
+                        </table>
+                        <input  style="text-align: right; border: none; color: #353535; font-weight: 700; font-size: 14px;" id="TotalHide" value="@Session["Total"]" />
+                        @using (Html.BeginForm("Payment", "Payment", FormMethod.Post, new { @class = "formAjax" }))
+                        {
+                            @Html.ValidationSummary(true)
+                            <label class="modal-label"> Ghi chú đơn hàng </label>
+                            <textarea type="text" class="modal-input" name="Note" rows="5" placeholder="Write somethong here..."></textarea>
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        <button type="button" class="btn_login btn_submitForm" id="load2">
+            Xác nhận đặt hàng
+        </button>
+        <a href="@Url.Action("GioHang","Cart")" class="btn_login" id="ComeBack_CartList" style="font-size:13px; text-decoration:none;">Quay lại giỏ hàng</a>
+        <a href="@Url.Action("ShowProduct","Product")" class="btn_login" id="ComeBack_HomePage" style="font-size:13px; text-decoration:none;display:none">Homepage</a>
+    </div>
+</div>
+
+<div id="Paying_Success" class="grid wide" style="display:none">
+    <div class="my_Container text-center">
+        <i class="fa-solid fa-circle-check"></i>
+        <h3>Thank You</h3>
+        <h3>Your Order was complete successfully</h3>
+        <h5>The details your order have been sent to the email. Please check your email to check the status of your order</h5>
+        <a href="@Url.Action("ShowProduct","Product")" class="btn_login" id="ComeBack_HomePage" style="font-size:16px; text-decoration:none">HomePage</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var ex = Number($('#TotalHide').val());
+
+    // Value = 0 ==> Remove Element ShowFinalTotal else Show this Element
+    var Value = 0;
+     
+    $(document).ready(function () {
+        $('#TotalShow').text(Number(ex).toLocaleString() + " VNĐ");
+        $('#TotalCart').text(Number(ex).toLocaleString() + " VNĐ");
+
+        // TODO:Set Discount = Coins = 0;
+        $.ajax({
+            url: '/Payment/Value_Discount_Coins',
+            type: 'POST',
+            dataType: "json",
+            contentType: "application/json; charset=urf-8",
+
+            success: function (result) {
+                return;
+            },
+            error: function (result) {
+                alert(result.responseText);
+                return;
+            }
+        });
+
+        //TODO: Lấy thông tin xu khuyến mãi của Customer
+        $.ajax({
+            url: "/Payment/GetCoins",
+            type: "GET",
+            success: function (result) {
+                if (result.status) {
+                    if (result.CoinsValue > 0) {
+                        var MoneyValue = result.CoinsValue * 10000;
+                        var html =
+                            `<div class="CoinsWrap">
+                                <div>
+                                     Bạn có <span class="RewardPoint">${result.CoinsValue} xu</span> = <span class="RewardMoney">${MoneyValue.toLocaleString()} vnđ</span>
+                                </div>
+                                <button class="" id="AcceptCoins" style="display:inline-block">
+                                    Áp dụng xu giảm giá
+                                </button>
+                            </div>`
+                        $(".modal-body").append(html);
+                    }
+                }
+            },
+            error: function (result) {
+                swal(result.responseText);
+            }
+        })
+
+    });
+
+    // TODO: Toggle vùng nhập mã giảm giá
+    $('#OpenBlog').click(function () {
+        $('.BlogWrapper').slideToggle(400);
+        $('#ValueDiscount').val("");
+    })
+
+    // TODO: Xử lý mã giảm giá - Áp dụng mã giảm giá
+    $(document.body).on('click', '#AcceptDiscount', function () {
+        if ($("#ValueDiscount").val() == "") {
+            swal("Warning", "Vui lòng điền mã giảm giá", "warning");
+            return;
+        };
+
+        var $this = $(this);
+        $.ajax({
+            url: '/PayMent/Discount',
+            type: 'GET',
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            data: {
+                value: $("#ValueDiscount").val(),
+                status: 1,
+
+                // status = 1 ==> Áp dụng mã giảm giá
+            },
+            success: function (result) {
+                if (result.status) {
+
+                    $('#ShowDiscountName').text($("#ValueDiscount").val());
+                    $('#ShowDiscountPrice').text(result.price.toLocaleString() + " VNĐ");
+
+                    ex -= result.price;
+                    $('#TotalShow').text(ex.toLocaleString() + " VNĐ");
+
+                    $('.ShowDiscount').show();
+
+                    swal("Good job!", result.msg, "success");
+
+                    $this.attr("id", "CancelDiscount");
+                    $this.text("Hủy bỏ mã giảm giá");
+
+                    Value += 1;
+                    ShowFinalTotal(Value);
+
+                    $("#ValueDiscount").prop("disabled", true);
+
+                }
+                else {
+                    swal("Thông báo", result.msg, "error");
+                }
+            },
+            error: function (result) {
+                alert("Lỗi Voucher !!!!");
+            }
+        });
+    })
+
+
+    // TODO: Xử lý mã giảm giá - Hủy bỏ mã giảm giá
+
+    $(document.body).on("click", "#CancelDiscount", () => {
+         
+        $.ajax({
+            url: '/PayMent/Discount',
+            type: 'GET',
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            data: {
+
+                value: $("#ValueDiscount").val(),
+                status: -1,
+
+                //status = -1 ==> Không áp dụng mã giảm giá
+            },
+            success: function (result) {
+                if (result.status) {
+                    ex += result.price;
+                    $('#TotalShow').text(ex.toLocaleString() + " VNĐ");
+
+                    $('.ShowDiscount').hide();
+                     
+
+                    swal("Good job!", "Hủy bỏ thành công !!!", "success");
+
+                    $("#CancelDiscount").attr("id", "AcceptDiscount").text("Áp dụng mã giảm giá");
+
+                    Value -= 1;
+                    ShowFinalTotal(Value);
+
+                    $("#ValueDiscount").prop("disabled", false).val("");
+                       
+                }
+                else {
+                    swal("Thông báo", "Lỗi", "error");
+                }
+            },
+            error: function (result) {
+                alert("Lỗi Voucher !!!!");
+            }
+        });
+    })
+
+    //-----------------------------------------------------------------------------------
+
+    //TODO: Xử lý xu khuyến mãi - Áp dụng xu khuyến mãi
+
+    $(document.body).on("click", "#AcceptCoins", function () {
+        var $this = $(this);
+        $.ajax({
+            url: "/Payment/functionCoins",
+            type: "GET",
+            data: {
+                status: 1,
+                // Acept Coins
+            },
+            success: function (result) {
+                if (result.status) {
+                    var MoneyValue = result.Coins * 10000;
+                    $("#ShowNumberCoins").text(result.Coins);
+                    $("#ShowCoinsPrice").text(MoneyValue.toLocaleString() + " VNĐ");
+                    $(".ShowCoins").show();
+                    ex -= MoneyValue;
+                    $('#TotalShow').text(ex.toLocaleString() + " VNĐ");
+                    Value += 1;
+                    ShowFinalTotal(Value);
+                    $this.attr("id", "CancelCoins");
+                    $this.text("Hủy bỏ");
+                }
+            },
+            error: function (result) {
+                swal(result.responseText);
+            }
+        })
+    })
+
+    //TODO: Xử lý xu khuyến mãi - Hủy bỏ xu khuyến mãi
+
+    $(document.body).on("click", "#CancelCoins", function () {
+        $.ajax({
+            url: "/Payment/functionCoins",
+            type: "GET",
+            data: {
+                status: -1,
+                // Cancel Coins
+            },
+            success: function (result) {
+                if (result.status) {
+                    ex += result.Coins * 10000;
+                    $('#TotalShow').text(ex.toLocaleString() + " VNĐ");
+                    $(".ShowCoins").hide();
+                    Value -= 1;
+                    ShowFinalTotal(Value);
+                    $("#CancelCoins").attr("id", "AcceptCoins").text("Áp dụng xu khuyến mãi");
+                }
+            },
+            error: function (result) {
+                swal(result.responseText);
+            }
+        })
+    })
+
+
+
+
+
+    function ShowFinalTotal(status) {
+        if (status == 0)
+            $(".ShowFinalTotal").hide();
+        else
+            $(".ShowFinalTotal").show();
+
+    }
+
+    function Check_Empty() {
+        if (
+            $("input[name='Name']").val() == "" ||
+            $("input[name='Email']").val() == "" ||
+            $("input[name='Phone']").val() == "" ||
+            $("input[name='Address']").val() == "" ||
+            $("input[name='City']").val() == "" ||
+            $("input[name='Name']").val() == ""
+        ) {
+
+            return true;
+        }
+    }
+    $('.btn_submitForm').on('click', function (e) {
+        if (Check_Empty()) {
+            alert("Vui lòng điền đầy đủ thông tin !!!");
+            return;
+        }
+        e.preventDefault();
+        var $this = $(this);
+        var loadingText = "<i class='fa fa-spinner fa-spin'></i> &nbsp;Please wait a second... ";
+
+        if ($(this).html() !== loadingText) {
+            $this.data('original-text', $(this).html());
+            $this.html(loadingText);
+            $this.attr('disabled', 'disabled');
+            $this.css("background", "#ddd");
+            $this.css("color", "black");
+            $("#ComeBack_CartList").css("display", "none");
+
+        }
+
+        var form = $(".formAjax").serialize();
+        $.ajax({
+            url: '/Payment/Payment',
+            type: "POST",
+            data: form,
+            success: function (res) {
+                if (res.status) {
+                    swal("Thông báo", "Đơn hàng của bạn đã được gửi đi", "success").then((value) => {
+                        $('.btn_submitForm').hide();
+                        $('#ComeBack_HomePage').css("display", "inline-block");
+                        $("#Paying").css("display", "none");
+                        $("#Paying_Success").css("display", "block");
+
+                    });
+                }
+                else {
+                    swal("Thông báo", result.msg, "error").then((value) => {
+
+                    });
+                }
+            },
+            error: function (res) {
+                alert(res.responseText)
+            }
+
+        })
+    });
+
+</script>

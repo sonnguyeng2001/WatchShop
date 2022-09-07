@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Shop_DongHoModelStoreContainer" CdmEntityContainer="Shop_DongHoEntities">
+    <EntitySetMapping Name="Customer_Product">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.Customer_Product">
+        <MappingFragment StoreEntitySet="Customer_Product">
+          <ScalarProperty Name="Customer_ID" ColumnName="Customer_ID" />
+          <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+          <ScalarProperty Name="CusPro_Name" ColumnName="CusPro_Name" />
+          <ScalarProperty Name="CusPro_Price" ColumnName="CusPro_Price" />
+          <ScalarProperty Name="CusPro_Image" ColumnName="CusPro_Image" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="ImageLink" ColumnName="ImageLink" />
+          <ScalarProperty Name="Sales" ColumnName="Sales" />
+          <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+          <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Aparatus_and_Energy" ColumnName="Aparatus and Energy" />
+          <ScalarProperty Name="Material_Day" ColumnName="Material_Day" />
+          <ScalarProperty Name="Material_Matkinh" ColumnName="Material_Matkinh" />
+          <ScalarProperty Name="Dial_HinhDang" ColumnName="Dial_HinhDang" />
+          <ScalarProperty Name="Dial_KichThuoc" ColumnName="Dial_KichThuoc" />
+          <ScalarProperty Name="Dial_MauSac" ColumnName="Dial_MauSac" />
+          <ScalarProperty Name="Waterproof" ColumnName="Waterproof" />
+          <ScalarProperty Name="TradeMark" ColumnName="TradeMark" />
+          <ScalarProperty Name="Origin" ColumnName="Origin" />
+          <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="RewardPoints" ColumnName="RewardPoints" />
+          <ScalarProperty Name="CustomerToken" ColumnName="CustomerToken" />
+          <ScalarProperty Name="CustomerCity" ColumnName="CustomerCity" />
+          <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
+          <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+          <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="Permission" ColumnName="Permission" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="Category_Name" ColumnName="Category_Name" />
+          <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Contacts">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.Contact">
+        <MappingFragment StoreEntitySet="Contact">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Create_Date" ColumnName="Create_Date" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Contact_ID" ColumnName="Contact_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Discounts">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.Discount">
+        <MappingFragment StoreEntitySet="Discount">
+          <ScalarProperty Name="Expiration_Date" ColumnName="Expiration_Date" />
+          <ScalarProperty Name="Discount_Quantity" ColumnName="Discount_Quantity" />
+          <ScalarProperty Name="Discount_Price" ColumnName="Discount_Price" />
+          <ScalarProperty Name="Discount_Name" ColumnName="Discount_Name" />
+          <ScalarProperty Name="Discount_ID" ColumnName="Discount_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FeedBacks">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.FeedBack">
+        <MappingFragment StoreEntitySet="FeedBack">
+          <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+          <ScalarProperty Name="FeedBack_Time" ColumnName="FeedBack_Time" />
+          <ScalarProperty Name="FeedBack_Content" ColumnName="FeedBack_Content" />
+          <ScalarProperty Name="FeedBack_User" ColumnName="FeedBack_User" />
+          <ScalarProperty Name="FeedBack_ID" ColumnName="FeedBack_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Imports">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.Import">
+        <MappingFragment StoreEntitySet="Import">
+          <ScalarProperty Name="Provider_ID" ColumnName="Provider_ID" />
+          <ScalarProperty Name="Import_Note" ColumnName="Import_Note" />
+          <ScalarProperty Name="Import_Total" ColumnName="Import_Total" />
+          <ScalarProperty Name="Import_Date" ColumnName="Import_Date" />
+          <ScalarProperty Name="Importer" ColumnName="Importer" />
+          <ScalarProperty Name="Import_ID" ColumnName="Import_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Import_Details">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.Import_Details">
+        <MappingFragment StoreEntitySet="Import_Details">
+          <ScalarProperty Name="Into_Money" ColumnName="Into_Money" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+          <ScalarProperty Name="Import_ID" ColumnName="Import_ID" />
+          <ScalarProperty Name="Import_Details_ID" ColumnName="Import_Details_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderDetails">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.OrderDetail">
+        <MappingFragment StoreEntitySet="OrderDetail">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Into_Money" ColumnName="Into_Money" />
+          <ScalarProperty Name="Product_Quantity" ColumnName="Product_Quantity" />
+          <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
+          <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+          <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
+          <ScalarProperty Name="OrderID_STT" ColumnName="OrderID_STT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.Order">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="Point" ColumnName="Point" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Create_Date" ColumnName="Create_Date" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Providerrs">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.Providerr">
+        <MappingFragment StoreEntitySet="Providerr">
+          <ScalarProperty Name="Provider_Name" ColumnName="Provider_Name" />
+          <ScalarProperty Name="Provider_ID" ColumnName="Provider_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="Shop_DongHoModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
