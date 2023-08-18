@@ -18,7 +18,7 @@
                         <div class="product_item" id="Product_Item_@item.Product_ID">
                             @if (item.Quantity <= 0)
                             {
-                                <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" class="OutOfStock">Out of stock</a>
+                                    <a href="@Url.Action("ShowProduct_Id","Product", new { @id = item.Product_ID})" class="OutOfStock">Out of stock</a>
                             }
                             <div class="product_img">
                                 <img src="@Url.Content("~/image/"+item.Image)" alt="">
@@ -206,7 +206,7 @@
                         <div class="product_item">
                             @if (item.Quantity <= 0)
                             {
-                                <a href="@Url.Action(" ShowProduct_Id","Product", new { @id=item.Product_ID})" class="OutOfStock">Out of stock</a>
+                                <a href="@Url.Action("ShowProduct_Id","Product", new { @id=item.Product_ID})" class="OutOfStock">Out of stock</a>
                             }
                             <a href="@Url.Action("ShowProduct_Id","Product", new { @id=item.Product_ID})" class="product_img">
                                 <img src="@Url.Content("~/image/"+item.Image)" alt="">

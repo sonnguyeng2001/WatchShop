@@ -878,7 +878,6 @@ body::-webkit-scrollbar-track {
 }
 .footer_list .footer_item {
     padding: 10px 0px;
-    color: rgb(164 164 164);
     font-size: 14px;
     transition:all 0.2s ease-in-out;
     cursor:pointer;
@@ -887,6 +886,11 @@ body::-webkit-scrollbar-track {
     color:#eacc77;
 }
 .footer_item .footer_link {
+    text-decoration: none;
+    color: rgb(164 164 164);
+}
+.footer_item .footer_link:hover {
+   color:#eacc77  !important
 }
 .Column_1, .Column_3 {
     text-align: left;

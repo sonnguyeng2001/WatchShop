@@ -51,6 +51,8 @@
     color: #111;
     font-size: 14px;
     font-weight: 700;
+    position:relative;
+    z-index:-1;
 }
 
     .cart_product_quantity input {

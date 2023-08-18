@@ -4,3 +4,9 @@ G:\CongNgheWeb\Shop\Watch_Shop\Common\obj\Debug\Common.csproj.AssemblyReference.
 G:\CongNgheWeb\Shop\Watch_Shop\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
 G:\CongNgheWeb\Shop\Watch_Shop\Common\obj\Debug\Common.dll
 G:\CongNgheWeb\Shop\Watch_Shop\Common\obj\Debug\Common.pdb
+C:\Users\FPTshop\Source\Repos\WatchShop\Watch_Shop\Common\bin\Debug\Common.dll
+C:\Users\FPTshop\Source\Repos\WatchShop\Watch_Shop\Common\bin\Debug\Common.pdb
+C:\Users\FPTshop\Source\Repos\WatchShop\Watch_Shop\Common\obj\Debug\Common.csproj.AssemblyReference.cache
+C:\Users\FPTshop\Source\Repos\WatchShop\Watch_Shop\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+C:\Users\FPTshop\Source\Repos\WatchShop\Watch_Shop\Common\obj\Debug\Common.dll
+C:\Users\FPTshop\Source\Repos\WatchShop\Watch_Shop\Common\obj\Debug\Common.pdb
